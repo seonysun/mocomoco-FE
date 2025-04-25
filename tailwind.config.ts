@@ -12,8 +12,12 @@ const config: Config = {
         gmarket: ['GmarketSans', 'sans-serif'],
       },
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        main: {
+          default: '#A0C49C',
+          base: '#C3D7B0',
+          medium: '#E1EBC7',
+          light: '#F7FFE6',
+        },
       },
     },
   },

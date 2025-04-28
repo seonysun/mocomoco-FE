@@ -8,10 +8,10 @@ import { useState } from 'react';
 const Header = () => {
   const token = useState(false);
   return (
-    <>
-      <nav className="fixed left-0 top-0 z-30 flex w-full items-center justify-between p-4 px-10">
+    <header className="sticky top-0 z-30 w-full bg-main-light p-4 px-10">
+      <nav className="flex items-center justify-between">
         <Link href="/">
-          <Image src={Banner} width={250} height={80} alt="헤더 이미지" />
+          <Image src={Banner} width={200} height={80} alt="헤더 이미지" />
         </Link>
         {token ? (
           <div className="flex gap-7">
@@ -23,10 +23,10 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <div className="text-main-header font-bold">LOGIN</div>
+          <div className="font-bold text-main-header">LOGIN</div>
         )}
       </nav>
-    </>
+    </header>
   );
 };
 

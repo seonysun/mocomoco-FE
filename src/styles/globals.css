@@ -29,3 +29,9 @@ body {
   font-family: 'GmarketSans', Arial, Helvetica, sans-serif;
   line-height: 1.6;
 }
+@layer base {
+  html,
+  body {
+    @apply h-full;
+  }
+}

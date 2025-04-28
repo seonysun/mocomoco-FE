@@ -18,12 +18,9 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body>
+      <body className="flex h-full min-h-full w-full flex-col bg-main-light">
         <Header />
-
-        <main className="flex h-full w-full items-center justify-center bg-main-light">
-          {children}
-        </main>
+        <main className="h-full w-full">{children}</main>
       </body>
     </html>
   );

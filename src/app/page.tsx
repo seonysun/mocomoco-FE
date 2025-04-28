@@ -3,9 +3,9 @@ import Logo from '@images/Logo.png';
 
 export default function Home() {
   return (
-    <div className="flex h-screen items-center justify-center gap-40">
+    <div className="flex flex-col items-center justify-center gap-40 pt-[80px] md:flex-row">
       <Image src={Logo} width={600} height={600} alt="로고" />
-      <div className="flex max-w-[550px] flex-col gap-16">
+      <div className="flex max-w-[550px] flex-col gap-16 p-4">
         <h1 className="text-4xl">모각코할 사람, 여기 다 모여라!</h1>
         <div className="flex flex-col gap-8">
           <h4 className="text-3xl">함께 코딩하는 즐거움, 모코모코🌱</h4>

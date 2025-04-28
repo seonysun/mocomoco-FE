@@ -20,7 +20,8 @@
       "@hooks/*": ["./src/hooks/*"],
       "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"],
-      "@root/*": ["./*"]
+      "@root/*": ["./*"],
+      "@images/*": ["./public/images/*"]
     },
     "plugins": [
       {

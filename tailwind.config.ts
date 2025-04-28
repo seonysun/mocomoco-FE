@@ -17,6 +17,15 @@ const config: Config = {
           base: '#C3D7B0',
           medium: '#E1EBC7',
           light: '#F7FFE6',
+          header: '#A0B092',
+        },
+        red: {
+          default: '#DE5D5D',
+          hover: '#c94a4a',
+        },
+        green: {
+          default: '#6AA78B',
+          hover: '#5c9579',
         },
       },
     },

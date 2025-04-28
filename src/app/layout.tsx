@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '@styles/globals.css';
+import Header from '@/components/common/header';
 
 export const metadata: Metadata = {
   title: '모코모코',
@@ -18,7 +19,11 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body>
-        <main>{children}</main>
+        <Header />
+
+        <main className="flex h-full w-full items-center justify-center bg-main-light">
+          {children}
+        </main>
       </body>
     </html>
   );

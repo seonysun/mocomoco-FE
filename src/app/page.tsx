@@ -8,7 +8,7 @@ export default function Home() {
       <div className="flex max-w-[550px] flex-col gap-16 p-4">
         <h1 className="text-4xl">모각코할 사람, 여기 다 모여라!</h1>
         <div className="flex flex-col gap-8">
-          <h4 className="text-3xl">함께 코딩하는 즐거움, 모코모코🌱</h4>
+          <h2 className="text-3xl">함께 코딩하는 즐거움, 모코모코🌱</h2>
           <div className="flex flex-col gap-1">
             <p className="text-xl"> "코딩하다가 막히면 너무 막막해…"</p>
             <p className="text-xl">
@@ -28,7 +28,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-col gap-8">
-          <h4 className="text-3xl">혼자보다 나은 '함께'의 힘 ✨ </h4>
+          <h2 className="text-3xl">혼자보다 나은 '함께'의 힘 ✨ </h2>
           <div className="flex flex-col gap-1">
             <p className="text-xl"> 코딩 실력도 쑥쑥, 동기부여도 빵빵.</p>
             <p className="text-xl">

@@ -24,14 +24,11 @@
   font-display: swap;
 }
 
-body {
-  @apply antialiased;
-  font-family: 'GmarketSans', Arial, Helvetica, sans-serif;
-  line-height: 1.6;
-}
 @layer base {
   html,
   body {
-    @apply h-full;
+    @apply h-full antialiased;
+    font-family: 'GmarketSans', Arial, Helvetica, sans-serif;
+    line-height: 1.6;
   }
 }

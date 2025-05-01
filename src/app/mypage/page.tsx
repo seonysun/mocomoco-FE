@@ -9,55 +9,134 @@ import Logo from '@images/Logo.png';
 
 export default function Mypage() {
   return (
-    <main className="bg-[#F7FFE6] min-h-screen font-['Pretendard']" role="main" aria-label="마이페이지">
+    <div aria-label="마이페이지" className="h-full">
       {/* 마이페이지 카드 */}
-      <div className="flex justify-center items-center min-h-screen">
-        <section className="bg-[#E1F0D3] rounded-2xl shadow-sm p-12 min-w-[700px] min-h-[500px] flex flex-col items-center" role="region" aria-label="사용자 정보">
-          <h2 className="text-2xl font-semibold mb-6" role="heading" aria-level={2}>USER NAME 님의정보</h2>
-          <Image src={Logo} alt="프로필" width={160} height={160} className="rounded-full object-cover mb-3" role="img" aria-label="프로필 이미지" />
-          <div className=" text-xl mb-2" role="text" aria-label="사용자 이름">USER NAME</div>
+      <div className="mt-[5%] flex items-center justify-center">
+        <section
+          className="flex min-h-[500px] min-w-[700px] flex-col items-center rounded-2xl bg-[#E1F0D3] p-12 shadow-sm"
+          aria-label="사용자 정보"
+        >
+          <button className="absolute right-4 top-4 text-gray-500 hover:text-gray-700">
+            수정
+          </button>
+          <h2 className="mb-6 text-2xl font-semibold" aria-level={2}>
+            USER NAME 님의정보
+          </h2>
+          <Image
+            src={Logo}
+            alt="프로필"
+            width={160}
+            height={160}
+            className="mb-3 rounded-full object-cover"
+            role="img"
+            aria-label="프로필 이미지"
+          />
+          <div className="mb-2 text-xl" role="text" aria-label="사용자 이름">
+            USER NAME
+          </div>
           {/* 탭 */}
-          <div className="flex gap-2 mb-6 w-full justify-start">
-            <div className="bg-white border rounded-lg px-4 py-1 font-medium">프론트엔드</div>
-            <div className="bg-white border rounded-lg px-4 py-1 font-medium">디자이너</div>
+          <div className="mb-6 flex w-full justify-start gap-2">
+            <div className="rounded-lg border bg-white px-4 py-1 font-medium">
+              프론트엔드
+            </div>
+            <div className="rounded-lg border bg-white px-4 py-1 font-medium">
+              디자이너
+            </div>
           </div>
           {/* 정보 카드 */}
-          <div className="flex gap-6 w-full justify-between">
+          <div className="flex w-full justify-between gap-6">
             {/* 자기소개 */}
-            <div className="bg-[#F6FBEF] rounded-[20px] p-4 min-w-[310px] min-h-[160px] flex flex-col border" role="region" aria-label="자기소개">
-              <div className="font-semibold mb-2" role="heading" aria-level={3}>자기소개</div>
-              <div className="text-gray-500 text-sm" role="text" aria-label="자기소개 내용">반갑습니다!</div>
+            <div
+              className="flex min-h-[160px] min-w-[310px] flex-col rounded-[20px] border bg-[#F6FBEF] p-4"
+              role="region"
+              aria-label="자기소개"
+            >
+              <div className="mb-2 font-semibold" role="heading" aria-level={3}>
+                자기소개
+              </div>
+              <div
+                className="text-sm text-gray-500"
+                role="text"
+                aria-label="자기소개 내용"
+              >
+                반갑습니다!
+              </div>
             </div>
             {/* 스택 및 링크 */}
-            <div className="flex flex-col gap-3 border bg-[#F6FBEF] rounded-[20px]" role="region" aria-label="스택 및 링크">
-              <div className=" rounded-lg p-4 min-w-[220px] min-h-[80px]">
-                <div className=" mb-2" role="heading" aria-level={3}>사용 가능 스택</div>
+            <div
+              className="flex flex-col gap-3 rounded-[20px] border bg-[#F6FBEF]"
+              role="region"
+              aria-label="스택 및 링크"
+            >
+              <div className="min-h-[80px] min-w-[220px] rounded-lg p-4">
+                <div className="mb-2" role="heading" aria-level={3}>
+                  사용 가능 스택
+                </div>
                 <nav className="flex gap-2" role="list" aria-label="스택 목록">
                   <li className="list-none">
-                    <Image src={stack_js} alt="js" className="w-9 h-9" role="img" aria-label="JavaScript" />
+                    <Image
+                      src={stack_js}
+                      alt="js"
+                      className="h-9 w-9"
+                      role="img"
+                      aria-label="JavaScript"
+                    />
                   </li>
                   <li className="list-none">
-                    <Image src={stack_ts} alt="ts" className="w-9 h-9" role="img" aria-label="TypeScript" />
+                    <Image
+                      src={stack_ts}
+                      alt="ts"
+                      className="h-9 w-9"
+                      role="img"
+                      aria-label="TypeScript"
+                    />
                   </li>
                   <li className="list-none">
-                    <Image src={stack_react} alt="react" className="w-9 h-9" role="img" aria-label="React" />
+                    <Image
+                      src={stack_react}
+                      alt="react"
+                      className="h-9 w-9"
+                      role="img"
+                      aria-label="React"
+                    />
                   </li>
                   <li className="list-none">
-                    <Image src={stack_next} alt="next" className="w-9 h-9" role="img" aria-label="Next.js" />
+                    <Image
+                      src={stack_next}
+                      alt="next"
+                      className="h-9 w-9"
+                      role="img"
+                      aria-label="Next.js"
+                    />
                   </li>
                   <li className="list-none">
-                    <Image src={stack_git} alt="git" className="w-9 h-9" role="img" aria-label="Git" />
+                    <Image
+                      src={stack_git}
+                      alt="git"
+                      className="h-9 w-9"
+                      role="img"
+                      aria-label="Git"
+                    />
                   </li>
                 </nav>
               </div>
-              <div className="rounded-lg p-4 min-w-[220px]">
-                <div className="mb-2" role="heading" aria-level={3}>링크</div>
-                <input type="text" value="https://github.com/" readOnly className="w-full border rounded-md p-1 bg-white" role="textbox" aria-label="GitHub 링크" />
+              <div className="min-w-[220px] rounded-lg p-4">
+                <div className="mb-2" role="heading" aria-level={3}>
+                  링크
+                </div>
+                <input
+                  type="text"
+                  value="https://github.com/"
+                  readOnly
+                  className="w-full rounded-md border bg-white p-1"
+                  role="textbox"
+                  aria-label="GitHub 링크"
+                />
               </div>
             </div>
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

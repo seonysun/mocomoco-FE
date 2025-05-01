@@ -4,11 +4,12 @@ import { btnColorMap, btnSizeMap } from '@/components/common/button/constants';
 import { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: React.ReactNode;
   color?: 'green' | 'red' | 'dark' | 'outline';
   size?: 'sm' | 'md' | 'lg';
 };
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   children,
   color = 'green',
   size = 'md',
@@ -17,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
   ...props
-}) => {
+}: ButtonProps) => {
   const sizeClass = btnSizeMap[size];
   const colorClass = btnColorMap[color];
   const buttonClass = `w-full rounded-2xl transition-colors focus:outline-none ${sizeClass} ${colorClass} ${className}`;

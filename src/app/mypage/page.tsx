@@ -1,9 +1,8 @@
-import React from 'react';
 import Image from 'next/image';
 import stack_js from '@images/stack_js.svg';
 import stack_ts from '@images/stack_ts.png';
-import stack_react from '@images/stack_react.png';
-import stack_next from '@images/stack_next.png';
+import stack_react from '@images/stack_React.png';
+import stack_next from '@images/stack_Next.png';
 import stack_git from '@images/stack_git.png';
 import Logo from '@images/Logo.png';
 

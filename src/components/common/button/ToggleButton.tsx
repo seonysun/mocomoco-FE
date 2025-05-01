@@ -3,17 +3,17 @@
 import { ButtonHTMLAttributes } from 'react';
 
 type ToggleProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  color?: string;
   isOn: boolean;
   handleToggle: (next: boolean) => void;
-  color?: string;
 };
 
-const ToggleButton: React.FC<ToggleProps> = ({
+const ToggleButton = ({
   color = 'bg-main-default',
   isOn,
   handleToggle,
   ...props
-}) => {
+}: ToggleProps) => {
   const toggleClass =
     'relative flex h-4 w-8 items-center rounded-full transition-all duration-300';
   const switchClass =

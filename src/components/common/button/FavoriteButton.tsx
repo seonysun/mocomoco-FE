@@ -11,13 +11,13 @@ type FavProps = {
   onToggle?: () => void;
 };
 
-const FavoriteButton: React.FC<FavProps> = ({
+const FavoriteButton = ({
   color = 'red',
   size = 24,
   type = 'heart',
   isOn = false,
   onToggle,
-}) => {
+}: FavProps) => {
   const [active, setActive] = useState(isOn);
   const Icon = iconMap[type];
 

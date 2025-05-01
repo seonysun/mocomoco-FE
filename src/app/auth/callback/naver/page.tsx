@@ -1,0 +1,72 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { strict } from 'assert';
+import { useAuthStore } from '@/store/useAuthStore';
+
+export default function NaverCallback() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleNaverLogin = async (code: string, state: string) => {
+      try {
+        const response = await fetch(
+          'http://localhost:8000/accounts/naver/callback/',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              provider: 'naver',
+              code: code,
+              state: state, // 네이버는 state 포함
+            }),
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error('로그인 실패');
+        }
+
+        const data = await response.json();
+
+        if (data.access && data.refresh && data.user) {
+          localStorage.setItem('access_token', data.access);
+          localStorage.setItem('refresh_token', data.refresh);
+          useAuthStore.getState().setAuth(data.access, data.refresh, data.user);
+        }
+
+        const routeMap: Record<string, string> = {
+          false: '/',
+          true: '/users/me',
+        };
+
+        router.push(routeMap[String(data.isNewUser)]);
+      } catch (error) {
+        console.error(error);
+        alert('로그인 실패. 다시 시도해주세요.');
+        router.push('/auth/login'); // 실패 시 alert창 띄우고, 로그인 페이지로 다시
+      }
+    };
+
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
+    // console.log('CODE:', code);
+    const state = url.searchParams.get('state');
+
+    if (code && state) {
+      handleNaverLogin(code, state);
+    } else {
+      alert('필수 값이 없습니다.');
+      router.push('/auth/login');
+    }
+  }, [router]);
+
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-[20px]">네이버 로그인 처리 중입니다...</p>
+    </div>
+  );
+}

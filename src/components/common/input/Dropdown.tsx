@@ -7,19 +7,21 @@ type DropdownProps = {
   selected: string;
   onSelect: (value: string) => void;
   placeholder: string; // string 타입으로 제한
+  className?: string;
 };
 
 export default function Dropdown({
   onSelect,
   selected,
   placeholder,
+  className = '',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative w-full">
+    <div className={`relative w-full ${className}`}>
       <div
-        className="flex cursor-pointer items-center justify-between gap-[20px] border-b-[2px] border-main-base py-2"
+        className="flex cursor-pointer items-center justify-between gap-[20px] border-b-[1px] border-main-base py-2"
         onClick={() => setIsOpen(prev => !prev)}
       >
         <span className="font-gmarket text-[15px] font-light text-gray-400">

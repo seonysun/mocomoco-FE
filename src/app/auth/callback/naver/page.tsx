@@ -12,7 +12,7 @@ export default function NaverCallback() {
     const handleNaverLogin = async (code: string, state: string) => {
       try {
         const response = await fetch(
-          'http://localhost:8000/accounts/naver/callback/',
+          'https://api.mocomoco.store/accounts/naver/callback/',
           {
             method: 'POST',
             headers: {

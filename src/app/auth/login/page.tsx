@@ -14,10 +14,6 @@ export default function Login() {
   const NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
   const STATE = 'MOCOMOCO_LOGIN'; // CSRF 방지용 랜덤 문자열 (필수)
 
-  // 확인용
-  // console.log('KAKAO REDIRECT:', process.env.NEXT_PUBLIC_REDIRECT_URI);
-  // console.log('NAVER REDIRECT:', process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI);
-
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${STATE}`;
 

@@ -18,6 +18,7 @@ const config: Config = {
           medium: '#E1EBC7',
           light: '#F7FFE6',
           header: '#A0B092',
+          dark: '#78836D',
         },
         red: {
           default: '#DE5D5D',

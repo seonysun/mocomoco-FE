@@ -32,3 +32,16 @@
     line-height: 1.6;
   }
 }
+
+.scroll-smooth::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-smooth::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
+.scroll-smooth::-webkit-scrollbar-track {
+  background: transparent;
+}

@@ -1,4 +1,4 @@
-import { HeartIcon, StarIcon } from 'lucide-react';
+import { HeartIcon, MessageCircle, Plus, StarIcon } from 'lucide-react';
 
 export const btnSizeMap = {
   sm: 'h-8 text-sm',
@@ -16,4 +16,8 @@ export const btnColorMap = {
 export const iconMap = {
   heart: HeartIcon,
   star: StarIcon,
+  chat: MessageCircle,
+  plus: Plus,
 } as const;
+
+export type IconType = keyof typeof iconMap;

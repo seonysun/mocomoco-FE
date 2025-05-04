@@ -10,7 +10,7 @@ export const btnColorMap = {
   green: 'bg-green-default text-white hover:bg-green-hover',
   red: 'bg-red-default text-white hover:bg-red-hover',
   dark: 'bg-main-header text-white',
-  outline: 'border border-black text-black',
+  outline: 'border border-black text-black hover:bg-gray-100',
 } as const;
 
 export const iconMap = {

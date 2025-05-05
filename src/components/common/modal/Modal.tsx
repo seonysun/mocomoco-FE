@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 type ModalProps = {
   children: React.ReactNode;
-  variation?: 'chat' | 'menu';
+  variation?: 'chat' | 'menu' | 'notification';
   onClose: () => void;
 };
 
@@ -17,13 +17,13 @@ const Modal = ({ children, variation = 'chat', onClose }: ModalProps) => {
 
   const modalSize = modalStyleMap[variation].size;
   const modalPosition = modalStyleMap[variation].position;
-  const modalClass = `fixed ${modalSize} ${modalPosition} z-30 flex flex-col justify-between rounded-3xl bg-main-medium p-5 shadow-xl transition-all duration-300 ease-out`;
+  const modalClass = `fixed z-30 flex flex-col justify-between rounded-3xl bg-main-medium p-4 shadow-xl transition-all duration-300 ease-out ${modalSize} ${modalPosition}`;
 
   return (
     <div ref={modalRef} className={modalClass} aria-label="modal">
       <CircleX
         stroke="gray"
-        className="absolute right-4 top-5 cursor-pointer"
+        className="absolute right-3 top-3 cursor-pointer"
         onClick={onClose}
       />
       {children}

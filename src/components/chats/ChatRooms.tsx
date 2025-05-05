@@ -5,7 +5,7 @@ import Button from '@/components/common/button/Button';
 import { ChatRoom } from '@/types/chat';
 import { User, Users } from 'lucide-react';
 
-type chatProps = {
+type ChatProps = {
   chatRoomList: ChatRoom[];
   chatType?: 'private' | 'group';
   setChatType?: React.Dispatch<React.SetStateAction<'private' | 'group'>>;
@@ -15,7 +15,7 @@ const ChatRooms = ({
   chatRoomList,
   chatType = 'private',
   setChatType,
-}: chatProps) => {
+}: ChatProps) => {
   const tabClass =
     'mr-0.5 rounded-t-xl border border-b-0 border-main-base px-3 py-1';
 
@@ -35,7 +35,7 @@ const ChatRooms = ({
           <Users stroke="gray" />
         </button>
       </div>
-      {chatRoomList && chatRoomList.length > 0 ? (
+      {chatRoomList.length > 0 ? (
         <div className="flex-1 space-y-1 overflow-y-scroll scroll-smooth pr-0.5">
           {chatRoomList.map(room => (
             <ChatRoomCard key={room.roomId} chatRoom={room} />

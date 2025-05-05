@@ -1,6 +1,7 @@
 'use client';
 
 import { IconType, iconMap } from '@/components/common/button/constants';
+import AlarmBedge from '@/components/common/AlarmBedge';
 import { ButtonHTMLAttributes } from 'react';
 
 type FloatProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -21,10 +22,8 @@ const FloatingButton = ({
 
   return (
     <>
-      <button type="button" className={`${floatClass}`} onClick={handleOpen}>
-        {alarm && (
-          <span className="absolute right-0 top-0 z-50 size-3 rounded-full bg-red-500" />
-        )}
+      <button type="button" className={floatClass} onClick={handleOpen}>
+        {alarm && <AlarmBedge />}
         <Icon color="white" />
       </button>
     </>

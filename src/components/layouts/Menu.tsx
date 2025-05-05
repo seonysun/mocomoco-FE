@@ -10,7 +10,7 @@ const Menu = () => {
   const { values, setValue } = useNotificationStore();
 
   return (
-    <div>
+    <>
       <p className="text-main-dark">MENU</p>
       <section className="my-2 rounded-xl border border-main-base p-4">
         <div className="mb-2 flex items-center gap-2 text-gray-500">
@@ -54,7 +54,7 @@ const Menu = () => {
           ))}
         </ul>
       </section>
-    </div>
+    </>
   );
 };
 

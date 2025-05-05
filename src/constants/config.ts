@@ -1,15 +1,10 @@
-import { Bell, CircleUserRound, Plus, Search, UsersRound } from 'lucide-react';
+import { Plus, Search, UsersRound } from 'lucide-react';
 
 export const CATEGORY_LIST = [
   '프론트엔드(FE)',
   '백엔드(BE)',
   '풀스택',
   '디자이너',
-] as const;
-
-export const HEADER_NAV_LIST = [
-  { name: '알림', src: Bell, to: '' },
-  { name: '내정보', src: CircleUserRound, to: 'mypage' },
 ] as const;
 
 export const MENU_NOTI_LIST = [

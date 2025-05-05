@@ -1,0 +1,153 @@
+[
+  {
+    "id": 1,
+    "title": "강남에서 사이드 모집해요!",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "강남 스터디 카페",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7zAozwbAsejUo9qA41zT4lTcYVBjQwxn30WfufCPFNy5czXulzw&s=10&ec=72940544"
+  },
+  {
+    "id": 2,
+    "title": "종로 모각코 모집해요!",
+    "category": "모각코",
+    "is_closed": true,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "종로",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 10,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8LGzGxHOH7r-nyf2lTzY1SuXKTghSarkCVPXiWnEGRw&s&ec=72940544"
+  },
+  {
+    "id": 3,
+    "title": "강동구 프로젝트 하실 분 구합니다",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "천호 스타벅스",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 5
+  },
+  {
+    "id": 4,
+    "title": "인천 모각코 빡고수만",
+    "category": "모각코",
+    "is_closed": false,
+    "date": "2025-04-30T19:00:00",
+    "place_name": "청라 이디야",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 7
+  },
+  {
+    "id": 5,
+    "title": "강남 모각코!",
+    "category": "모각코",
+    "is_closed": false,
+    "date": "2025-04-29T19:00:00",
+    "place_name": "강남 스터디 카페",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjPmK7FZ1gk8ARJHFaXgvBgmUKYITD4qMMmOxmv2noLQ&s&ec=72940544"
+  },
+  {
+    "id": 6,
+    "title": "성수에서 프로젝트 하실 분 구합니다!",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-04-28T19:00:00",
+    "place_name": "성수 어니언",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 8
+  },
+  {
+    "id": 7,
+    "title": "판교 코테 공부 하실 분",
+    "category": "모각코",
+    "is_closed": true,
+    "date": "2025-04-27T19:00:00",
+    "place_name": "판교 네이버",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN58pTzmcBpN2_XWH2hFASLaccuIjoDvBDLM4DDSsVNQ&s&ec=72940544"
+  },
+  {
+    "id": 1,
+    "title": "강남에서 사이드 모집해요!",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "강남 스터디 카페",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 2,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7zAozwbAsejUo9qA41zT4lTcYVBjQwxn30WfufCPFNy5czXulzw&s=10&ec=72940544"
+  },
+  {
+    "id": 2,
+    "title": "종로 모각코 모집해요!",
+    "category": "모각코",
+    "is_closed": true,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "종로",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8LGzGxHOH7r-nyf2lTzY1SuXKTghSarkCVPXiWnEGRw&s&ec=72940544"
+  },
+  {
+    "id": 3,
+    "title": "강동구 프로젝트 하실 분 구합니다",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "천호 스타벅스",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 7
+  },
+  {
+    "id": 1,
+    "title": "강남에서 사이드 모집해요!",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "강남 스터디 카페",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7zAozwbAsejUo9qA41zT4lTcYVBjQwxn30WfufCPFNy5czXulzw&s=10&ec=72940544"
+  },
+  {
+    "id": 2,
+    "title": "종로 모각코 모집해요!",
+    "category": "모각코",
+    "is_closed": true,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "종로",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4,
+    "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8LGzGxHOH7r-nyf2lTzY1SuXKTghSarkCVPXiWnEGRw&s&ec=72940544"
+  },
+  {
+    "id": 3,
+    "title": "강동구 프로젝트 하실 분 구합니다",
+    "category": "프로젝트",
+    "is_closed": false,
+    "date": "2025-05-01T19:00:00",
+    "place_name": "천호 스타벅스",
+    "latitude": 37.4979,
+    "longitude": 127.0276,
+    "max_people": 4
+  }
+]

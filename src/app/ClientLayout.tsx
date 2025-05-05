@@ -1,18 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import FloatingButton from '@/components/common/button/FloatingButton';
-import ChatRooms from '@/components/chats/ChatRooms';
+import ChatMessages from '@/components/chats/ChatMessages';
 import Modal from '@/components/common/modal/Modal';
-import ChatMessage from '@/components/chats/ChatMessage';
+import FloatingButton from '@/components/common/button/FloatingButton';
 
-export default function HomePage() {
+const ClientLayout = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isAlarm] = useState(false);
   const [chatType, setChatType] = useState<'private' | 'group'>('private');
 
   return (
-    <main className="p-6">
+    <>
       {isChatOpen ? (
         <Modal onClose={() => setIsChatOpen(false)}>
           {/* <ChatRooms
@@ -39,7 +38,7 @@ export default function HomePage() {
             chatType={chatType}
             setChatType={setChatType}
           /> */}
-          <ChatMessage
+          <ChatMessages
             chats={[
               {
                 roomId: 'aa',
@@ -66,6 +65,8 @@ export default function HomePage() {
           handleOpen={() => setIsChatOpen(true)}
         />
       )}
-    </main>
+    </>
   );
-}
+};
+
+export default ClientLayout;

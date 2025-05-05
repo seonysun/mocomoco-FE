@@ -19,29 +19,37 @@ const Header = () => {
       <Link href="/">
         <Image src={Banner} width={150} alt="헤더 이미지" />
       </Link>
-      <nav className="flex items-center justify-between font-bold text-main-header">
-        {token ? (
-          <>
-            <span className="flex gap-5">
-              <Bell
-                size={35}
-                color="#a0b092"
-                onClick={() => setIsNotiOpen(true)}
-              />
-              <Link href="/mypage">
-                <CircleUserRound size={35} color="#a0b092" />
-              </Link>
-            </span>
-            <Menu
-              className="ml-6"
-              size={35}
-              color="#a0b092"
-              onClick={() => setIsMenuOpen(true)}
-            />
-          </>
-        ) : (
-          <Link href="/auth/login">LOGIN</Link>
-        )}
+      <nav className="font-bold text-main-header">
+        <ul className="flex items-center justify-between gap-5">
+          {token ? (
+            <>
+              <li>
+                <Bell
+                  size={35}
+                  color="#a0b092"
+                  onClick={() => setIsNotiOpen(true)}
+                />
+              </li>
+              <li>
+                <Link href="/mypage">
+                  <CircleUserRound size={35} color="#a0b092" />
+                </Link>
+              </li>
+              <li>
+                <Menu
+                  className="ml-1"
+                  size={35}
+                  color="#a0b092"
+                  onClick={() => setIsMenuOpen(true)}
+                />
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link href="/auth/login">LOGIN</Link>
+            </li>
+          )}
+        </ul>
       </nav>
       {isMenuOpen && (
         <Modal variation="menu" onClose={() => setIsMenuOpen(false)}>

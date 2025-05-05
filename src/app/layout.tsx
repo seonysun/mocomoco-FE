@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@styles/globals.css';
 import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
+import ClientLayout from '@/app/ClientLayout';
 
 export const metadata: Metadata = {
   title: '모코모코',
@@ -25,6 +26,7 @@ export default function RootLayout({
           <div className="w-full">{children}</div>
         </main>
         <Footer />
+        <ClientLayout />
       </body>
     </html>
   );

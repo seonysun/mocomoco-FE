@@ -24,3 +24,11 @@ export const MYPAGE_MENU_LIST = [
   { name: '관심 모임', icon: Star, href: '/mypage/wishlist' },
   { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;
+
+export const YEAR_LIST = ['2025', '2026', '2027'];
+
+export const MONTH_LIST = Array.from({ length: 12 }, (_, i) => String(i + 1));
+
+export const DAY_LIST = Array.from({ length: 31 }, (_, i) => String(i + 1));
+
+export const MOIM_LIST = ['모각코', '프로젝트'];

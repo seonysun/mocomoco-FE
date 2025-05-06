@@ -1,28 +1,32 @@
 'use client';
 
 import ChatMessage from '@/components/chats/ChatMessage';
-import { Chats } from '@/types/chat';
 import { ChevronLeft, Send } from 'lucide-react';
+import { messages } from '@/mockup/messages';
+import { useChatStore } from '@/store/useChatStore';
 
 type MsgsProps = {
-  chats: Chats[];
-  onBack?: () => void;
+  roomId: string;
 };
 
-const ChatMessages = ({ chats, onBack }: MsgsProps) => {
+const ChatMessages = ({ roomId }: MsgsProps) => {
   const currentUserId = 2;
+
+  const { exitRoom } = useChatStore();
 
   return (
     <div className="flex h-full flex-col p-1">
       <div className="flex items-center border-b border-main-base py-3">
-        <ChevronLeft stroke="gray" />
+        <button onClick={exitRoom}>
+          <ChevronLeft stroke="gray" />
+        </button>
         <span className="ml-1 font-bold">채팅방명</span>
       </div>
       <div className="flex-1 space-y-3 overflow-y-auto py-2">
-        {chats.map(chat => (
+        {messages.map(msg => (
           <ChatMessage
-            key={chat.messageId}
-            message={chat}
+            key={msg.messageId}
+            message={msg}
             currentUserId={currentUserId}
           />
         ))}

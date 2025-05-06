@@ -34,10 +34,12 @@ const ConfirmModal = ({
       )}
       {input && <CommonInput box="textarea" />}
       <div className="mt-3 flex w-full justify-center gap-2">
-        <Button color="outline" onClick={onCancel}>
+        <Button color="outline" onClick={onCancel} className="w-1/2">
           {cancelText}
         </Button>
-        <Button onClick={onConfirm}>{confirmText}</Button>
+        <Button onClick={onConfirm} className="w-1/2">
+          {confirmText}
+        </Button>
       </div>
     </div>
   );

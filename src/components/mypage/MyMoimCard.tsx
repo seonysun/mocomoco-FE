@@ -21,11 +21,13 @@ const MyMoimCard = ({ moim }: MoimProps) => {
       <div className="flex items-center gap-2">
         <span className="w-16">
           {moim.is_closed ? (
-            <Button size="xs" color="red">
+            <Button size="xs" color="red" className="w-full">
               모집완료
             </Button>
           ) : (
-            <Button size="xs">모집중</Button>
+            <Button size="xs" className="w-full">
+              모집중
+            </Button>
           )}
         </span>
         <Image src={Logo} className="size-10 rounded-xl" alt="유저 이미지" />

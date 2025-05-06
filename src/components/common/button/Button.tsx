@@ -21,7 +21,7 @@ const Button = ({
 }: ButtonProps) => {
   const sizeClass = btnSizeMap[size];
   const colorClass = btnColorMap[color];
-  const buttonClass = `w-full rounded-2xl transition-colors focus:outline-none ${sizeClass} ${colorClass} ${className}`;
+  const buttonClass = `rounded-2xl transition-colors focus:outline-none ${sizeClass} ${colorClass} ${className}`;
 
   return (
     <button

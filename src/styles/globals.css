@@ -27,7 +27,7 @@
 @layer base {
   html,
   body {
-    @apply h-full w-full antialiased;
+    @apply mx-auto min-h-screen w-full max-w-[1440px] antialiased;
     font-family: 'GmarketSans', Arial, Helvetica, sans-serif;
     line-height: 1.6;
   }

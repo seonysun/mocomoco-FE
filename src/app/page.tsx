@@ -46,7 +46,7 @@ export default function Home() {
         </section>
       </div>
       <h2 className="my-2 text-3xl">함께 코딩하는 즐거움, 모코모코 🌱</h2>
-      <Link href="/moimlist">
+      <Link href="/moims">
         <Button className="bg-main-default" size="lg">
           코딩친구 만나러가기
         </Button>

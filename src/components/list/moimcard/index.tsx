@@ -1,13 +1,16 @@
+'use client';
 import Button from '@/components/common/button/Button';
 import { moimCard } from './types';
 import FavoriteButton from '@/components/common/button/FavoriteButton';
 import Image from 'next/image';
 import basicImage from '@images/basicImage.png';
+import { useRouter } from 'next/navigation';
 
 interface ListProps {
   data: moimCard[];
 }
 export const MoimCard = ({ data }: ListProps) => {
+  const router = useRouter();
   return (
     <div className="grid grid-cols-2 gap-7 md:grid-cols-4">
       {data.map(item => {
@@ -25,12 +28,15 @@ export const MoimCard = ({ data }: ListProps) => {
             key={item.id}
             className="max-h-[500px] min-w-40 rounded-md border bg-white shadow-md"
           >
-            <div className="flex flex-col gap-4">
+            <div
+              className="flex flex-col gap-4"
+              onClick={() => router.push(`/moims/${item.id}`)}
+            >
               <div className="relative h-[200px] w-full overflow-hidden rounded-md">
                 <div className="absolute left-2 right-2 top-2 z-10 flex items-center justify-between px-2">
                   <Button
                     size="sm"
-                    className="pointer-events-none w-20 min-w-16"
+                    className="pointer-events-none w-[87px]"
                     color={statusColor}
                   >
                     {statusText}
@@ -50,7 +56,7 @@ export const MoimCard = ({ data }: ListProps) => {
               <div className="flex flex-col gap-4 p-3">
                 <span className="text-sm text-gray-500"> {item.category}</span>
                 <div>
-                  <h1 className="text-md h-12 font-semibold">{item.title}</h1>
+                  <h1 className="text-md h-12 font-medium">{item.title}</h1>
                   <hr />
                 </div>
                 <div>

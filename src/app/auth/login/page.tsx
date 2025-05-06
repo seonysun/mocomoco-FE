@@ -7,8 +7,7 @@ import kakao from '@images/kakao.png';
 export default function Login() {
   // kakao
   const CLIENT_ID = process.env.NEXT_PUBLIC_REST_API_KEY;
-  const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
-
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   // naver
   const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
   const NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;

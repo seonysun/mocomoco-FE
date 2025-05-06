@@ -1,4 +1,4 @@
-import { Plus, Search, UsersRound } from 'lucide-react';
+import { Calendar, Plus, Search, Star, User, UsersRound } from 'lucide-react';
 
 export const CATEGORY_LIST = [
   '프론트엔드(FE)',
@@ -17,4 +17,10 @@ export const MENU_MOGAK_LIST = [
   { label: '모각코 찾기', icon: Search, to: 'moimlist' },
   { label: '새로운 모임', icon: Plus, to: '' },
   { label: '참여한 모임', icon: UsersRound, to: '' },
+] as const;
+
+export const MYPAGE_MENU_LIST = [
+  { name: '내 정보', icon: User, href: '/mypage' },
+  { name: '관심 모임', icon: Star, href: '/mypage/wishlist' },
+  { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;

@@ -1,6 +1,5 @@
 'use client';
 
-import { CATEGORY_LIST } from '@/constants/config';
 import { useState } from 'react';
 
 type DropdownProps = {
@@ -8,6 +7,7 @@ type DropdownProps = {
   onSelect: (value: string) => void;
   placeholder: string; // string 타입으로 제한
   className?: string;
+  categories: string[];
 };
 
 export default function Dropdown({
@@ -15,6 +15,7 @@ export default function Dropdown({
   selected,
   placeholder,
   className = '',
+  categories,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +32,7 @@ export default function Dropdown({
       </div>
       {isOpen && (
         <ul className="absolute z-10 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-md">
-          {CATEGORY_LIST.map((category, index) => (
+          {categories.map((category, index) => (
             <li
               key={index}
               className="cursor-pointer px-4 py-2 hover:bg-green-100"

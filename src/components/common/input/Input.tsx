@@ -49,9 +49,9 @@ const CommonInput: React.FC<InputProps> = ({
         <input
           className={`w-full ${
             box === 'box'
-              ? ` ${className} rounded-xl border border-main-base p-3 text-[15px] shadow-sm transition focus:outline-none`
-              : `border-b border-main-base bg-transparent text-[15px] transition-all focus:outline-none ${className}`
-          }`}
+              ? ` ${className} rounded-xl border border-main-base p-3 shadow-sm transition focus:outline-none`
+              : `border-b border-main-base bg-transparent transition-all focus:outline-none`
+          }${className}`}
           type="text"
           placeholder={placeholder}
           value={value}

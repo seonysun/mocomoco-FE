@@ -34,15 +34,15 @@ export default function Dropdown({
   }, [isOpen]);
 
   return (
-    <div className={`relative w-full ${className}`} ref={dropMenuRef}>
+    <div className="relative w-full" ref={dropMenuRef}>
       <div
         className="flex cursor-pointer items-center justify-between gap-[20px] border-b-[1px] border-main-base py-2"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`w-full font-gmarket text-[15px] font-light text-gray-400 ${
+          className={`w-full font-gmarket text-[15px] text-gray-400 ${
             align === 'center' ? 'text-center' : 'text-left'
-          }`}
+          } ${className}`}
         >
           {selected || placeholder || '선택하세요.'}
         </span>

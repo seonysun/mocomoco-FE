@@ -14,9 +14,9 @@ export const MENU_NOTI_LIST = [
 ] as const;
 
 export const MENU_MOGAK_LIST = [
-  { label: '모각코 찾기', icon: Search, to: 'moims' },
-  { label: '새로운 모임', icon: Plus, to: '' },
-  { label: '참여한 모임', icon: UsersRound, to: '' },
+  { label: '모각코 찾기', icon: Search, href: '/moims' },
+  { label: '새로운 모임', icon: Plus, href: '/moims/post' },
+  { label: '참여한 모임', icon: UsersRound, href: '/join' },
 ] as const;
 
 export const MYPAGE_MENU_LIST = [

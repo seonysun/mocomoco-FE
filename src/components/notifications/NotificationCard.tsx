@@ -23,7 +23,7 @@ const NotificationCard = ({ notification }: NotiProps) => {
       titleSlot={notification.type}
       contentSlot={notification.content}
       timeSlot={notification.created_at}
-      className="border p-1"
+      className="bg-[#deead4] p-1"
     />
   );
 };

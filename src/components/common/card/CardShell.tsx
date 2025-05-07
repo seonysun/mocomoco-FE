@@ -32,7 +32,7 @@ const CardShell = ({
               {titleSlot}
             </p>
             {timeSlot && typeof timeSlot === 'string' && (
-              <span className="text-right text-xs text-gray-400">
+              <span className="text-right text-[10px] text-gray-400">
                 {new Date(timeSlot).toLocaleTimeString('ko-KR', {
                   hour: '2-digit',
                   minute: '2-digit',

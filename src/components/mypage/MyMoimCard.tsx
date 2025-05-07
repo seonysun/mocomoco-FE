@@ -6,13 +6,14 @@ import FavoriteButton from '@/components/common/button/FavoriteButton';
 import { Users } from 'lucide-react';
 import Button from '@/components/common/button/Button';
 import { usePathname } from 'next/navigation';
-import { moimCard } from '@/components/list/moimcard/types';
+import { moimCard } from '@/components/moim/moimcard/types';
 
 type MoimProps = {
   moim: moimCard;
+  setIsConfirmOpen?: () => void;
 };
 
-const MyMoimCard = ({ moim }: MoimProps) => {
+const MyMoimCard = ({ moim, setIsConfirmOpen }: MoimProps) => {
   const pathname = usePathname();
   const isWishlist = pathname.startsWith('/mypage/wishlist');
 
@@ -44,7 +45,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
         {isWishlist ? (
           <FavoriteButton type={'star'} color="#A0B092" />
         ) : (
-          <Button size="xs" color="dark">
+          <Button size="xs" color="dark" onClick={setIsConfirmOpen}>
             나가기
           </Button>
         )}

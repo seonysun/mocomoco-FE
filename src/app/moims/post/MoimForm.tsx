@@ -3,7 +3,14 @@
 import Button from '@/components/common/button/Button';
 import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
-import { DAY_LIST, MONTH_LIST, YEAR_LIST } from '@/constants/config';
+import TextEditor from '@/components/moim/texteditor';
+import {
+  DAY_LIST,
+  MOIM_CATEGORY,
+  MONTH_LIST,
+  ROLE_LIST,
+  YEAR_LIST,
+} from '@/constants/config';
 import { Search, Server } from 'lucide-react';
 import { useState } from 'react';
 
@@ -12,16 +19,27 @@ export default function MoimForm() {
   const [content, setContent] = useState('');
   const [moim, setMoim] = useState('');
   const [place, setPlace] = useState('');
-  const [count, setCount] = useState(0);
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
 
-  const decrease = () => {
-    if (count <= 0) return;
-    setCount(prev => prev - 1);
+  const [roles, setRoles] = useState<
+    Record<(typeof ROLE_LIST)[number], number>
+  >({
+    프론트엔드: 0,
+    백엔드: 0,
+    풀스택: 0,
+    디자이너: 0,
+  });
+
+  const increaseRole = (role: (typeof ROLE_LIST)[number]) => {
+    setRoles(prev => ({ ...prev, [role]: prev[role] + 1 }));
   };
-  const increase = () => setCount(prev => prev + 1);
+
+  const decreaseRole = (role: (typeof ROLE_LIST)[number]) => {
+    if (roles[role] <= 0) return;
+    setRoles(prev => ({ ...prev, [role]: prev[role] - 1 }));
+  };
 
   return (
     <>
@@ -36,32 +54,33 @@ export default function MoimForm() {
               box="box"
               className="w-[500px] text-[15px]"
             />
-            <CommonInput
-              label="작성내용"
+            <TextEditor
               value={content}
-              onChange={e => setContent(e.target.value)}
-              box="textarea"
-              className="w-[500px] text-[15px]"
+              onChange={setContent}
+              onImageUpload={file => {
+                //추후 api 연결시 이미지 업로드 api로 교체
+                console.log('업로드된 이미지 파일:', file);
+              }}
             />
           </div>
-          <div className="flex flex-col gap-[40px] rounded-[15px] border-[1px] border-main-default p-[20px]">
+          <div className="flex flex-col gap-[40px] rounded-[15px] border-[1px] border-main-default p-[30px]">
             <div className="flex items-center gap-[10px]">
               <Server color="#A0B092" />
-              <p className="text-[18px]">필수선택</p>
+              <p className="text-[20px]">필수선택</p>
             </div>
             <div className="flex flex-col gap-[20px]">
               <div className="flex flex-col justify-center gap-[5px]">
-                <p className="text-[15px]"> 모임 카테고리 </p>
+                <p className="text-[17px]"> 모임 카테고리 </p>
                 <Dropdown
                   selected={moim}
                   onSelect={setMoim}
                   placeholder=""
                   className="w-[100px]"
-                  categories={MONTH_LIST}
+                  categories={MOIM_CATEGORY}
                 />
               </div>
               <div className="flex flex-col justify-center gap-[5px]">
-                <p className="text-[15px]"> 장소 검색 </p>
+                <p className="text-[17px]"> 장소 검색 </p>
                 <div className="flex items-center gap-[10px]">
                   <CommonInput
                     placeholder="검색"
@@ -74,32 +93,44 @@ export default function MoimForm() {
                 </div>
               </div>
               <div className="flex flex-col justify-center gap-[5px]">
-                <p className="text-[15px]"> 모임 정원 </p>
-                <div className="flex w-[80px] items-center justify-center space-x-4 rounded-full border border-main-default bg-main-header px-4 py-2">
-                  <button
-                    onClick={decrease}
-                    disabled={count <= 0}
-                    className="text-lg font-bold text-white"
-                  >
-                    -
-                  </button>
-                  <span className="text-lg text-white">{count}</span>
-                  <button
-                    onClick={increase}
-                    className="text-lg font-bold text-white"
-                  >
-                    +
-                  </button>
+                <p className="text-[17px]"> 모임 정원 </p>
+                <div className="flex flex-col gap-4">
+                  {ROLE_LIST.map(role => (
+                    <div
+                      key={role}
+                      className="flex w-[220px] items-center justify-between"
+                    >
+                      <span className="text-[14px] text-gray-700">{role}</span>
+                      <div className="flex items-center space-x-4 rounded-full border border-main-default bg-main-header px-4 py-1">
+                        <button
+                          onClick={() => decreaseRole(role)}
+                          disabled={roles[role] <= 0}
+                          className="text-sm font-bold text-white"
+                        >
+                          -
+                        </button>
+                        <span className="text-sm text-white">
+                          {roles[role]}
+                        </span>
+                        <button
+                          onClick={() => increaseRole(role)}
+                          className="text-sm font-bold text-white"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="flex flex-col justify-center gap-[5px]">
-                <p className="text-[15px]"> 모임 날짜 </p>
+                <p className="text-[17px]"> 모임 날짜 </p>
                 <div className="flex items-center gap-[10px]">
                   <Dropdown
                     selected={year}
                     onSelect={setYear}
                     placeholder="년"
-                    className="w-[50px]"
+                    className="w-[70px] text-center"
                     categories={YEAR_LIST}
                   />
                   <Dropdown
@@ -121,7 +152,7 @@ export default function MoimForm() {
             </div>
           </div>
         </div>
-        <Button type="submit" size="lg" className="w-[50px] self-center">
+        <Button type="submit" size="lg" className="mb-3 w-[60px] self-center">
           작성
         </Button>
       </div>

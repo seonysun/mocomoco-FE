@@ -1,8 +1,8 @@
 import { Calendar, Plus, Search, Star, User, UsersRound } from 'lucide-react';
 
-export const CATEGORY_LIST = [
-  '프론트엔드(FE)',
-  '백엔드(BE)',
+export const ROLE_LIST = [
+  '프론트엔드',
+  '백엔드',
   '풀스택',
   '디자이너',
 ] as const;
@@ -24,6 +24,8 @@ export const MYPAGE_MENU_LIST = [
   { name: '관심 모임', icon: Star, href: '/mypage/wishlist' },
   { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;
+
+export const MOIM_CATEGORY = ['프로젝트', '모각코'];
 
 export const YEAR_LIST = ['2025', '2026', '2027'];
 

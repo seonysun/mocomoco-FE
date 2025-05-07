@@ -1,17 +1,20 @@
-import { MoimCard } from '@/components/list/moimcard';
+import { MoimCard } from '@/components/moim/moimcard';
 import { ChevronDown, Search } from 'lucide-react';
 import listApi from '@/mockup/listapi.json';
 import CommonInput from '@/components/common/input/Input';
 import Button from '@/components/common/button/Button';
+import Link from 'next/link';
 
 const MoimList = () => {
   return (
     <div className="flex flex-col gap-2 px-20">
       <div className="flex items-center justify-between">
         <p className="pb-2 text-sm">전체 12개</p>
-        <Button size="sm" className="w-14">
-          작성
-        </Button>
+        <Link href={'moims/post'}>
+          <Button size="sm" className="w-14">
+            작성
+          </Button>
+        </Link>
       </div>
       <div className="flex justify-between">
         <div className="flex w-[300px] pb-4">

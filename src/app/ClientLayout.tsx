@@ -6,16 +6,25 @@ import Modal from '@/components/common/modal/Modal';
 import FloatingButton from '@/components/common/button/FloatingButton';
 import ChatRooms from '@/components/chats/ChatRooms';
 import { useChatStore } from '@/store/useChatStore';
+import { useModalStore } from '@/store/useModalStore';
+import ConfirmModal from '@/components/common/modal/ConfirmModal';
 
 const ClientLayout = () => {
   const [isAlarm] = useState(false);
 
-  const { view, isOpen, selectedRoomId, openModal, closeModal } =
-    useChatStore();
+  const {
+    view,
+    isOpen: isChatOpen,
+    selectedRoomId,
+    openModal,
+    closeModal,
+  } = useChatStore();
+  const { isOpen: isConfirmOpen } = useModalStore();
 
   return (
     <>
-      {isOpen ? (
+      {isConfirmOpen && <ConfirmModal />}
+      {isChatOpen ? (
         <Modal onClose={closeModal}>
           {view === 'list' && <ChatRooms />}
           {view === 'room' && selectedRoomId && (

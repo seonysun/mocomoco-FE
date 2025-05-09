@@ -2,6 +2,9 @@
 
 import Button from '@/components/common/button/Button';
 import CommonInput from '@/components/common/input/Input';
+import useClickOutside from '@/hooks/useClickOutside';
+import { useModalStore } from '@/store/useModalStore';
+import { useRef } from 'react';
 
 type ConfirmProps = {
   title?: string;
@@ -10,7 +13,6 @@ type ConfirmProps = {
   confirmText?: string;
   cancelText?: string;
   onConfirm?: () => void;
-  onCancel?: () => void;
   className?: string;
 };
 
@@ -21,25 +23,32 @@ const ConfirmModal = ({
   confirmText = '확인',
   cancelText = '취소',
   onConfirm,
-  onCancel,
   className,
 }: ConfirmProps) => {
+  const { id, close } = useModalStore();
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  useClickOutside(modalRef, close);
+
   return (
-    <div
-      className={`w-[320px] rounded-xl border border-main-medium bg-white p-4 ${className}`}
-    >
-      <p className="mb-1 text-center text-lg">{title}</p>
-      {content && (
-        <p className="text-center text-sm text-gray-400">{content}</p>
-      )}
-      {input && <CommonInput box="textarea" />}
-      <div className="mt-3 flex w-full justify-center gap-2">
-        <Button color="outline" onClick={onCancel} className="w-1/2">
-          {cancelText}
-        </Button>
-        <Button onClick={onConfirm} className="w-1/2">
-          {confirmText}
-        </Button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div
+        ref={modalRef}
+        className={`w-[320px] rounded-xl border border-main-medium bg-white p-4 ${className}`}
+      >
+        <p className="mb-1 text-center text-lg">{id + title}</p>
+        {content && (
+          <p className="text-center text-sm text-gray-400">{content}</p>
+        )}
+        {input && <CommonInput box="textarea" />}
+        <div className="mt-3 flex w-full justify-center gap-2">
+          <Button color="outline" onClick={close} className="w-1/2">
+            {cancelText}
+          </Button>
+          <Button onClick={onConfirm} className="w-1/2">
+            {confirmText}
+          </Button>
+        </div>
       </div>
     </div>
   );

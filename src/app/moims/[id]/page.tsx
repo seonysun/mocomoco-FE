@@ -31,8 +31,8 @@ const MoimDetailPage = ({ params }: MoimProps) => {
     .charAt(0);
 
   return (
-    <div className="flex h-full w-full flex-col gap-10 px-10 py-10">
-      <div className="flex h-full w-full flex-col gap-10 rounded-md bg-white px-20 py-10 shadow-md">
+    <div className="flex h-full w-full flex-col gap-10 md:p-10">
+      <div className="flex h-full w-full flex-col gap-10 rounded-md bg-white p-6 shadow-md md:px-20 md:py-10">
         <Button
           size="md"
           className="pointer-events-none w-[80px] min-w-20"
@@ -115,7 +115,7 @@ const MoimDetailPage = ({ params }: MoimProps) => {
           ))}
         </div>
       </div>
-      <div className="flex justify-between pt-10">
+      <div className="flex justify-between pb-12 pt-10">
         <div className="flex gap-2">
           <Button className="w-[56px]" size="sm">
             수정

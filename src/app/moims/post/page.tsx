@@ -1,4 +1,4 @@
-import MoimForm from './MoimForm';
+import MoimForm from '@/components/moim/moimform';
 
 export default function moimPost() {
   return (

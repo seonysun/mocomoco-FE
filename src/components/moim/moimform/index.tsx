@@ -4,13 +4,7 @@ import Button from '@/components/common/button/Button';
 import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
-import {
-  DAY_LIST,
-  MOIM_CATEGORY,
-  MONTH_LIST,
-  ROLE_LIST,
-  YEAR_LIST,
-} from '@/constants/config';
+import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
 import { Search, Server } from 'lucide-react';
 import { useState } from 'react';
 
@@ -43,16 +37,16 @@ export default function MoimForm() {
 
   return (
     <>
-      <div className="flex flex-col justify-center gap-[50px]">
+      <div className="flex flex-col gap-10">
         <p className="p-[50px] text-center text-[30px]"> 모임 작성 페이지 </p>
-        <div className="flex justify-center gap-[50px]">
-          <div className="flex flex-col gap-[50px]">
+        <div className="flex flex-col justify-center gap-10 md:flex-row">
+          <div className="flex w-full flex-col gap-10 md:max-w-[525px]">
             <CommonInput
               label="제목"
               value={title}
               onChange={e => setTitle(e.target.value)}
               box="box"
-              className="w-[500px] text-[15px]"
+              className="w-full text-[15px]"
             />
             <TextEditor
               value={content}
@@ -63,7 +57,7 @@ export default function MoimForm() {
               }}
             />
           </div>
-          <div className="flex flex-col gap-[40px] rounded-[15px] border-[1px] border-main-default p-[30px]">
+          <div className="flex w-full flex-col gap-[40px] rounded-[15px] border-[1px] border-main-default p-[30px] md:max-w-[300px]">
             <div className="flex items-center gap-[10px]">
               <Server color="#A0B092" />
               <p className="text-[20px]">필수선택</p>
@@ -79,15 +73,14 @@ export default function MoimForm() {
                   categories={MOIM_CATEGORY}
                 />
               </div>
-              <div className="flex flex-col justify-center gap-[5px]">
+              <div className="flex w-full flex-col justify-center gap-[5px]">
                 <p className="text-[17px]"> 장소 검색 </p>
-                <div className="flex items-center gap-[10px]">
+                <div className="flex w-full items-center gap-[10px]">
                   <CommonInput
                     placeholder="검색"
                     value={place}
                     onChange={e => setPlace(e.target.value)}
                     box="box"
-                    className=""
                   />
                   <Search color="#A0B092" />
                 </div>
@@ -129,23 +122,42 @@ export default function MoimForm() {
                   <Dropdown
                     selected={year}
                     onSelect={setYear}
-                    placeholder="년"
-                    className="w-[70px] text-center"
+                    placeholder="년도"
                     categories={YEAR_LIST}
                   />
-                  <Dropdown
-                    selected={month}
-                    onSelect={setMonth}
+                  <CommonInput
                     placeholder="월"
-                    className="w-[50px] text-center"
-                    categories={MONTH_LIST}
+                    value={month}
+                    onChange={e => {
+                      const input = e.target.value;
+                      const numericValue = input.replace(/[^0-9]/g, '');
+                      const number = parseInt(numericValue, 10);
+
+                      if (!numericValue) {
+                        setMonth('');
+                      } else if (number >= 1 && number <= 12) {
+                        setMonth(numericValue);
+                      }
+                    }}
+                    box="line"
+                    className="flex items-center justify-between gap-[20px] py-2"
                   />
-                  <Dropdown
-                    selected={day}
-                    onSelect={setDay}
+                  <CommonInput
                     placeholder="일"
-                    className="w-[50px] text-center"
-                    categories={DAY_LIST}
+                    value={day}
+                    onChange={e => {
+                      const input = e.target.value;
+                      const numericValue = input.replace(/[^0-9]/g, '');
+                      const number = parseInt(numericValue, 10);
+
+                      if (!numericValue) {
+                        setDay('');
+                      } else if (number >= 1 && number <= 31) {
+                        setDay(numericValue);
+                      }
+                    }}
+                    box="line"
+                    className="flex items-center justify-between gap-[20px] py-2"
                   />
                 </div>
               </div>

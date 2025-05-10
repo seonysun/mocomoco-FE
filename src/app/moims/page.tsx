@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const MoimList = () => {
   return (
-    <div className="flex flex-col gap-2 px-20">
+    <div className="flex flex-col gap-2 md:px-14">
       <div className="flex items-center justify-between">
         <p className="pb-2 text-sm">전체 12개</p>
         <Link href={'moims/post'}>
@@ -16,12 +16,12 @@ const MoimList = () => {
           </Button>
         </Link>
       </div>
-      <div className="flex justify-between">
-        <div className="flex w-[300px] pb-4">
-          <CommonInput box="line" placeholder="검색어" width={100} />
+      <div className="flex w-full justify-between">
+        <div className="flex w-[150px] pb-4 md:w-[300px]">
+          <CommonInput box="line" placeholder="검색어" width={40} />
           <Search color="#a0b092" />
         </div>
-        <div className="flex w-[110px] items-center gap-4 rounded-2xl bg-main-base p-2 text-sm">
+        <div className="flex w-[110px] min-w-[110px] items-center gap-4 rounded-2xl bg-main-base p-2 text-sm">
           카테고리
           <ChevronDown size={15} />
         </div>

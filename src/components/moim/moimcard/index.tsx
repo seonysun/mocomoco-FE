@@ -12,7 +12,7 @@ interface ListProps {
 export const MoimCard = ({ data }: ListProps) => {
   const router = useRouter();
   return (
-    <div className="grid grid-cols-2 gap-7 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4">
       {data.map(item => {
         const statusText = item.is_closed ? '모집 완료' : '모집 중';
         const statusColor = item.is_closed ? 'red' : 'green';
@@ -26,7 +26,7 @@ export const MoimCard = ({ data }: ListProps) => {
         return (
           <div
             key={item.id}
-            className="max-h-[500px] min-w-40 rounded-md border bg-white shadow-md"
+            className="max-h-[500px] min-w-[220px] rounded-md border bg-white shadow-md"
           >
             <div
               className="flex flex-col gap-4"

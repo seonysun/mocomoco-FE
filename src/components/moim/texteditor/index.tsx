@@ -54,7 +54,7 @@ const TextEditor = ({
   }
 
   return (
-    <div className="border-purple bg-cream font-gMedium text-purple flex h-full w-full max-w-[525px] flex-col border">
+    <div className="flex h-full min-h-[300px] w-full flex-col overflow-hidden rounded-md border border-main-default">
       <Toolbar editor={editor} onImageUpload={onImageUpload} />
       <EditorContent
         editor={editor}

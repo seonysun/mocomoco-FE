@@ -58,7 +58,7 @@ const Toolbar = ({ editor, onImageUpload }: ToolbarProps) => {
   const menuItems = createMenuItems();
 
   return (
-    <div className="relative flex items-center gap-3 border-main-header bg-main-default px-4 py-2">
+    <div className="relative flex flex-wrap items-center gap-3 border-main-header bg-main-default px-4 py-2">
       {menuItems.map(({ icon: Icon, action, isActive, title, disabled }) => (
         <button
           key={title}
@@ -79,7 +79,7 @@ const Toolbar = ({ editor, onImageUpload }: ToolbarProps) => {
           active={showColorPalette}
           focusTrapOptions={{ initialFocus: false }}
         >
-          <div className="border-purple absolute left-32 top-10 z-10 flex h-fit w-fit items-center justify-center border bg-white p-3">
+          <div className="absolute left-32 top-10 z-10 flex h-fit w-fit items-center justify-center border bg-white p-3">
             <ColorPalette onColorSelect={handleColorSelect} />
           </div>
         </FocusTrap>

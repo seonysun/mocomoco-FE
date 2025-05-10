@@ -1,4 +1,4 @@
-import EditForm from './EditForm';
+import EditForm from '@components/mypage/MyEditForm';
 
 export default function mypageEdit() {
   return (

@@ -10,21 +10,21 @@ import { useEffect, useState } from 'react';
 import Notifications from '@/components/notifications/Notifications';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useLogout } from '@/hooks/useLogout';
 
 const Header = () => {
   const router = useRouter();
+  const logoutHandler = useLogout();
 
   const user = useAuthStore(state => state.user);
   const isLoggedIn = useAuthStore(state => state.isLoggedIn);
-  const logout = useAuthStore(state => state.logout);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logoutHandler();
     alert('로그아웃이 완료되었습니다.');
-    router.push('/'); // 홈 또는 로그인 페이지로 이동
   };
 
   return (
@@ -42,7 +42,7 @@ const Header = () => {
                     onClick={() => handleLogout()}
                     className="font-bold hover:underline"
                   >
-                    로그아웃
+                    LOGOUT
                   </div>
                 </Link>
               </li>

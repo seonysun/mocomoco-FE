@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { strict } from 'assert';
 import { useAuthStore } from '@/store/useAuthStore';
+import LoadingSpinner from '../common/loadingSpinner/LoadingSpinner';
 
 export default function NaverLogin() {
   const { setAuth } = useAuthStore();
@@ -55,7 +56,6 @@ export default function NaverLogin() {
 
     const url = new URL(window.location.href);
     const code = url.searchParams.get('code');
-    // console.log('CODE:', code);
     const state = url.searchParams.get('state');
 
     if (code && state) {
@@ -68,7 +68,7 @@ export default function NaverLogin() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <p className="text-[20px]">네이버 로그인 처리 중입니다...</p>
+      <LoadingSpinner />
     </div>
   );
 }

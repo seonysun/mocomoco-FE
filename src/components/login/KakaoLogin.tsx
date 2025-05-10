@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import LoadingSpinner from '../common/loadingSpinner/LoadingSpinner';
 
 export default function KakaoLogin() {
   const { setAuth } = useAuthStore();
@@ -11,7 +12,6 @@ export default function KakaoLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('dsklda');
     const handleKakaoLogin = async (code: string) => {
       try {
         const response = await fetch(
@@ -28,14 +28,11 @@ export default function KakaoLogin() {
           },
         );
 
-        console.log(response);
-
         if (!response.ok) {
           throw new Error('로그인 실패');
         }
 
         const data = await response.json();
-        console.log(data);
 
         if (data.access && data.refresh && data.user) {
           localStorage.setItem('access_token', data.access);
@@ -69,7 +66,7 @@ export default function KakaoLogin() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <p className="text-[20px]">카카오 로그인 처리 중입니다...</p>
+      <LoadingSpinner />
     </div>
   );
 }

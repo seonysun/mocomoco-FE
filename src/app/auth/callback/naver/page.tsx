@@ -1,4 +1,4 @@
-import NaverLogin from './naverLogin';
+import NaverLogin from '@components/login/NaverLogin';
 
 export default function NaverCallback() {
   return (

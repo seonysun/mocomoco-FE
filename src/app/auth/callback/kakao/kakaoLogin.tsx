@@ -1,0 +1,75 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/useAuthStore';
+
+export default function KakaoLogin() {
+  const { setAuth } = useAuthStore();
+
+  // useRouter : 페이지 이동
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log('dsklda');
+    const handleKakaoLogin = async (code: string) => {
+      try {
+        const response = await fetch(
+          'https://api.mocomoco.store/api/auth/login/kakao/',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              provider: 'kakao',
+              code: code,
+            }),
+          },
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error('로그인 실패');
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        if (data.access && data.refresh && data.user) {
+          localStorage.setItem('access_token', data.access);
+          localStorage.setItem('refresh_token', data.refresh);
+
+          setAuth(data.access, data.refresh, data.user);
+        }
+
+        if (data.isNewUser) {
+          router.push('/mypage/edit');
+        } else {
+          router.push('/');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('로그인 실패. 다시 시도해주세요.');
+        router.push('/auth/login'); // 실패 시 alert창 띄우고, 로그인 페이지로 다시
+      }
+    };
+
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
+
+    if (code) {
+      handleKakaoLogin(code);
+    } else {
+      alert('코드가 존재하지 않습니다.');
+      router.push('/auth/login');
+    }
+  }, [router]);
+
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-[20px]">카카오 로그인 처리 중입니다...</p>
+    </div>
+  );
+}

@@ -1,18 +1,18 @@
 export const messages = [
   {
-    roomId: 'aa',
-    messageId: 5,
-    userId: 7,
-    username: '우중',
+    room_id: 'aa',
+    ChatMessage_id: 5,
+    chat_user_id: 7,
+    nickname: '우중',
     content: '안녕하세요!',
-    createdAt: '2025-04-25T15:30:00',
+    created_at: '2025-04-25T15:30:00',
   },
   {
-    roomId: 'aa',
-    messageId: 6,
-    userId: 2,
-    username: '지안',
+    room_id: 'aa',
+    ChatMessage_id: 6,
+    chat_user_id: 2,
+    nickname: '지안',
     content: '몇시에 만나실래요?',
-    createdAt: '2025-04-25T15:31:02',
+    created_at: '2025-04-25T15:31:02',
   },
 ];

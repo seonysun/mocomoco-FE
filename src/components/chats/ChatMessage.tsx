@@ -10,7 +10,7 @@ type MsgProps = {
 };
 
 const ChatMessage = ({ message, currentUserId }: MsgProps) => {
-  const isMine = message.userId === currentUserId;
+  const isMine = message.chat_user_id === currentUserId;
 
   return (
     <div className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
@@ -18,7 +18,7 @@ const ChatMessage = ({ message, currentUserId }: MsgProps) => {
         <div className="mr-1 flex flex-col items-center">
           <Image src={Logo} className="size-8 rounded-full" alt="유저 이미지" />
           <p className="text-xs font-semibold text-gray-500">
-            {message.username}
+            {message.nickname}
           </p>
         </div>
       )}
@@ -32,7 +32,7 @@ const ChatMessage = ({ message, currentUserId }: MsgProps) => {
         <p>{message.content}</p>
       </div>
       <p className="ml-1 self-end text-[10px] text-gray-400">
-        {new Date(message.createdAt).toLocaleTimeString('ko-KR', {
+        {new Date(message.created_at).toLocaleTimeString('ko-KR', {
           hour: '2-digit',
           minute: '2-digit',
         })}

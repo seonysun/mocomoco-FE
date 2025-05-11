@@ -12,7 +12,7 @@ type ChatRoomProps = {
 const ChatRoomCard = ({ chatRoom }: ChatRoomProps) => {
   return (
     <CardShell
-      unread={chatRoom.unreadCount > 0}
+      unread={chatRoom.unread_count > 0}
       imageSlot={
         <Image
           src={Logo}
@@ -20,9 +20,9 @@ const ChatRoomCard = ({ chatRoom }: ChatRoomProps) => {
           alt="채팅방 이미지"
         />
       }
-      titleSlot={chatRoom.postTitle}
-      contentSlot={chatRoom.latestMessage}
-      timeSlot={chatRoom.latestTime}
+      titleSlot={chatRoom.post_title}
+      contentSlot={chatRoom.latest_message}
+      timeSlot={chatRoom.latest_time}
     />
   );
 };

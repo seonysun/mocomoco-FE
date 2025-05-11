@@ -3,15 +3,18 @@
 import ChatRoomCard from '@/components/chats/ChatRoomCard';
 import Button from '@/components/common/button/Button';
 import { User, Users } from 'lucide-react';
-import { chats } from '@/mockup/chat';
 import { useChatStore } from '@/store/useChatStore';
+import { useQuery } from '@tanstack/react-query';
+import { chatOption } from '@/api/options/chatOption';
 
 const ChatRooms = () => {
   const tabClass =
     'rounded-t-xl border border-b-0 border-main-base px-3 py-1 mb-2';
 
+  const { data: chatRoomList } = useQuery(chatOption.chatRoomList());
+  const chatRooms = chatRoomList ?? [];
+
   const { chatType, setChatType, enterRoom } = useChatStore();
-  const chatRoomList = chats;
 
   return (
     <>
@@ -29,12 +32,12 @@ const ChatRooms = () => {
           />
         </button>
       </div>
-      {chatRoomList.length > 0 ? (
+      {chatRooms.length > 0 ? (
         <div className="flex-1 space-y-1 overflow-y-auto scroll-smooth">
-          {chatRoomList.map(room => (
+          {chatRooms.map(room => (
             <button
-              key={room.roomId}
-              onClick={() => enterRoom(room.roomId)}
+              key={room.room_id}
+              onClick={() => enterRoom(room.room_id)}
               className="w-full text-start"
             >
               <ChatRoomCard chatRoom={room} />

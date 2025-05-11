@@ -17,7 +17,7 @@ const Modal = ({ children, variation = 'chat', onClose }: ModalProps) => {
 
   const modalSize = modalStyleMap[variation].size;
   const modalPosition = modalStyleMap[variation].position;
-  const modalClass = `fixed z-30 flex flex-col justify-between rounded-3xl bg-[#FBFFF1] p-4 shadow-xl transition-all duration-300 ease-out ${modalSize} ${modalPosition}`;
+  const modalClass = `z-30 flex flex-col justify-between rounded-3xl bg-[#FBFFF1] p-4 shadow-xl transition-all duration-300 ease-out ${modalSize} ${modalPosition}`;
 
   return (
     <div ref={modalRef} className={modalClass} aria-label="modal">

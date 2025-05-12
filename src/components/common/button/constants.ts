@@ -5,6 +5,7 @@ export const btnSizeMap = {
   sm: 'py-1 px-3 text-sm',
   md: 'py-2 px-3',
   lg: 'py-2 px-3 text-lg',
+  xl: 'py-4 px-6 text-xl',
 } as const;
 
 export const btnColorMap = {

@@ -9,7 +9,7 @@ export const chatAPI = {
     return fetchClient(`/chat/${room_id}/messages/`, 'GET', { isAuth: true });
   },
   postMessages: async (room_id: string, body: { content: string }) => {
-    return fetchClient(`/chat/${room_id}/messages/`, 'POST', {
+    return fetchClient(`/chat/${room_id}/messages/send/`, 'POST', {
       isAuth: true,
       body,
     });

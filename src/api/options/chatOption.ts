@@ -1,5 +1,5 @@
 import { chatAPI } from '@/api/functions/chatAPI';
-import { queryOptions } from '@tanstack/react-query';
+import { QueryClient, queryOptions } from '@tanstack/react-query';
 
 export const chatOption = {
   chatRoomList: () =>
@@ -12,4 +12,27 @@ export const chatOption = {
       queryKey: ['chat', 'messages', room_id],
       queryFn: () => chatAPI.getChatMessages(room_id),
     }),
+  postMessage: (room_id: string, queryClient: QueryClient) => ({
+    mutationFn: (content: string) => chatAPI.postMessages(room_id, { content }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['chat', 'messages', room_id],
+      });
+    },
+    onError: (error: unknown) => {
+      console.error('전송 실패:', error);
+    },
+  }),
+  deleteMessage: (room_id: string, queryClient: QueryClient) => ({
+    mutationFn: (chatMessage_id: number) =>
+      chatAPI.deleteMessages(room_id, chatMessage_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['chat', 'messages', room_id],
+      });
+    },
+    onError: (error: unknown) => {
+      console.error('삭제 실패:', error);
+    },
+  }),
 };

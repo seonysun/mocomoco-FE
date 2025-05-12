@@ -58,8 +58,8 @@ const MoimDetailPage = ({ params }: MoimProps) => {
         </Button>
       </div>
       <div className="flex flex-col items-center gap-6 text-sm md:flex-row">
-        <div className="flex flex-col gap-10">
-          <div className="w-full min-w-[200px] md:min-w-[360px]">
+        <div className="flex w-full flex-col gap-10 md:w-[420px]">
+          <div>
             <p className="pb-2 text-xl">일정</p>
             <div className="flex h-[80px] items-center justify-center gap-1 rounded-sm border bg-white">
               <CalendarDays size={16} />

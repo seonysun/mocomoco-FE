@@ -1,14 +1,25 @@
 'use client';
 
+import { notificationAPI } from '@/api/functions/notificationAPI';
+import { notificationOption } from '@/api/options/notificationOption';
 import NotificationCard from '@/components/notifications/NotificationCard';
-import { notification } from '@/mockup/nofitication';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-type NotisProps = {
-  onClose: () => void;
-};
+const Notifications = () => {
+  const { data: notiList } = useQuery(notificationOption.notiList());
 
-const Notifications = ({ onClose }: NotisProps) => {
-  const notiList = notification;
+  const queryClient = useQueryClient();
+  const patchReadMutation = useMutation({
+    mutationFn: (id: number) => notificationAPI.patchRead(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['notification'],
+      });
+    },
+    onError: error => {
+      console.error('알림 확인 실패:', error);
+    },
+  });
 
   return (
     <>
@@ -18,7 +29,7 @@ const Notifications = ({ onClose }: NotisProps) => {
           {notiList.map(noti => (
             <button
               key={noti.Notification_id}
-              onClick={onClose}
+              onClick={() => patchReadMutation.mutate(noti.Notification_id)}
               className="w-full text-start"
             >
               <NotificationCard notification={noti} />

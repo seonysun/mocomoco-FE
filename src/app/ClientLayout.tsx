@@ -28,7 +28,7 @@ const ClientLayout = () => {
         <Modal onClose={closeModal}>
           {view === 'list' && <ChatRooms />}
           {view === 'room' && selectedRoomId && (
-            <ChatMessages roomId={selectedRoomId} />
+            <ChatMessages room_id={selectedRoomId} />
           )}
         </Modal>
       ) : (

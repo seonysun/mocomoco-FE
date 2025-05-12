@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { create } from 'zustand';
 
 type NotificationKey = 'chat' | 'join' | 'schedule';

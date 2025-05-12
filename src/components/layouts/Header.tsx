@@ -85,7 +85,7 @@ const Header = () => {
         )}
         {isNotiOpen && (
           <Modal variation="notification" onClose={() => setIsNotiOpen(false)}>
-            <Notifications onClose={() => setIsNotiOpen(false)} />
+            <Notifications />
           </Modal>
         )}
       </div>

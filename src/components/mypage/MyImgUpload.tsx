@@ -48,7 +48,7 @@ export default function ProfileImageUploader({
       />
       <button
         onClick={() => fileRef.current?.click()}
-        className="absolute bottom-2 right-2 z-20 flex items-center justify-center rounded-full border bg-white p-2 shadow-lg"
+        className="absolute bottom-2 right-2 z-20 flex items-center justify-center rounded-full border bg-white p-2 shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-xl"
       >
         <Image src={Edit} alt="Edit" className="h-[15px] w-[15px]" />
       </button>

@@ -19,6 +19,7 @@ interface UserState {
   setAuth: (access: string, refresh: string, user: User) => void;
   // 따로 props 받아올 값 없이 호출만 하면 됨
   logout: () => void;
+  updateUser: (user: User) => void;
 }
 
 // create()	상태 스토어를 생성하는 함수
@@ -51,6 +52,11 @@ export const useAuthStore = create<UserState>()(
           isLoggedIn: false,
         });
       },
+      updateUser: user =>
+        set(state => ({
+          ...state,
+          user,
+        })),
     }),
     {
       name: 'auth-storage', // localStorage에 저장될 key 이름

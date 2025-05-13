@@ -11,7 +11,7 @@ export const useLogout = () => {
     try {
       // 백엔드 서버에 로그아웃 요청
       if (access) {
-        await fetch('https://api.mocomoco.store/api/auth/logout', {
+        await fetch('https://api.mocomoco.store/api/auth/logout/', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${access}`,

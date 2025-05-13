@@ -8,58 +8,77 @@ import stack_next from '@images/stack_Next.png';
 import stack_git from '@images/stack_git.png';
 import Logo from '@images/Logo.png';
 import Link from 'next/link';
-import user from '@/mockup/user.json';
 import MyMoimBox from '@/components/mypage/MyMoimBox';
+import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
+import { userAPI } from '@/api/functions/userAPI';
 
 type User = {
+  name: string;
   id: number;
   email: string;
-  name: string;
   nickname: string;
   phone: string;
-  birthday: string;
-  gender: 'male' | 'female';
-  address: string;
   intro: string;
   github_url: string;
   portfolio_url: string;
   position_name: string;
+  profile_image: string;
 };
 
-async function getUser(): Promise<User> {
-  const response = await fetch('https://api.mocomoco.store/api/auth/user/');
-  const data: User = await response.json();
-  return data;
-}
+export default function Mypage() {
+  const [user, setUser] = useState<User | null>(null);
+  const { access } = useAuthStore();
 
-export default async function Mypage() {
-  // const User = await getUser();
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!access) return;
+
+      try {
+        const data = await userAPI.getUser();
+        setUser(data);
+        console.log(data);
+      } catch (err) {
+        console.error('유저 정보 가져오기 실패:', err);
+      }
+    };
+
+    fetchUser();
+  }, [access]);
+
+  const fullImageUrl = user?.profile_image ? user?.profile_image : Logo;
 
   return (
-    <MyMoimBox title={`${user.nickname} 님의 정보`}>
+    <MyMoimBox title={`${user?.nickname} 님의 정보`}>
       {/* 마이페이지 카드 */}
       <button className="absolute right-6 top-6 text-sm text-gray-500 underline hover:text-gray-700">
         <Link href="/mypage/edit">수정</Link>
       </button>
-      <div className="mx-auto text-center">
-        <Image
-          src={Logo}
-          alt="프로필"
-          width={160}
-          height={160}
-          className="mb-3 rounded-full object-cover"
-          role="img"
-          aria-label="프로필 이미지"
-        />
+      <div className="mx-auto flex flex-col items-center justify-center gap-[10px] text-center">
+        <div className="relative h-[150px] w-[150px]">
+          <div className="relative h-full w-full overflow-hidden rounded-full border border-gray-300">
+            <Image
+              src={fullImageUrl}
+              alt="프로필"
+              className="mb-3 rounded-full object-cover"
+              role="img"
+              aria-label="프로필 이미지"
+              priority
+              fill
+              // fill 속성 사용 시 sizes 속성 지정 필수
+              sizes="(max-width: 768px) 100vw, 200px"
+            />
+          </div>
+        </div>
         <p className="mb-2 text-xl" aria-label="사용자 이름">
-          {user.name}
+          {user?.nickname}
         </p>
       </div>
 
       {/* 탭 */}
       <div className="mb-4 flex justify-start gap-2">
         <div className="rounded-lg border bg-white px-4 py-1 font-medium">
-          {user.position_name}
+          {user?.position_name}
         </div>
       </div>
 
@@ -79,7 +98,7 @@ export default async function Mypage() {
             role="text"
             aria-label="자기소개 내용"
           >
-            {user.intro}
+            {user?.intro}
           </div>
         </div>
 
@@ -142,22 +161,39 @@ export default async function Mypage() {
             </nav>
           </div>
 
-          <div>
+          <div className="border-b-[1px]"></div>
+
+          <div className="flex flex-col gap-[10px]">
             <p className="mb-2 font-semibold" role="heading" aria-level={3}>
               링크
             </p>
-            <p
-              className="mb-2 break-all rounded-xl border bg-white p-1"
-              aria-label="GitHub 링크"
-            >
-              {user.github_url}
-            </p>
-            <p
-              className="break-all rounded-xl border bg-white p-1"
-              aria-label="포트폴리오 링크"
-            >
-              {user.portfolio_url}
-            </p>
+            {user?.github_url && (
+              <div>
+                <p className="mb-[5px] text-[10px]"> [ GITHUB ] </p>
+                <p
+                  className="mb-2 break-all rounded-xl border bg-white p-1"
+                  aria-label="GitHub 링크"
+                >
+                  {user.github_url}
+                </p>
+              </div>
+            )}
+
+            {user?.portfolio_url && (
+              <div>
+                <p className="mb-[5px] text-[10px]"> [ Portfolio ] </p>
+                <p
+                  className="break-all rounded-xl border bg-white p-1"
+                  aria-label="포트폴리오 링크"
+                >
+                  {user.portfolio_url}
+                </p>
+              </div>
+            )}
+
+            {!user?.github_url && !user?.portfolio_url && (
+              <p className="text-gray-500">링크가 없습니다</p>
+            )}
           </div>
         </div>
       </div>

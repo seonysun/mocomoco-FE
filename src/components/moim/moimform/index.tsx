@@ -50,7 +50,6 @@ export default function MoimForm() {
     const number = parseInt(numericValue, 10);
 
     if (!numericValue) {
-      alert('유효하지 않은 달입니다.');
       setMonth('');
     } else if (number >= 1 && number <= 12) {
       setMonth(numericValue);

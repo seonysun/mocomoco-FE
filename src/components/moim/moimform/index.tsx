@@ -35,6 +35,44 @@ export default function MoimForm() {
     setRoles(prev => ({ ...prev, [role]: prev[role] - 1 }));
   };
 
+  const getMaxDay = (year: string, month: string) => {
+    const y = parseInt(year, 10);
+    const m = parseInt(month, 10);
+    if (!y || !m) return 31;
+    return new Date(y, m, 0).getDate();
+  };
+
+  const monthNumberSet = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const input = e.target.value;
+    const numericValue = input.replace(/[^0-9]/g, '');
+    const number = parseInt(numericValue, 10);
+
+    if (!numericValue) {
+      alert('유효하지 않은 달입니다.');
+      setMonth('');
+    } else if (number >= 1 && number <= 12) {
+      setMonth(numericValue);
+    }
+  };
+
+  const dayNumberSet = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const input = e.target.value;
+    const numericValue = input.replace(/[^0-9]/g, '');
+    const number = parseInt(numericValue, 10);
+
+    const maxDay = getMaxDay(year, month);
+
+    if (!numericValue) {
+      setDay('');
+    } else if (number >= 1 && number <= maxDay) {
+      setDay(numericValue);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-10">
@@ -128,34 +166,14 @@ export default function MoimForm() {
                   <CommonInput
                     placeholder="월"
                     value={month}
-                    onChange={e => {
-                      const input = e.target.value;
-                      const numericValue = input.replace(/[^0-9]/g, '');
-                      const number = parseInt(numericValue, 10);
-
-                      if (!numericValue) {
-                        setMonth('');
-                      } else if (number >= 1 && number <= 12) {
-                        setMonth(numericValue);
-                      }
-                    }}
+                    onChange={monthNumberSet}
                     box="line"
                     className="flex items-center justify-between gap-[20px] py-2"
                   />
                   <CommonInput
                     placeholder="일"
                     value={day}
-                    onChange={e => {
-                      const input = e.target.value;
-                      const numericValue = input.replace(/[^0-9]/g, '');
-                      const number = parseInt(numericValue, 10);
-
-                      if (!numericValue) {
-                        setDay('');
-                      } else if (number >= 1 && number <= 31) {
-                        setDay(numericValue);
-                      }
-                    }}
+                    onChange={dayNumberSet}
                     box="line"
                     className="flex items-center justify-between gap-[20px] py-2"
                   />

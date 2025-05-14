@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Logo from '@images/Logo.png';
 import FavoriteButton from '@/components/common/button/FavoriteButton';
-import { Users } from 'lucide-react';
+import { Settings, Users } from 'lucide-react';
 import Button from '@/components/common/button/Button';
 import { usePathname } from 'next/navigation';
 import { moimCard } from '@/components/moim/moimcard/types';
@@ -17,10 +17,9 @@ type MoimProps = {
 const MyMoimCard = ({ moim }: MoimProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  const isWishlist = pathname.startsWith('/mypage/wishlist');
+  const isLikelist = pathname.startsWith('/mypage/likelist');
 
   const { open } = useModalStore();
-  const handleOpen = () => open(moim.id);
 
   return (
     <>
@@ -42,19 +41,20 @@ const MyMoimCard = ({ moim }: MoimProps) => {
           onClick={() => router.push(`/moims/${moim.id}`)}
         >
           <p className="font-semibold text-main-header">{moim.title}</p>
-          <p className="text-sm text-gray-500">
-            content 추가 필요합니다 api 명세에
-          </p>
+          <p className="text-sm text-gray-500">{moim.place_name}</p>
         </div>
         <div className="flex items-center gap-3">
+          {moim.is_writer && <Settings size={20} color="gray" />}
           <span className="flex items-center gap-1 text-gray-500">
             <Users size={20} />
-            <span className="text-sm">1/{moim.max_people}</span>
+            <span className="text-sm">
+              {moim.status || 1}/{moim.max_people}
+            </span>
           </span>
-          {isWishlist ? (
+          {isLikelist ? (
             <FavoriteButton type={'star'} color="#A0B092" />
           ) : (
-            <Button size="xs" color="dark" onClick={handleOpen}>
+            <Button size="xs" color="dark" onClick={() => open(moim.id)}>
               나가기
             </Button>
           )}

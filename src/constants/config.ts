@@ -21,7 +21,7 @@ export const MENU_MOGAK_LIST = [
 
 export const MYPAGE_MENU_LIST = [
   { name: '내 정보', icon: User, href: '/mypage' },
-  { name: '관심 모임', icon: Star, href: '/mypage/wishlist' },
+  { name: '관심 모임', icon: Star, href: '/mypage/likelist' },
   { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;
 

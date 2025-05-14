@@ -1,15 +1,9 @@
-import MyMoimBox from '@/components/mypage/MyMoimBox';
-import MyMoimCard from '@/components/mypage/MyMoimCard';
-import joinlist from '@/mockup/listapi.json';
+import JoinPage from '@/app/join/JoinPage';
 
 export default function Join() {
   return (
     <div className="px-[8%] py-[5%]">
-      <MyMoimBox title="참여 모임 목록">
-        {joinlist.map(moim => (
-          <MyMoimCard key={moim.id} moim={moim} />
-        ))}
-      </MyMoimBox>
+      <JoinPage />
     </div>
   );
 }

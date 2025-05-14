@@ -5,18 +5,22 @@ import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
 import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
+import { MoimPayload } from '@/types/moim';
 import { Search, Server } from 'lucide-react';
 import { useState } from 'react';
 
-export default function MoimForm() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [moim, setMoim] = useState('');
-  const [place, setPlace] = useState('');
+interface Props {
+  initialData?: MoimPayload;
+}
+
+export default function MoimForm({ initialData }: Props) {
+  const [title, setTitle] = useState(initialData?.title ?? '');
+  const [content, setContent] = useState(initialData?.content ?? '');
+  const [moim, setMoim] = useState(initialData?.moim ?? '');
+  const [place, setPlace] = useState(initialData?.place ?? '');
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
-
   const [roles, setRoles] = useState<
     Record<(typeof ROLE_LIST)[number], number>
   >({

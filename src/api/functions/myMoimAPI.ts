@@ -1,5 +1,5 @@
 import { fetchClient } from '@/api/fetchClient';
-import { moimCard } from '@/components/moim/moimcard/types';
+import { moimCard } from '@/types/moim';
 
 export const myMoimAPI = {
   getLikedList: async (): Promise<moimCard[]> => {

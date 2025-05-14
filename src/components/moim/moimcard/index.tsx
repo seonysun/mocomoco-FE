@@ -1,10 +1,10 @@
 'use client';
 import Button from '@/components/common/button/Button';
-import { moimCard } from './types';
 import FavoriteButton from '@/components/common/button/FavoriteButton';
 import Image from 'next/image';
 import basicImage from '@images/basicImage.png';
 import { useRouter } from 'next/navigation';
+import { moimCard } from '@/types/moim';
 
 interface ListProps {
   data: moimCard[];

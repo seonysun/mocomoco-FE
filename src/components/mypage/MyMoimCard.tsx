@@ -6,7 +6,7 @@ import FavoriteButton from '@/components/common/button/FavoriteButton';
 import { Settings, Users } from 'lucide-react';
 import Button from '@/components/common/button/Button';
 import { usePathname } from 'next/navigation';
-import { moimCard } from '@/components/moim/moimcard/types';
+import { moimCard } from '@/types/moim';
 import { useRouter } from 'next/navigation';
 import { useModalStore } from '@/store/useModalStore';
 

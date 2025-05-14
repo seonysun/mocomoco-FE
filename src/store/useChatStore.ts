@@ -8,9 +8,10 @@ type ChatState = {
   chatType?: 'private' | 'group';
   setChatType?: (type: 'private' | 'group') => void;
   selectedRoomId?: string | null;
+  selectedRoomTitle?: string | null;
   openModal: () => void;
   closeModal: () => void;
-  enterRoom: (roomId: string) => void;
+  enterRoom: (roomId: string, roomTitle: string) => void;
   exitRoom: () => void;
 };
 
@@ -20,8 +21,17 @@ export const useChatStore = create<ChatState>(set => ({
   chatType: 'private',
   setChatType: type => set({ chatType: type }),
   selectedRoomId: null,
+  selectedRoomTitle: null,
   openModal: () => set({ isOpen: true, view: 'list' }),
-  closeModal: () => set({ isOpen: false, view: 'list', selectedRoomId: null }),
-  enterRoom: roomId => set({ view: 'room', selectedRoomId: roomId }),
-  exitRoom: () => set({ view: 'list', selectedRoomId: null }),
+  closeModal: () =>
+    set({
+      isOpen: false,
+      view: 'list',
+      selectedRoomId: null,
+      selectedRoomTitle: null,
+    }),
+  enterRoom: (roomId, roomTitle) =>
+    set({ view: 'room', selectedRoomId: roomId, selectedRoomTitle: roomTitle }),
+  exitRoom: () =>
+    set({ view: 'list', selectedRoomId: null, selectedRoomTitle: null }),
 }));

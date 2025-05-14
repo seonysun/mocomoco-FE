@@ -41,7 +41,7 @@ const CardShell = ({
             )}
           </div>
           <p className="mt-[2px] line-clamp-1 truncate text-sm text-gray-600">
-            {contentSlot}
+            {contentSlot || '\u00A0'}
           </p>
         </div>
       </div>

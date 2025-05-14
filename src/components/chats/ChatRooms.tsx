@@ -1,7 +1,6 @@
 'use client';
 
 import ChatRoomCard from '@/components/chats/ChatRoomCard';
-import Button from '@/components/common/button/Button';
 import { User, Users } from 'lucide-react';
 import { useChatStore } from '@/store/useChatStore';
 import { useQuery } from '@tanstack/react-query';
@@ -37,7 +36,7 @@ const ChatRooms = () => {
           {chatRooms.map(room => (
             <button
               key={room.room_id}
-              onClick={() => enterRoom(room.room_id)}
+              onClick={() => enterRoom(room.room_id, room.title)}
               className="w-full text-start"
             >
               <ChatRoomCard chatRoom={room} />
@@ -45,12 +44,9 @@ const ChatRooms = () => {
           ))}
         </div>
       ) : (
-        <>
-          <p className="text-main-soft text-center text-sm">
-            채팅 내역이 없어요
-          </p>
-          <Button>채팅 시작하기</Button>
-        </>
+        <div className="my-auto">
+          <p className="text-center text-sm">채팅 내역이 없어요</p>
+        </div>
       )}
     </>
   );

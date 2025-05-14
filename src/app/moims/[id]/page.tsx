@@ -1,4 +1,3 @@
-'use client';
 import Button from '@/components/common/button/Button';
 import detail from '@/mockup/detail.json';
 import { Moim } from '@/types/moim';

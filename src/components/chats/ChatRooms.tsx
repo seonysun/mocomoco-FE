@@ -5,16 +5,18 @@ import { User, Users } from 'lucide-react';
 import { useChatStore } from '@/store/useChatStore';
 import { useQuery } from '@tanstack/react-query';
 import { chatOption } from '@/api/options/chatOption';
+import LoadingSpinner from '@/components/common/loadingSpinner/LoadingSpinner';
 
 const ChatRooms = () => {
   const tabClass =
     'rounded-t-xl border border-b-0 border-main-base px-3 py-1 mb-2';
 
-  const { data: chatRoomList } = useQuery(chatOption.chatRoomList());
+  const { data: chatRoomList, isLoading } = useQuery(chatOption.chatRoomList());
   const chatRooms = chatRoomList ?? [];
 
   const { chatType, setChatType, enterRoom } = useChatStore();
 
+  if (isLoading) return <LoadingSpinner />;
   return (
     <>
       <div className="p-1">
@@ -32,7 +34,7 @@ const ChatRooms = () => {
         </button>
       </div>
       {chatRooms.length > 0 ? (
-        <div className="flex-1 space-y-1 overflow-y-auto scroll-smooth">
+        <div className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden">
           {chatRooms.map(room => (
             <button
               key={room.room_id}

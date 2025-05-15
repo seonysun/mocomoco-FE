@@ -26,8 +26,8 @@ const CardShell = ({
       {unread && <AlarmBedge />}
       <div className="flex items-center">
         {imageSlot}
-        <div className="ml-2 w-full">
-          <div className="flex justify-between gap-1">
+        <div className="ml-2 flex-1 overflow-hidden">
+          <div className="flex justify-between">
             <p className="flex-1 truncate text-sm font-bold text-black">
               {titleSlot}
             </p>
@@ -40,7 +40,7 @@ const CardShell = ({
               </span>
             )}
           </div>
-          <p className="mt-[2px] line-clamp-1 truncate text-sm text-gray-600">
+          <p className="mt-[2px] line-clamp-1 text-sm text-gray-600">
             {contentSlot || '\u00A0'}
           </p>
         </div>

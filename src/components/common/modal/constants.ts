@@ -8,7 +8,7 @@ export const modalStyleMap = {
     position: 'absolute top-12 right-0',
   },
   notification: {
-    size: 'max-h-[380px] w-[310px] border',
+    size: 'max-h-[265px] w-[310px] border',
     position: 'absolute top-12 right-28',
   },
 } as const;

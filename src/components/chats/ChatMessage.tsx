@@ -23,7 +23,10 @@ const ChatMessage = ({ message, currentUserId, handleDelete }: MsgProps) => {
             className="size-8 rounded-full"
             alt="유저 이미지"
           />
-          <p className="text-xs font-semibold text-gray-500">
+          <p
+            title={message.nickname}
+            className="max-w-10 truncate text-xs font-semibold text-gray-500"
+          >
             {message.nickname}
           </p>
         </div>

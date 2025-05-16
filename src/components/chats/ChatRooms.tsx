@@ -24,7 +24,7 @@ const ChatRooms = () => {
     [chatType, privateChats, groupChats],
   );
 
-  if (isLoading || !data) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
   return (
     <>
       <div className="p-1">

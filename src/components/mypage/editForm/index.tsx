@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { userAPI } from '@/api/functions/userAPI';
 
-const useEditForm = () => {
+const editForm = () => {
   const [form, setForm] = useState({
     nickname: '',
     phone: '',
@@ -39,4 +39,4 @@ const useEditForm = () => {
   return { form, updateField, setForm };
 };
 
-export default useEditForm;
+export default editForm;

@@ -9,13 +9,15 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { userAPI } from '@/api/functions/userAPI';
 import { useRouter } from 'next/navigation';
 import { uploadImage } from '@/api/functions/uploadFileAPI';
-import useEditForm from '@/hooks/useEditForm';
-import ProfileImageUploader from './MyImgUpload';
+import useEditForm from '@/components/mypage/editForm';
+import ProfileImageUploader from '../imgUpload';
+import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 
 export default function EditForm() {
   const { form, updateField, setForm } = useEditForm();
   const user = useAuthStore(state => state.user);
   const updateUser = useAuthStore(state => state.updateUser);
+  const deleteAccount = useDeleteAccount();
 
   const router = useRouter();
 
@@ -105,7 +107,10 @@ export default function EditForm() {
     <>
       <div className="mb-[20px] flex min-h-screen w-full items-center justify-center px-4">
         <div className="flex w-full max-w-[700px] flex-col justify-center gap-[50px] rounded-[20px] bg-white p-[30px] drop-shadow-md sm:p-[50px]">
-          <p className="cursor-pointer text-right text-sm underline transition-all duration-200 ease-in-out hover:-translate-y-1 hover:text-red-500 md:text-base">
+          <p
+            onClick={deleteAccount}
+            className="cursor-pointer text-right text-sm underline transition-all duration-200 ease-in-out hover:-translate-y-1 hover:text-red-500 md:text-base"
+          >
             회원탈퇴
           </p>
           <p className="text-center font-gmarket text-xl font-light md:text-[30px]">

@@ -18,4 +18,9 @@ export const userAPI = {
       body,
     });
   },
+  deleteUser: async () => {
+    return fetchClient('/api/auth/users/me/delete/', 'DELETE', {
+      isAuth: true,
+    });
+  },
 };

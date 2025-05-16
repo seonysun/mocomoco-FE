@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Notifications from '@/components/notifications/Notifications';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useLogout } from '@/hooks/useLogout';
+import { useLogout } from '@/components/login/useLogout';
 
 const Header = () => {
   const logoutHandler = useLogout();

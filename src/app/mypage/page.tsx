@@ -1,4 +1,4 @@
-import Mypage from '@/app/mypage/MyPage';
+import Mypage from '@/components/mypage/myPage';
 
 const MyPageHome = () => {
   return <Mypage />;

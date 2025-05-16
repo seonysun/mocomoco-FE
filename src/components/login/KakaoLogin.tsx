@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import LoadingSpinner from '../common/loadingSpinner/LoadingSpinner';
+import { fetchClient } from '@/api/fetchClient';
 
 export default function KakaoLogin() {
   const { setAuth } = useAuthStore();
@@ -14,42 +15,21 @@ export default function KakaoLogin() {
   useEffect(() => {
     const handleKakaoLogin = async (code: string) => {
       try {
-        const response = await fetch(
-          'https://api.mocomoco.store/api/auth/login/kakao/',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              provider: 'kakao',
-              code: code,
-            }),
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error('로그인 실패');
-        }
-
-        const data = await response.json();
+        const data = await fetchClient('/api/auth/login/kakao/', 'POST', {
+          body: { provider: 'kakao', code },
+        });
 
         if (data.access && data.refresh && data.user) {
-          localStorage.setItem('access_token', data.access);
-          localStorage.setItem('refresh_token', data.refresh);
-
           setAuth(data.access, data.refresh, data.user);
-        }
 
-        if (data.isNewUser) {
-          router.push('/mypage/edit');
+          router.push(data.isNewUser ? '/mypage/edit' : '/');
         } else {
-          router.push('/');
+          throw new Error('로그인 데이터 형식 오류');
         }
       } catch (error) {
         console.error(error);
         alert('로그인 실패. 다시 시도해주세요.');
-        router.push('/auth/login'); // 실패 시 alert창 띄우고, 로그인 페이지로 다시
+        router.push('/auth/login');
       }
     };
 

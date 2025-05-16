@@ -1,4 +1,4 @@
-import MypageSidebar from '@/components/mypage/MypageSidebar';
+import MypageSidebar from '@/components/mypage/sidebar/MypageSidebar';
 
 const MypageLayout = ({ children }: { children: React.ReactNode }) => {
   return (

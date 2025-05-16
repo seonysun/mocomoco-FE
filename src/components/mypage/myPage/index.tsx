@@ -8,10 +8,9 @@ import stack_next from '@images/stack_Next.png';
 import stack_git from '@images/stack_git.png';
 import Logo from '@images/Logo.png';
 import Link from 'next/link';
-import MyMoimBox from '@/components/mypage/MyMoimBox';
-import { useEffect, useState } from 'react';
+import MyMoimBox from '@components/mypage/MyMoimBox';
 import { useAuthStore } from '@/store/useAuthStore';
-import { userAPI } from '@/api/functions/userAPI';
+import { useRouter } from 'next/navigation';
 
 type User = {
   name: string;
@@ -27,24 +26,8 @@ type User = {
 };
 
 export default function Mypage() {
-  const [user, setUser] = useState<User | null>(null);
-  const { access } = useAuthStore();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (!access) return;
-
-      try {
-        const data = await userAPI.getUser();
-        setUser(data);
-        console.log(data);
-      } catch (err) {
-        console.error('유저 정보 가져오기 실패:', err);
-      }
-    };
-
-    fetchUser();
-  }, [access]);
+  const router = useRouter();
+  const user = useAuthStore(state => state.user);
 
   const fullImageUrl = user?.profile_image ? user?.profile_image : Logo;
 
@@ -74,7 +57,6 @@ export default function Mypage() {
           {user?.nickname}
         </p>
       </div>
-
       {/* 탭 */}
       <div className="mb-4 flex justify-start gap-2">
         <div className="rounded-lg border bg-white px-4 py-1 font-medium">
@@ -174,7 +156,7 @@ export default function Mypage() {
                   className="mb-2 break-all rounded-xl border bg-white p-1"
                   aria-label="GitHub 링크"
                 >
-                  {user.github_url}
+                  {user?.github_url}
                 </p>
               </div>
             )}

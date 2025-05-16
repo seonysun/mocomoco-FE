@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { strict } from 'assert';
 import { useAuthStore } from '@/store/useAuthStore';
 import LoadingSpinner from '../common/loadingSpinner/LoadingSpinner';
+import { fetchClient } from '@/api/fetchClient';
 
 export default function NaverLogin() {
   const { setAuth } = useAuthStore();
@@ -14,38 +15,16 @@ export default function NaverLogin() {
   useEffect(() => {
     const handleNaverLogin = async (code: string, state: string) => {
       try {
-        const response = await fetch(
-          'https://api.mocomoco.store/api/auth/login/naver/',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              provider: 'naver',
-              code: code,
-              state: state, // 네이버는 state 포함
-            }),
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error('로그인 실패');
-        }
-
-        const data = await response.json();
+        const data = await fetchClient('/api/auth/login/naver/', 'POST', {
+          body: { provider: 'naver', code, state }, // 네이버는 state 포함
+        });
 
         if (data.access && data.refresh && data.user) {
-          localStorage.setItem('access_token', data.access);
-          localStorage.setItem('refresh_token', data.refresh);
-
           setAuth(data.access, data.refresh, data.user);
-        }
 
-        if (data.isNewUser) {
-          router.push('/mypage/edit');
+          router.push(data.isNewUser ? '/mypage/edit' : '/');
         } else {
-          router.push('/');
+          throw new Error('로그인 데이터 형식 오류');
         }
       } catch (error) {
         console.error(error);

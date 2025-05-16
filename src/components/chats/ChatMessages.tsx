@@ -13,10 +13,65 @@ type MsgsProps = {
 };
 
 const ChatMessages = ({ room_id }: MsgsProps) => {
+  const access = useAuthStore(state => state.access);
+  const SOCKET_URL = `wss://api.mocomoco.store/ws/chat/${room_id}/?token=${access}`;
+  const socketRef = useRef<WebSocket | null>(null);
+  const [message, setMessage] = useState<string[]>([]);
+  const [input, setInput] = useState('');
+  useEffect(() => {
+    console.log('📡 Connecting to:', SOCKET_URL);
+
+    const socket = new WebSocket(SOCKET_URL);
+    socketRef.current = socket;
+
+    socket.onopen = () => {
+      console.log('✅ 연결됨');
+    };
+
+    socket.onmessage = event => {
+      console.log('📩 수신 메시지:', event.data);
+      setMessage(prev => [...prev, event.data]);
+    };
+
+    socket.onerror = event => {
+      console.error('🚨 소켓 에러 발생:', event);
+
+      // socket 자체 상태 출력
+      if (socket.readyState === WebSocket.CLOSED) {
+        console.error('❌ 상태: CLOSED');
+      } else if (socket.readyState === WebSocket.CLOSING) {
+        console.warn('⚠️ 상태: CLOSING 중');
+      } else if (socket.readyState === WebSocket.CONNECTING) {
+        console.warn('⏳ 상태: CONNECTING 중');
+      } else if (socket.readyState === WebSocket.OPEN) {
+        console.log('🟢 상태: OPEN');
+      }
+    };
+
+    socket.onclose = event => {
+      console.warn('❌ 소켓 연결 종료');
+      console.warn('🔚 종료 코드:', event.code);
+      console.warn('🔚 종료 이유:', event.reason);
+      console.warn('🔚 wasClean:', event.wasClean);
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (socketRef.current?.readyState === WebSocket.OPEN && input.trim()) {
+      socketRef.current.send(input);
+      setInput('');
+    }
+  };
+
   const currentUserId = useAuthStore(state => state.user?.id!);
   const { selectedRoomTitle, exitRoom } = useChatStore();
 
-  const { data: messages } = useQuery(chatOption.chatMessages(room_id));
+  const { data } = useQuery(chatOption.chatMessages(room_id));
+  const oldMessages = data ?? [];
 
   const queryClient = useQueryClient();
 
@@ -40,7 +95,7 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
   const lastMessageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [message]);
 
   return (
     <div className="flex h-full flex-col p-1">
@@ -48,13 +103,13 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
         <button onClick={exitRoom}>
           <ChevronLeft stroke="gray" />
         </button>
-        <span className="ml-1 font-bold">{selectedRoomTitle}</span>
+        <span className="ml-1 font-bold">{selectedRoomTitle || '채팅방'}</span>
       </div>
-      <div className="flex-1 space-y-3 overflow-y-auto py-2">
-        {messages?.map((msg, i) => (
+      <div className="flex-1 space-y-2.5 overflow-y-auto py-2">
+        {oldMessages?.map((msg, i) => (
           <div
             key={msg.ChatMessage_id}
-            ref={i === messages.length - 1 ? lastMessageRef : null}
+            ref={i === oldMessages.length - 1 ? lastMessageRef : null}
           >
             <ChatMessage
               message={msg}
@@ -82,6 +137,21 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
           <Send stroke="gray" size={20} className="cursor-pointer" />
         </button>
       </form>
+      {/* 웹소켓 테스트 */}
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          className="flex-1 rounded border p-2 text-sm"
+        />
+        <button
+          onClick={sendMessage}
+          className="rounded bg-blue-500 px-4 py-2 text-white"
+        >
+          보내기
+        </button>
+      </div>
     </div>
   );
 };

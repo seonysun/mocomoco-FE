@@ -17,43 +17,48 @@ const ChatMessage = ({ message, currentUserId, handleDelete }: MsgProps) => {
   return (
     <div className={`group flex ${isMine ? 'justify-end' : 'justify-start'}`}>
       {!isMine && (
-        <div className="mr-1 flex flex-col items-center">
-          <Image
-            src={message.profile_image || Logo}
-            className="size-8 rounded-full"
-            alt="유저 이미지"
-          />
+        <Image
+          src={message.profile_image || Logo}
+          className="mr-1 size-10 rounded-full"
+          alt="유저 이미지"
+        />
+      )}
+      <div className="flex max-w-[75%] flex-col gap-0.5">
+        {!isMine && (
           <p
             title={message.nickname}
-            className="max-w-10 truncate text-xs font-semibold text-gray-500"
+            className="truncate text-xs font-semibold text-gray-500"
           >
             {message.nickname}
           </p>
-        </div>
-      )}
-      <div
-        className={`relative max-w-[75%] rounded-xl px-3 py-2 text-sm ${
-          isMine
-            ? 'rounded-br-none bg-main-base text-white'
-            : 'rounded-bl-none border bg-white text-black'
-        }`}
-      >
-        <p>{message.content}</p>
-        {isMine && (
-          <button
-            className="absolute -right-5 top-0 hidden p-1 group-hover:block"
-            onClick={() => handleDelete(message.ChatMessage_id)}
-          >
-            <Trash size={14} className="text-gray-400 hover:text-red-500" />
-          </button>
         )}
+        <div className="relative flex gap-1">
+          <p
+            className={`rounded-xl px-2.5 py-1.5 text-sm ${
+              isMine
+                ? 'rounded-br-none bg-main-base text-white'
+                : 'rounded-bl-none border bg-white text-black'
+            }`}
+          >
+            {message.content}
+          </p>
+
+          <p className="self-end text-[10px] text-gray-400">
+            {new Date(message.created_at).toLocaleTimeString('ko-KR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
+          {isMine && (
+            <button
+              className="absolute -top-1 right-0 hidden p-1 group-hover:block"
+              onClick={() => handleDelete(message.ChatMessage_id)}
+            >
+              <Trash size={14} className="text-gray-400 hover:text-red-500" />
+            </button>
+          )}
+        </div>
       </div>
-      <p className="ml-1 self-end text-[10px] text-gray-400">
-        {new Date(message.created_at).toLocaleTimeString('ko-KR', {
-          hour: '2-digit',
-          minute: '2-digit',
-        })}
-      </p>
     </div>
   );
 };

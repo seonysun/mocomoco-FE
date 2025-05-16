@@ -1,34 +1,11 @@
-import { MoimCard } from '@/components/moim/moimcard';
-import { ChevronDown, Search } from 'lucide-react';
-import listApi from '@/mockup/listapi.json';
-import CommonInput from '@/components/common/input/Input';
-import Button from '@/components/common/button/Button';
-import Link from 'next/link';
+import { MoimList } from '@/components/moim/moimlist';
 
-const MoimList = () => {
+const ListPage = () => {
   return (
     <div className="flex flex-col gap-2 md:px-14">
-      <div className="flex items-center justify-between">
-        <p className="pb-2 text-sm">전체 12개</p>
-        <Link href={'moims/post'}>
-          <Button size="sm" className="w-14">
-            작성
-          </Button>
-        </Link>
-      </div>
-      <div className="flex w-full justify-between">
-        <div className="flex w-[150px] pb-4 md:w-[300px]">
-          <CommonInput box="line" placeholder="검색어" width={40} />
-          <Search color="#a0b092" />
-        </div>
-        <div className="flex w-[110px] min-w-[110px] items-center gap-4 rounded-2xl bg-main-base p-2 text-sm">
-          카테고리
-          <ChevronDown size={15} />
-        </div>
-      </div>
-      <MoimCard data={listApi} />
+      <MoimList />
     </div>
   );
 };
 
-export default MoimList;
+export default ListPage;

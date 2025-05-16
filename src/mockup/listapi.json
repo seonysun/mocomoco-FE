@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "강남에서 사이드 모집해요!",
-    "category": "프로젝트",
+    "category": "project",
     "is_closed": false,
     "is_applied": false,
     "is_writer": true,
@@ -24,7 +24,7 @@
   {
     "id": 2,
     "title": "종로 모각코 모집해요!",
-    "category": "모각코",
+    "category": "meeting",
     "is_closed": true,
     "is_applied": true,
     "is_writer": false,
@@ -46,7 +46,7 @@
   {
     "id": 3,
     "title": "강동구 프로젝트 하실 분 구합니다",
-    "category": "프로젝트",
+    "category": "project",
     "is_closed": false,
     "is_applied": true,
     "is_writer": false,
@@ -67,7 +67,7 @@
   {
     "id": 4,
     "title": "인천 모각코 빡고수만",
-    "category": "모각코",
+    "category": "meeting",
     "is_closed": false,
     "is_applied": false,
     "is_writer": true,
@@ -88,7 +88,7 @@
   {
     "id": 5,
     "title": "강남 모각코!",
-    "category": "모각코",
+    "category": "meeting",
     "is_closed": false,
     "is_applied": false,
     "is_writer": false,

@@ -1,23 +1,23 @@
-import { Moim, MoimPayload } from '@/types/moim';
+import { GetMoimDetail, GetMoimList, PostMoim } from '@/types/moim';
 import { fetchClient } from '../fetchClient';
 
-export const moimsApi = {
-  postMoims: async (payload: MoimPayload) => {
+export const moimsAPI = {
+  postMoims: async (formData: FormData): Promise<any> => {
     return fetchClient('/posts/', 'POST', {
       isAuth: true,
-      body: payload,
+      body: formData,
     });
   },
-  getMoimsList: async () => {
-    return fetchClient(`/posts/`, 'GET', { isAuth: false });
+  getMoimsList: async (): Promise<GetMoimList[]> => {
+    return fetchClient(`/posts/`, 'GET', { isAuth: true });
   },
-  getMoimDetail: async (id: Number) => {
-    return fetchClient(`/posts/${id}/`, 'GET', { isAuth: false });
+  getMoimDetail: async (id: Number): Promise<GetMoimDetail> => {
+    return fetchClient(`/posts/${id}/`, 'GET', { isAuth: true });
   },
   deleteMoim: async (id: Number) => {
     return fetchClient(`/posts/${id}/`, 'DELETE', { isAuth: true });
   },
-  editMoim: async (id: Number, payload: MoimPayload) => {
+  editMoim: async (id: Number, payload: PostMoim): Promise<PostMoim[]> => {
     return fetchClient(`/posts/${id}/`, 'PUT', {
       isAuth: true,
       body: payload,
@@ -33,6 +33,6 @@ export const moimsApi = {
     return fetchClient(`/posts/${id}/like/`, 'POST', { isAuth: true });
   },
   disLikeMoim: async (id: Number) => {
-    return fetchClient(`/posts/${id}/like/`, 'DELETE', { isAuth: true });
+    return fetchClient(`/posts/${id}/unlike/`, 'DELETE', { isAuth: true });
   },
 };

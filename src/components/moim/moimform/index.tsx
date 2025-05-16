@@ -1,23 +1,25 @@
 'use client';
 
+import { moimsAPI } from '@/api/functions/moimsAPI';
 import Button from '@/components/common/button/Button';
 import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
 import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
-import { MoimPayload } from '@/types/moim';
+import { PostMoim } from '@/types/moim';
 import { Search, Server } from 'lucide-react';
 import { useState } from 'react';
 
 interface Props {
-  initialData?: MoimPayload;
+  initialData?: PostMoim & { id?: number };
 }
 
 export default function MoimForm({ initialData }: Props) {
   const [title, setTitle] = useState(initialData?.title ?? '');
   const [content, setContent] = useState(initialData?.content ?? '');
-  const [moim, setMoim] = useState(initialData?.moim ?? '');
-  const [place, setPlace] = useState(initialData?.place ?? '');
+  const [category, setCategory] = useState(initialData?.category ?? '');
+  const [place, setPlace] = useState(initialData?.place_name ?? '');
+  const [adress, setAdress] = useState(initialData?.adress ?? '');
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
@@ -29,6 +31,9 @@ export default function MoimForm({ initialData }: Props) {
     풀스택: 0,
     디자이너: 0,
   });
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
 
   const increaseRole = (role: (typeof ROLE_LIST)[number]) => {
     setRoles(prev => ({ ...prev, [role]: prev[role] + 1 }));
@@ -76,6 +81,45 @@ export default function MoimForm({ initialData }: Props) {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!title || !content || !category || !place || !adress) {
+      alert('필수 정보를 모두 입력해 주세요.');
+      return;
+    }
+
+    const max_people = Object.values(roles).reduce((acc, cur) => acc + cur, 0);
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('category', category);
+    formData.append('place_name', place);
+    formData.append('address', adress);
+    formData.append('latitude', latitude.toString());
+    formData.append('longitude', longitude.toString());
+    formData.append('max_people', max_people.toString());
+
+    if (roles['프론트엔드'])
+      formData.append('frontend', roles['프론트엔드'].toString());
+    if (roles['백엔드']) formData.append('backend', roles['백엔드'].toString());
+    if (roles['디자이너'])
+      formData.append('designer', roles['디자이너'].toString());
+    if (roles['풀스택'])
+      formData.append('fullstack', roles['풀스택'].toString());
+
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      await moimsAPI.postMoims(formData);
+      alert('모임이 생성되었습니다.');
+    } catch (error) {
+      console.error('모임 전송 중 오류:', error);
+      console.log(Array.from(formData.entries()));
+      alert('오류가 발생했습니다.');
+    }
+  };
   return (
     <>
       <div className="flex flex-col gap-10">
@@ -92,9 +136,10 @@ export default function MoimForm({ initialData }: Props) {
             <TextEditor
               value={content}
               onChange={setContent}
-              onImageUpload={file => {
-                //추후 api 연결시 이미지 업로드 api로 교체
-                console.log('업로드된 이미지 파일:', file);
+              onImageUpload={(file: File) => {
+                setImage(file);
+                const marker = `{{image}}`;
+                setContent(prev => `${prev}\n\n${marker}`);
               }}
             />
           </div>
@@ -107,8 +152,8 @@ export default function MoimForm({ initialData }: Props) {
               <div className="flex flex-col justify-center gap-[5px]">
                 <p className="text-[17px]"> 모임 카테고리 </p>
                 <Dropdown
-                  selected={moim}
-                  onSelect={setMoim}
+                  selected={category}
+                  onSelect={setCategory}
                   placeholder=""
                   className="w-[100px]"
                   categories={MOIM_CATEGORY}
@@ -119,11 +164,20 @@ export default function MoimForm({ initialData }: Props) {
                 <div className="flex w-full items-center gap-[10px]">
                   <CommonInput
                     placeholder="검색"
+                    value={adress}
+                    onChange={e => setAdress(e.target.value)}
+                    box="box"
+                  />
+                  <Search color="#A0B092" />
+                </div>
+                <p className="text-[17px]"> 상세 주소</p>
+                <div className="flex w-full items-center gap-[10px]">
+                  <CommonInput
+                    placeholder="검색"
                     value={place}
                     onChange={e => setPlace(e.target.value)}
                     box="box"
                   />
-                  <Search color="#A0B092" />
                 </div>
               </div>
               <div className="flex flex-col justify-center gap-[5px]">
@@ -185,7 +239,12 @@ export default function MoimForm({ initialData }: Props) {
             </div>
           </div>
         </div>
-        <Button type="submit" size="lg" className="mb-3 w-[60px] self-center">
+        <Button
+          type="submit"
+          size="lg"
+          className="mb-3 w-[60px] self-center"
+          onClick={handleSubmit}
+        >
           작성
         </Button>
       </div>

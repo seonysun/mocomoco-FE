@@ -5,6 +5,7 @@ const nextConfig = {
     domains: [
       'https://encrypted-tbn0.gstatic.com',
       'https://api.mocomoco.store',
+      'https://mocomoco-image.s3.ap-northeast-2.amazonaws.com',
     ],
     remotePatterns: [
       {

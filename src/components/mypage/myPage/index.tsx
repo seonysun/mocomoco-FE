@@ -59,8 +59,14 @@ export default function Mypage() {
       </div>
       {/* 탭 */}
       <div className="mb-4 flex justify-start gap-2">
-        <div className="rounded-lg border bg-white px-4 py-1 font-medium">
-          {user?.position_name}
+        <div
+          className={
+            user?.position_name
+              ? 'rounded-lg border bg-white px-4 py-1 font-medium'
+              : 'rounded-lg border bg-white px-4 py-1 font-medium text-gray-400'
+          }
+        >
+          {user?.position_name ?? '분야 미선택'}
         </div>
       </div>
 

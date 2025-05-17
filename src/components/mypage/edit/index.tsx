@@ -52,10 +52,7 @@ export default function EditForm() {
   const handleSave = async () => {
     const { nickname, phone, intro, github_url, position_name, portfolio_url } =
       form;
-    if (!nickname || !position_name) {
-      alert('닉네임과 분야는 필수 항목입니다.');
-      return;
-    } else if (
+    if (
       github_url &&
       portfolio_url &&
       !isValidUrl(portfolio_url) &&
@@ -77,7 +74,9 @@ export default function EditForm() {
 
       if (file) {
         const uploadedImageUrl = await uploadImage(file);
-        profileImagePath = `https://api.mocomoco.store${encodeURI(uploadedImageUrl)}`;
+        profileImagePath = uploadedImageUrl.startsWith('http')
+          ? uploadedImageUrl
+          : `https://api.mocomoco.store${encodeURI(uploadedImageUrl)}`;
       } else if (!previewUrl && !file) {
         profileImagePath = ''; // 삭제 처리
       }

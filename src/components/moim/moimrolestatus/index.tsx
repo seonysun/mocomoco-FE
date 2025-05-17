@@ -1,9 +1,9 @@
-import { GetMoimLIST } from '@/types/moim';
+import { GetMoimList } from '@/types/moim';
 
 export const MoimRoleStatus = ({
   role_status,
 }: {
-  role_status: GetMoimLIST['role_status'];
+  role_status: GetMoimList['role_status'];
 }) => {
   return (
     <div className="zw-44 absolute right-0 top-[40px] flex flex-col gap-2 rounded-md bg-main-default p-3 text-sm text-white shadow-lg">

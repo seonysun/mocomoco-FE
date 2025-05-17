@@ -1,13 +1,14 @@
 'use client';
 
-import { moimsAPI } from '@/api/functions/moimsAPI';
 import Button from '@/components/common/button/Button';
 import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
 import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
+import { useAuthStore } from '@/store/useAuthStore';
 import { PostMoim } from '@/types/moim';
 import { Search, Server } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface Props {
@@ -34,7 +35,7 @@ export default function MoimForm({ initialData }: Props) {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
-
+  const router = useRouter();
   const increaseRole = (role: (typeof ROLE_LIST)[number]) => {
     setRoles(prev => ({ ...prev, [role]: prev[role] + 1 }));
   };
@@ -88,7 +89,8 @@ export default function MoimForm({ initialData }: Props) {
     }
 
     const max_people = Object.values(roles).reduce((acc, cur) => acc + cur, 0);
-
+    const formattedMonth = month.padStart(2, '0');
+    const formattedDay = day.padStart(2, '0');
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
@@ -98,7 +100,7 @@ export default function MoimForm({ initialData }: Props) {
     formData.append('latitude', latitude.toString());
     formData.append('longitude', longitude.toString());
     formData.append('max_people', max_people.toString());
-
+    formData.append('date', `${year}-${formattedMonth}-${formattedDay}`);
     if (roles['프론트엔드'])
       formData.append('frontend', roles['프론트엔드'].toString());
     if (roles['백엔드']) formData.append('backend', roles['백엔드'].toString());
@@ -112,8 +114,24 @@ export default function MoimForm({ initialData }: Props) {
     }
 
     try {
-      await moimsAPI.postMoims(formData);
+      const accessToken = useAuthStore.getState().access;
+      const response = await fetch('https://api.mocomoco.store/posts/', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('응답 오류:', response.status, errorText);
+        alert('오류가 발생했습니다.');
+        return;
+      }
+
       alert('모임이 생성되었습니다.');
+      router.push('/moims');
     } catch (error) {
       console.error('모임 전송 중 오류:', error);
       console.log(Array.from(formData.entries()));
@@ -138,8 +156,6 @@ export default function MoimForm({ initialData }: Props) {
               onChange={setContent}
               onImageUpload={(file: File) => {
                 setImage(file);
-                const marker = `{{image}}`;
-                setContent(prev => `${prev}\n\n${marker}`);
               }}
             />
           </div>

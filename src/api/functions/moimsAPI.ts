@@ -26,7 +26,7 @@ export const moimsAPI = {
   applyMoim: async (id: Number, role: string) => {
     return fetchClient(`/posts/${id}/apply/`, 'POST', {
       isAuth: true,
-      body: role,
+      body: { role },
     });
   },
   likeMoim: async (id: Number) => {

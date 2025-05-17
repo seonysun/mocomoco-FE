@@ -25,7 +25,7 @@ export const MYPAGE_MENU_LIST = [
   { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;
 
-export const MOIM_CATEGORY = ['프로젝트', '모각코'];
+export const MOIM_CATEGORY = ['project', 'meeting'];
 
 export const YEAR_LIST = ['2025', '2026', '2027'];
 

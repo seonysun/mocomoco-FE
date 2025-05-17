@@ -6,19 +6,17 @@ import Banner from '@images/Banner.png';
 import { Bell, CircleUserRound, Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import Notifications from '@/components/notifications/Notifications';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useModalStore } from '@/store/useModalStore';
 import { useLogout } from '@/components/login/useLogout';
 
 const Header = () => {
   const logoutHandler = useLogout();
 
-  const user = useAuthStore(state => state.user);
   const isLoggedIn = useAuthStore(state => state.isLoggedIn);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isNotiOpen, setIsNotiOpen] = useState(false);
+  const { isOpen: isModalOpen, open, close, type } = useModalStore();
 
   const handleLogout = async () => {
     await logoutHandler();
@@ -46,11 +44,13 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Bell
-                    color="#a0b092"
-                    onClick={() => setIsNotiOpen(true)}
-                    className="h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
-                  />
+                  <div className="relative">
+                    <Bell
+                      color="#a0b092"
+                      onClick={() => open('noti')}
+                      className="h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
+                    />
+                  </div>
                 </li>
                 <li>
                   <Link href="/mypage">
@@ -66,7 +66,7 @@ const Header = () => {
                     className="ml-1 h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
                     size={35}
                     color="#a0b092"
-                    onClick={() => setIsMenuOpen(true)}
+                    onClick={() => open('menu')}
                   />
                 </li>
               </>
@@ -77,13 +77,13 @@ const Header = () => {
             )}
           </ul>
         </nav>
-        {isMenuOpen && (
-          <Modal variation="menu" onClose={() => setIsMenuOpen(false)}>
-            <Menus onClose={() => setIsMenuOpen(false)} />
+        {isModalOpen && type === 'menu' && (
+          <Modal variation="menu" onClose={close}>
+            <Menus onClose={close} />
           </Modal>
         )}
-        {isNotiOpen && (
-          <Modal variation="notification" onClose={() => setIsNotiOpen(false)}>
+        {isModalOpen && type === 'noti' && (
+          <Modal variation="notification" onClose={close}>
             <Notifications />
           </Modal>
         )}

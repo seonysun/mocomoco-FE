@@ -1,11 +1,11 @@
 import { fetchClient } from '@/api/fetchClient';
-import { moimCard } from '@/types/moim';
+import { MyMoim } from '@/types/mymoim';
 
 export const myMoimAPI = {
-  getLikedList: async (): Promise<moimCard[]> => {
+  getLikedList: async (): Promise<MyMoim[]> => {
     return fetchClient('/posts/liked/', 'GET', { isAuth: true });
   },
-  getJoinedList: async (): Promise<moimCard[]> => {
+  getJoinedList: async (): Promise<MyMoim[]> => {
     return fetchClient('/posts/joined/', 'GET', { isAuth: true });
   },
   cancelMyMoim: async (id: number) => {

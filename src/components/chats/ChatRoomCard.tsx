@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Logo from '@images/Logo.png';
+import UserProfile from '@images/UserProfile.png';
 import CardShell from '@/components/common/card/CardShell';
 import { ChatRoom } from '@/types/chat';
 
@@ -15,9 +15,11 @@ const ChatRoomCard = ({ chatRoom }: ChatRoomProps) => {
       unread={chatRoom.unread_count > 0}
       imageSlot={
         <Image
-          src={Logo}
-          className="size-12 rounded-full"
-          alt="채팅방 이미지"
+          src={UserProfile}
+          alt="채팅방"
+          width={50}
+          height={50}
+          className="scale-125 object-cover"
         />
       }
       titleSlot={chatRoom.title || '채팅방'}

@@ -47,7 +47,7 @@ const ConfirmModal = ({
           </Button>
           <Button
             onClick={() => {
-              if (id !== null) onConfirm?.(id);
+              if (typeof id === 'number') onConfirm?.(id);
             }}
             className="w-1/2"
           >

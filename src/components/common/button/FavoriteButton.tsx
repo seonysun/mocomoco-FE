@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { iconMap } from '@/components/common/button/constants';
 
 type FavProps = {
@@ -18,18 +17,16 @@ const FavoriteButton = ({
   isOn = false,
   onToggle,
 }: FavProps) => {
-  const [active, setActive] = useState(isOn);
   const Icon = iconMap[type];
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setActive(!active);
     onToggle?.();
   };
 
   return (
     <button type="button" aria-label="Favorite Button" onClick={handleClick}>
-      <Icon fill={active ? color : 'none'} stroke={color} size={size} />
+      <Icon fill={isOn ? color : 'none'} stroke={color} size={size} />
     </button>
   );
 };

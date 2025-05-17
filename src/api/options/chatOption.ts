@@ -1,5 +1,6 @@
 import { chatAPI } from '@/api/functions/chatAPI';
 import { useChatStore } from '@/store/useChatStore';
+import { useModalStore } from '@/store/useModalStore';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
 
 export const chatOption = {
@@ -17,9 +18,11 @@ export const chatOption = {
     mutationFn: (other_user_id: number) =>
       chatAPI.postJoinChat({ other_user_id }),
     onSuccess: () => {
+      useModalStore.getState().close();
       useChatStore.getState().openModal();
     },
     onError: (error: unknown) => {
+      useModalStore.getState().close();
       useChatStore.getState().openModal();
       console.error('채팅 참여 실패:', error);
     },

@@ -2,7 +2,7 @@
 
 import { Chats } from '@/types/chat';
 import Image from 'next/image';
-import Logo from '@images/Logo.png';
+import UserProfile from '@images/UserProfile.png';
 import { Trash } from 'lucide-react';
 
 type MsgProps = {
@@ -18,9 +18,11 @@ const ChatMessage = ({ message, currentUserId, handleDelete }: MsgProps) => {
     <div className={`group flex ${isMine ? 'justify-end' : 'justify-start'}`}>
       {!isMine && (
         <Image
-          src={message.profile_image || Logo}
-          className="mr-1 size-10 rounded-full"
-          alt="유저 이미지"
+          src={message.profile_image || UserProfile}
+          alt={message.nickname || '유저'}
+          width={40}
+          height={40}
+          className="-ml-0.5 mr-0.5 h-fit scale-125"
         />
       )}
       <div className="flex max-w-[75%] flex-col gap-0.5">

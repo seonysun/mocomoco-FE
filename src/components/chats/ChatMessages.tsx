@@ -20,8 +20,6 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
   const [message, setMessage] = useState<Chats[]>([]);
   const [input, setInput] = useState('');
   useEffect(() => {
-    console.log('📡 Connecting to:', SOCKET_URL);
-
     const socket = new WebSocket(SOCKET_URL);
     socketRef.current = socket;
 
@@ -30,7 +28,6 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
     };
 
     socket.onmessage = event => {
-      console.log('📩 수신 메시지:', event.data);
       try {
         const parsed = JSON.parse(event.data);
         setMessage(prev => [...prev, parsed]);
@@ -68,7 +65,10 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
 
   const sendMessage = () => {
     if (socketRef.current?.readyState === WebSocket.OPEN && input.trim()) {
-      socketRef.current.send(input);
+      const messagePayload = {
+        message: input,
+      };
+      socketRef.current.send(JSON.stringify(messagePayload));
       setInput('');
     }
   };
@@ -81,15 +81,15 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
 
   const queryClient = useQueryClient();
 
-  const [inputValue, setInputValue] = useState('');
-  const postMessageMutation = useMutation(
-    chatOption.postMessage(room_id, queryClient),
-  );
-  const handleSend = () => {
-    if (inputValue.trim() === '') return;
-    postMessageMutation.mutate(inputValue);
-    setInputValue('');
-  };
+  // const [inputValue, setInputValue] = useState('');
+  // const postMessageMutation = useMutation(
+  //   chatOption.postMessage(room_id, queryClient),
+  // );
+  // const handleSend = () => {
+  //   if (inputValue.trim() === '') return;
+  //   postMessageMutation.mutate(inputValue);
+  //   setInputValue('');
+  // };
 
   const deleteMessageMutation = useMutation(
     chatOption.deleteMessage(room_id, queryClient),
@@ -103,9 +103,13 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
     [oldMessages, message],
   );
 
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const lastMessageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    lastMessageRef.current?.scrollIntoView({
+      behavior: isFirstLoad ? 'auto' : 'smooth',
+    });
+    if (isFirstLoad) setIsFirstLoad(false);
   }, [allMessages]);
 
   return (
@@ -133,37 +137,24 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
       <form
         onSubmit={e => {
           e.preventDefault();
-          handleSend();
+          // handleSend();
+          sendMessage();
         }}
         className="flex items-center justify-between gap-2 rounded-xl bg-white p-3"
       >
         <input
           type="text"
-          value={inputValue}
+          // value={inputValue}
+          value={input}
           className="flex-1 border-none text-sm text-gray-700 outline-none"
           placeholder="메시지를 입력하세요."
-          onChange={e => setInputValue(e.target.value)}
+          // onChange={e => setInputValue(e.target.value)}
+          onChange={e => setInput(e.target.value)}
         />
         <button type="submit">
           <Send stroke="gray" size={20} className="cursor-pointer" />
         </button>
       </form>
-
-      {/* 웹소켓 테스트용 입력창 */}
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          className="flex-1 rounded border p-2 text-sm"
-        />
-        <button
-          onClick={sendMessage}
-          className="rounded bg-blue-500 px-4 py-2 text-white"
-        >
-          보내기
-        </button>
-      </div>
     </div>
   );
 };

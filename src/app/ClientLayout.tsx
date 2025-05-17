@@ -5,6 +5,8 @@ import Modal from '@/components/common/modal/Modal';
 import FloatingButton from '@/components/common/button/FloatingButton';
 import ChatRooms from '@/components/chats/ChatRooms';
 import { useChatStore } from '@/store/useChatStore';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const ClientLayout = () => {
   const view = useChatStore(state => state.view);
@@ -12,6 +14,17 @@ const ClientLayout = () => {
   const selectedRoomId = useChatStore(state => state.selectedRoomId);
   const openModal = useChatStore(state => state.openModal);
   const closeModal = useChatStore(state => state.closeModal);
+
+  const router = useRouter();
+  const user = useAuthStore(state => state.user);
+
+  const handleOpen = () => {
+    if (!user) {
+      router.push('/auth/login');
+      return;
+    }
+    openModal();
+  };
 
   return (
     <>
@@ -23,7 +36,7 @@ const ClientLayout = () => {
           )}
         </Modal>
       ) : (
-        <FloatingButton handleOpen={openModal} />
+        <FloatingButton handleOpen={handleOpen} />
       )}
     </>
   );

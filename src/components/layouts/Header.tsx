@@ -24,10 +24,14 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 h-[80px] w-full bg-main-light py-4">
+    <header className="sticky top-0 z-30 h-[64px] w-full bg-main-light py-4 sm:h-[80px]">
       <div className="relative flex justify-between">
         <Link href="/">
-          <Image src={Banner} width={150} alt="헤더 이미지" />
+          <Image
+            src={Banner}
+            alt="헤더 이미지"
+            className="h-auto w-[100px] sm:w-[150px]"
+          />
         </Link>
         <nav className="font-bold text-main-header">
           <ul className="flex items-center justify-between gap-3 sm:gap-5">
@@ -37,7 +41,7 @@ const Header = () => {
                   <Link href="/">
                     <div
                       onClick={() => handleLogout()}
-                      className="cursor-pointer text-[10px] font-bold hover:underline sm:text-[15px]"
+                      className="cursor-pointer text-[12px] font-bold hover:underline sm:text-[16px]"
                     >
                       LOGOUT
                     </div>
@@ -48,23 +52,21 @@ const Header = () => {
                     <Bell
                       color="#a0b092"
                       onClick={() => open('noti')}
-                      className="h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
+                      className="size-7 cursor-pointer sm:size-10"
                     />
                   </div>
                 </li>
                 <li>
                   <Link href="/mypage">
                     <CircleUserRound
-                      size={35}
                       color="#a0b092"
-                      className="h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
+                      className="size-7 cursor-pointer sm:size-10"
                     />
                   </Link>
                 </li>
                 <li>
                   <Menu
-                    className="ml-1 h-[20px] w-[20px] cursor-pointer sm:h-[40px] sm:w-[40px]"
-                    size={35}
+                    className="ml-1 size-7 cursor-pointer sm:size-10"
                     color="#a0b092"
                     onClick={() => open('menu')}
                   />

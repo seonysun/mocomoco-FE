@@ -21,7 +21,7 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="flex flex-col bg-main-light px-8">
+      <body className="flex flex-col bg-main-light px-2 sm:px-8">
         <Providers>
           <Header />
           <main className="flex flex-1 justify-center">

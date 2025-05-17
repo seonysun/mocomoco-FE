@@ -62,7 +62,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
           alt={moim.title}
           width={50}
           height={50}
-          className="rounded-full object-cover"
+          className="scale-125 rounded-full object-cover"
         />
         <div
           className="flex-1 cursor-pointer truncate"
@@ -86,7 +86,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
           >
             <Users size={20} />
             <span className="text-sm">
-              {moim.current_people}/{moim.max_people}
+              {moim.people_status}/{moim.max_people}
             </span>
           </span>
           {isLikelist ? (

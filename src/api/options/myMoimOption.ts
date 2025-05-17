@@ -1,4 +1,5 @@
 import { myMoimAPI } from '@/api/functions/myMoimAPI';
+import { useModalStore } from '@/store/useModalStore';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
 
 export const myMoimOption = {
@@ -15,6 +16,7 @@ export const myMoimOption = {
   cancelMyMoim: (queryClient: QueryClient) => ({
     mutationFn: (id: number) => myMoimAPI.cancelMyMoim(id),
     onSuccess: () => {
+      useModalStore.getState().close();
       queryClient.invalidateQueries({
         queryKey: ['mymoim', 'joined'],
       });

@@ -72,14 +72,6 @@ const MyMoimCard = ({ moim }: MoimProps) => {
           <p className="text-sm text-gray-500">{moim.place_name}</p>
         </div>
         <div className="flex items-center gap-3">
-          {moim.is_writer && (
-            <Settings
-              size={20}
-              color="gray"
-              className="cursor-pointer"
-              onClick={() => router.push(`/moims/edit/${moim.id}`)}
-            />
-          )}
           <span
             className="flex cursor-pointer items-center gap-1 text-gray-500"
             onClick={() => open('detail', moim.id, moim.participants)}
@@ -96,6 +88,15 @@ const MyMoimCard = ({ moim }: MoimProps) => {
               isOn={isLiked}
               onToggle={handleToggleLike}
             />
+          ) : moim.is_writer ? (
+            <span className="w-9">
+              <Settings
+                size={20}
+                color="gray"
+                className="mx-auto cursor-pointer"
+                onClick={() => router.push(`/moims/edit/${moim.id}`)}
+              />
+            </span>
           ) : (
             <Button
               size="xs"

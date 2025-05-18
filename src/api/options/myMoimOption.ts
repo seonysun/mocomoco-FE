@@ -17,6 +17,7 @@ export const myMoimOption = {
     mutationFn: (id: number) => myMoimAPI.cancelMyMoim(id),
     onSuccess: () => {
       useModalStore.getState().close();
+      alert('모임에서 나가기 처리되었습니다. 다음에 또 만나요 😀');
       queryClient.invalidateQueries({
         queryKey: ['mymoim', 'joined'],
       });

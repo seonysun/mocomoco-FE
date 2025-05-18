@@ -25,8 +25,8 @@ const PeopleCard = ({ user }: PeopleCardProps) => {
         alt={user.nickname}
         width={100}
         height={100}
-        className="h-[85px] rounded-full object-cover"
-        onClick={() => router.push(`/mypage`)}
+        className="h-[85px] cursor-pointer rounded-full object-cover"
+        onClick={() => router.push(`/moims/members?userId=${user.id}`)}
       />
       <p className="flex w-full items-center justify-center gap-0.5 overflow-hidden">
         <span className="truncate">{user.nickname}</span>
@@ -34,6 +34,7 @@ const PeopleCard = ({ user }: PeopleCardProps) => {
           size={16}
           color="gray"
           onClick={() => postJoinMutation.mutate(user.id)}
+          className="cursor-pointer"
         />
       </p>
     </div>

@@ -71,7 +71,7 @@ export interface PostMoim {
   category: string;
   content: string;
   place_name: string;
-  adress: string;
+  address: string;
   date: string;
   latitude: number;
   longitude: number;

@@ -36,7 +36,7 @@ export const MoimList = () => {
       .includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-  console.log(filteredData);
+
   return (
     <>
       <div className="flex items-center justify-between">

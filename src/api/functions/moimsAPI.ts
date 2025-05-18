@@ -36,3 +36,11 @@ export const moimsAPI = {
     return fetchClient(`/posts/${id}/unlike/`, 'DELETE', { isAuth: true });
   },
 };
+export async function getMoimDetail(id: number) {
+  const res = await fetch(`https://api.mocomoco.store/moims/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) return null;
+  return res.json();
+}

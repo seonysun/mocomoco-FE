@@ -16,6 +16,7 @@ const MypageSidebar = () => {
         </p>
         <nav>
           <ul className="flex gap-5 md:flex-col">
+            <User className="md:hidden" />
             {MYPAGE_MENU_LIST.map((menu, index) => (
               <li key={menu.href}>
                 <Link
@@ -24,7 +25,9 @@ const MypageSidebar = () => {
                     pathname === menu.href ? 'font-semibold' : 'text-gray-600'
                   }`}
                 >
-                  <menu.icon size={20} />
+                  <span className="hidden md:block">
+                    <menu.icon size={20} />
+                  </span>
                   {menu.name}
                   <p className="pl-3 text-gray-600 md:hidden">
                     {index !== MYPAGE_MENU_LIST.length - 1 && '|'}

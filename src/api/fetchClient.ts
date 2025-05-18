@@ -22,9 +22,19 @@ export const fetchClient = async (
 
   if (isAuth && !access) throw new Error('로그인이 필요합니다');
 
-  const queryString = params
-    ? '?' + new URLSearchParams(params as Record<string, string>).toString()
-    : '';
+  const serializeParams = (params: Record<string, any>) => {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(val => searchParams.append(key, String(val)));
+      } else {
+        searchParams.append(key, String(value));
+      }
+    });
+    return '?' + searchParams.toString();
+  };
+
+  const queryString = params ? serializeParams(params) : '';
 
   const fetchWithToken = async (token: string | null) => {
     const safeHeaders: HeadersInit = {

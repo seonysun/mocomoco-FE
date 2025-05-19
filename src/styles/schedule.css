@@ -16,7 +16,7 @@ react-calendar {
   background: #9bb782 !important;
 }
 .react-calendar__tile:hover {
-  background: #cdcdcd;
+  background: #dfdede !important;
 }
 .react-calendar__tile.has-schedule {
   border: 2px solid #9bb782;

@@ -14,6 +14,7 @@ import UserImage from '@images/UserProfile.png';
 import LoadingSpinner from '@/components/common/loadingSpinner/LoadingSpinner';
 import { useState } from 'react';
 import DetailPageModal from '../detailpagemodal';
+import { KakaoMap } from '../kakaomap';
 
 interface Props {
   id: number;
@@ -104,7 +105,12 @@ export const MoimDetail = ({ id }: Props) => {
             </div>
           </div>
           <hr />
-          <div className="w-full flex-wrap py-40">{data.content}</div>
+
+          <div
+            className="w-full flex-wrap py-40"
+            dangerouslySetInnerHTML={{ __html: data.content }}
+          />
+          <div>{data.content}</div>
         </div>
       </div>
       <div className="flex w-full justify-end">
@@ -147,7 +153,9 @@ export const MoimDetail = ({ id }: Props) => {
         </div>
         <div className="flex h-full w-full flex-col gap-4 md:pl-20">
           <p className="text-xl">장소</p>
-          <div className="h-[320px] w-full border bg-white"></div>
+          <div className="h-[320px] w-full border">
+            <KakaoMap latitude={data.latitude} longitude={data.longitude} />
+          </div>
           <div className="flex gap-1">
             <MapPin size={16} /> {data.place_name} ({data.address})
           </div>

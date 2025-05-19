@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Search, Server } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import DaumPostcodeEmbed from 'react-daum-postcode';
 
 interface Props {
   id: number;
@@ -37,6 +38,7 @@ export default function MoimEditForm({ id }: Props) {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -107,7 +109,38 @@ export default function MoimEditForm({ id }: Props) {
       setDay(numericValue);
     }
   };
+  const getLatLngFromAddress = async (address: string) => {
+    try {
+      const KAKAO_API_KEY = process.env.NEXT_PUBLIC_REST_API_KEY;
+      const response = await fetch(
+        `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+          },
+        },
+      );
 
+      const data = await response.json();
+      if (data.documents && data.documents.length > 0) {
+        const location = data.documents[0];
+        console.log(location);
+        setLatitude(parseFloat(location.y));
+        setLongitude(parseFloat(location.x));
+      } else {
+        console.warn('좌표를 찾을 수 없습니다.');
+      }
+    } catch (error) {
+      console.error('좌표 가져오기 실패:', error);
+    }
+  };
+  const handleAddressComplete = (data: any) => {
+    const roadAddress = data.roadAddress;
+    setAddress(roadAddress);
+    setIsPostcodeOpen(false);
+    getLatLngFromAddress(roadAddress);
+  };
   const handleSubmit = async () => {
     if (!title || !content || !category || !place || !address) {
       alert('필수 정보를 모두 입력해 주세요.');
@@ -169,7 +202,7 @@ export default function MoimEditForm({ id }: Props) {
   return (
     <>
       <div className="flex flex-col gap-10">
-        <p className="p-[50px] text-center text-[30px]"> 모임 작성 페이지 </p>
+        <p className="p-[50px] text-center text-[30px]"> 모임 수정 페이지 </p>
         <div className="flex flex-col justify-center gap-10 md:flex-row">
           <div className="flex w-full flex-col gap-10 md:max-w-[525px]">
             <CommonInput
@@ -205,7 +238,10 @@ export default function MoimEditForm({ id }: Props) {
               </div>
               <div className="flex w-full flex-col justify-center gap-[5px]">
                 <p className="text-[17px]"> 장소 검색 </p>
-                <div className="flex w-full items-center gap-[10px]">
+                <div
+                  className="flex w-full items-center gap-[10px]"
+                  onClick={() => setIsPostcodeOpen(true)}
+                >
                   <CommonInput
                     placeholder="검색"
                     value={address}
@@ -214,6 +250,21 @@ export default function MoimEditForm({ id }: Props) {
                   />
                   <Search color="#A0B092" />
                 </div>
+                {isPostcodeOpen && (
+                  <div className="fixed z-10 mt-2 h-[440px] w-[350px] border border-gray-300 bg-white">
+                    <DaumPostcodeEmbed
+                      onComplete={handleAddressComplete}
+                      autoClose
+                    />
+                    <Button
+                      onClick={() => setIsPostcodeOpen(false)}
+                      size="xs"
+                      className="ml-3"
+                    >
+                      닫기
+                    </Button>
+                  </div>
+                )}
                 <p className="text-[17px]"> 상세 주소</p>
                 <div className="flex w-full items-center gap-[10px]">
                   <CommonInput

@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Search, Server } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import DaumPostcodeEmbed from 'react-daum-postcode';
 
 export default function MoimForm() {
   const [title, setTitle] = useState('');
@@ -31,6 +32,7 @@ export default function MoimForm() {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const router = useRouter();
   const increaseRole = (role: (typeof ROLE_LIST)[number]) => {
     setRoles(prev => ({ ...prev, [role]: prev[role] + 1 }));
@@ -76,6 +78,38 @@ export default function MoimForm() {
     } else if (number >= 1 && number <= maxDay) {
       setDay(numericValue);
     }
+  };
+  const getLatLngFromAddress = async (address: string) => {
+    try {
+      const KAKAO_API_KEY = process.env.NEXT_PUBLIC_REST_API_KEY;
+      const response = await fetch(
+        `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+      if (data.documents && data.documents.length > 0) {
+        const location = data.documents[0];
+        console.log(location);
+        setLatitude(parseFloat(location.y));
+        setLongitude(parseFloat(location.x));
+      } else {
+        console.warn('좌표를 찾을 수 없습니다.');
+      }
+    } catch (error) {
+      console.error('좌표 가져오기 실패:', error);
+    }
+  };
+  const handleAddressComplete = (data: any) => {
+    const roadAddress = data.roadAddress;
+    setAddress(roadAddress);
+    setIsPostcodeOpen(false);
+    getLatLngFromAddress(roadAddress);
   };
 
   const handleSubmit = async () => {
@@ -172,7 +206,10 @@ export default function MoimForm() {
               </div>
               <div className="flex w-full flex-col justify-center gap-[5px]">
                 <p className="text-[17px]"> 장소 검색 </p>
-                <div className="flex w-full items-center gap-[10px]">
+                <div
+                  className="flex w-full items-center gap-[10px]"
+                  onClick={() => setIsPostcodeOpen(true)}
+                >
                   <CommonInput
                     placeholder="검색"
                     value={address}
@@ -181,6 +218,21 @@ export default function MoimForm() {
                   />
                   <Search color="#A0B092" />
                 </div>
+                {isPostcodeOpen && (
+                  <div className="fixed z-10 mt-2 h-[440px] w-[350px] border border-gray-300 bg-white">
+                    <DaumPostcodeEmbed
+                      onComplete={handleAddressComplete}
+                      autoClose
+                    />
+                    <Button
+                      onClick={() => setIsPostcodeOpen(false)}
+                      size="xs"
+                      className="ml-3"
+                    >
+                      닫기
+                    </Button>
+                  </div>
+                )}
                 <p className="text-[17px]"> 상세 주소</p>
                 <div className="flex w-full items-center gap-[10px]">
                   <CommonInput

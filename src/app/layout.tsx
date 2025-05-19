@@ -15,11 +15,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_KEY;
   return (
     <html lang="ko">
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* <script
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_API_KEY}&libraries=services,clusterer`}
+        ></script> */}
       </head>
       <body className="flex flex-col bg-main-light px-2 sm:px-8">
         <Providers>

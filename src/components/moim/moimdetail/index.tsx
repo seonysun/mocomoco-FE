@@ -66,6 +66,8 @@ export const MoimDetail = ({ id }: Props) => {
       setShowApplyModal(false);
       alert('참여 완료 되었습니다!');
       router.refresh();
+    } else {
+      alert(error);
     }
   };
 
@@ -110,91 +112,9 @@ export const MoimDetail = ({ id }: Props) => {
             className="w-full flex-wrap py-40"
             dangerouslySetInnerHTML={{ __html: data.content }}
           />
-          <div>{data.content}</div>
         </div>
       </div>
-      <div className="flex w-full justify-end">
-        {!data.is_closed && (
-          <Button
-            className="w-24"
-            size="md"
-            onClick={() => setShowApplyModal(true)}
-          >
-            지원하기
-          </Button>
-        )}
-      </div>
-      <div className="flex flex-col items-center gap-6 text-sm md:flex-row">
-        <div className="flex w-full flex-col gap-10 md:w-[420px]">
-          <div>
-            <p className="pb-2 text-xl">일정</p>
-            <div className="flex h-[80px] items-center justify-center gap-1 rounded-sm border bg-white">
-              <CalendarDays size={16} />
-              {formattedDate}({weekday})
-            </div>
-          </div>
-          <p className="text-xl">주최자</p>
-          <div className="flex flex-col items-center">
-            <div className="h-[200px] w-[200px] overflow-auto rounded-full">
-              <Image
-                src={
-                  data.writer.profile_image
-                    ? data.writer.profile_image
-                    : UserImage
-                }
-                alt={data.writer.nickname}
-                width={200}
-                height={200}
-                className="rounded-full object-cover"
-              />
-            </div>
-            <p>{data.writer.nickname}</p>
-          </div>
-        </div>
-        <div className="flex h-full w-full flex-col gap-4 md:pl-20">
-          <p className="text-xl">장소</p>
-          <div className="h-[320px] w-full border">
-            <KakaoMap latitude={data.latitude} longitude={data.longitude} />
-          </div>
-          <div className="flex gap-1">
-            <MapPin size={16} /> {data.place_name} ({data.address})
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl">참여인원</h2>
-          <Button className="pointer-events-none w-14" size="xs" color="dark">
-            {data.participants?.length} / {data.max_people}
-          </Button>
-        </div>
-        <hr />
-        <div className="flex gap-10">
-          {data.participants && data.participants.length > 0 ? (
-            data.participants.map(user => (
-              <div
-                key={user.id}
-                className="flex flex-col items-center gap-4 text-sm"
-              >
-                <div className="h-[100px] w-[100px] overflow-auto rounded-full">
-                  <Image
-                    src={user.profile_image ? user.profile_image : UserImage}
-                    alt={user.nickname}
-                    width={300}
-                    height={300}
-                  />
-                </div>
-                <p>{user.nickname}</p>
-              </div>
-            ))
-          ) : (
-            <div className="w-full p-10 text-center">
-              아직 참여인원이 없습니다.
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="flex justify-between pb-12 pt-10">
+      <div className="flex w-full justify-between">
         <div className="flex gap-2">
           {isWriter && (
             <>
@@ -223,7 +143,15 @@ export const MoimDetail = ({ id }: Props) => {
             onCancel={() => setShowDeleteModal(false)}
           />
         )}
-
+        {!data.is_closed && (
+          <Button
+            className="w-24"
+            size="md"
+            onClick={() => setShowApplyModal(true)}
+          >
+            지원하기
+          </Button>
+        )}
         {showApplyModal && (
           <DetailPageModal
             title="어떤 역할로 지원하시겠습니까?"
@@ -246,6 +174,80 @@ export const MoimDetail = ({ id }: Props) => {
             </div>
           </DetailPageModal>
         )}
+      </div>
+      <div className="flex flex-col items-center gap-6 text-sm md:flex-row">
+        <div className="flex w-full flex-col gap-10 md:w-[420px]">
+          <div>
+            <p className="pb-2 text-xl">일정</p>
+            <div className="flex h-[80px] items-center justify-center gap-1 rounded-sm border bg-white">
+              <CalendarDays size={16} />
+              {formattedDate}({weekday})
+            </div>
+          </div>
+          <p className="text-xl">주최자</p>
+          <Link href={`/moims/members/${data.writer.id}`}>
+            <div className="flex flex-col items-center">
+              <div className="h-[200px] w-[200px] overflow-auto rounded-full">
+                <Image
+                  src={
+                    data.writer.profile_image
+                      ? data.writer.profile_image
+                      : UserImage
+                  }
+                  alt={data.writer.nickname}
+                  width={200}
+                  height={200}
+                  className="rounded-full object-cover"
+                />
+              </div>
+              <p>{data.writer.nickname}</p>
+            </div>
+          </Link>
+        </div>
+        <div className="flex h-full w-full flex-col gap-4 md:pl-20">
+          <p className="text-xl">장소</p>
+          <div className="h-[320px] w-full border">
+            <KakaoMap latitude={data.latitude} longitude={data.longitude} />
+          </div>
+          <div className="flex gap-1">
+            <MapPin size={16} /> {data.address}
+            <br />({data.place_name})
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl">참여인원</h2>
+          <Button className="pointer-events-none w-14" size="xs" color="dark">
+            {data.participants?.length} / {data.max_people}
+          </Button>
+        </div>
+        <hr />
+        <div className="flex gap-10">
+          {data.participants && data.participants.length > 0 ? (
+            data.participants.map(user => (
+              <Link href={`/moims/members/${user.id}`} key={user.id}>
+                <div className="flex flex-col items-center gap-4 text-sm">
+                  <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
+                    <Image
+                      src={user.profile_image ? user.profile_image : UserImage}
+                      alt={user.nickname}
+                      width={300}
+                      height={300}
+                    />
+                  </div>
+                  <p>{user.nickname}</p>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="w-full p-10 text-center">
+              아직 참여인원이 없습니다.
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex justify-end pb-12 pt-10">
         <Link href={'/moims'}>
           <Button className="w-[56px]" size="sm">
             목록

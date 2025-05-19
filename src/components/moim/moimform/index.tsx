@@ -113,7 +113,16 @@ export default function MoimForm() {
   };
 
   const handleSubmit = async () => {
-    if (!title || !content || !category || !place || !address) {
+    if (
+      !title ||
+      !content ||
+      !category ||
+      !place ||
+      !address ||
+      !year ||
+      !month ||
+      !day
+    ) {
       alert('필수 정보를 모두 입력해 주세요.');
       return;
     }
@@ -164,7 +173,7 @@ export default function MoimForm() {
       router.push('/moims');
     } catch (error) {
       console.error('모임 전송 중 오류:', error);
-      alert('오류가 발생했습니다.');
+      alert(`오류가 발생했습니다.${error}`);
     }
   };
   return (

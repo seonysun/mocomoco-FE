@@ -1,7 +1,7 @@
 'use client';
 
 import CommonInput from '@/components/common/input/Input';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Dropdown from '@/components/common/input/Dropdown';
 import Button from '@/components/common/button/Button';
 import { ROLE_LIST } from '@/constants/config';
@@ -15,6 +15,8 @@ import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 
 export default function EditForm() {
   const { form, updateField, setForm } = useEditForm();
+  const { nickname, phone, intro, github_url, position_name, portfolio_url } =
+    form;
   const user = useAuthStore(state => state.user);
   const updateUser = useAuthStore(state => state.updateUser);
   const deleteAccount = useDeleteAccount();
@@ -24,34 +26,100 @@ export default function EditForm() {
   const [file, setFile] = useState<File>();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
   // placeholder 폰트 공통 지정
   const fontSize = 'text-base placeholder:text-sm md:placeholder:text-lg';
 
-  // [링크 유효성 검사]
+  const [debouncedPhone, setDebouncedPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
+  const [debouncedLinks, setDebouncedLinks] = useState({
+    github_url: '',
+    portfolio_url: '',
+  });
+  const [linkError, setLinkError] = useState('');
+
+  const debounceGit = debouncedLinks.github_url;
+  const debouncepofol = debouncedLinks.portfolio_url;
+
+  // [링크 유효성 검사 기준]
   const isValidUrl = (url: string) => {
+    const trimmed = url.trim();
+    if (!trimmed || trimmed === 'https://') return true;
     try {
-      const parsed = new URL(url);
+      const parsed = new URL(trimmed);
 
       const isHttp = ['http:', 'https:'].includes(parsed.protocol);
-      const hasValidTLD = /\.[a-z]{2,}$/i.test(parsed.hostname);
+      const hasDotInHostname = parsed.hostname.includes('.');
 
-      return isHttp && hasValidTLD;
+      return isHttp && hasDotInHostname;
     } catch {
       return false;
     }
   };
 
-  // [전화번호 유효성 검사]
-  const isValidPhone = (phone: string) => {
-    const phoneWithoutHyphen = phone.replace(/-/g, '');
-    return /^01[016789]\d{7,8}$/.test(phoneWithoutHyphen);
+  // [전화번호 유효성 검사 기준]
+  const isValidPhone = (phone: string): boolean => {
+    return /^01[016789]-\d{3,4}-\d{4}$/.test(phone);
   };
+
+  // 유효성 검사 [debounce]
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedPhone(phone);
+      setDebouncedLinks({
+        github_url: form.github_url,
+        portfolio_url: form.portfolio_url,
+      });
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [phone, form.github_url, form.portfolio_url]);
+
+  // [연락처 유효성 검사 조건부]
+  useEffect(() => {
+    if (debouncedPhone && !isValidPhone(debouncedPhone)) {
+      setPhoneError('연락처 형식이 올바르지 않습니다. [ ex. 010-1234-5678 ]');
+    } else if (debouncedPhone && isValidPhone(debouncedPhone)) {
+      setPhoneError('올바른 연락처 형식입니다.');
+    } else {
+      setPhoneError('');
+    }
+  }, [debouncedPhone]);
+
+  // [링크 유효성 검사 조건부]
+  useEffect(() => {
+    // https:// 제외 텍스트 없을 경우 빈 문자열로 인식
+    const github = debounceGit.trim();
+    const portfolio = debouncepofol.trim();
+
+    const isGitEmpty = !github || github === 'https://';
+    const isPofolEmpty = !portfolio || portfolio === 'https://';
+
+    const isGitValid = isValidUrl(github);
+    const isPofolValid = isValidUrl(portfolio);
+    if (!isGitEmpty && !isGitValid && !isPofolEmpty && !isPofolValid) {
+      setLinkError(
+        '모든 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
+      );
+    } else if (!isGitEmpty && !isGitValid) {
+      setLinkError(
+        'GitHub 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
+      );
+    } else if (!isPofolEmpty && !isPofolValid) {
+      setLinkError(
+        '포트폴리오 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
+      );
+    } else if ((!isGitEmpty && isGitValid) || (!isPofolEmpty && isPofolValid)) {
+      setLinkError('올바른 링크 형식입니다');
+    } else {
+      setLinkError('');
+    }
+  }, [debouncedLinks]);
 
   // [저장 버튼 핸들러]
   const handleSave = async () => {
-    const { nickname, phone, intro, github_url, position_name, portfolio_url } =
-      form;
     if (
       github_url &&
       portfolio_url &&
@@ -59,13 +127,11 @@ export default function EditForm() {
       !isValidUrl(github_url)
     ) {
       alert(
-        '링크는 http(s)://로 시작하고 유효한 도메인(TLD)을 포함해야 합니다. \n예: https://github.com',
+        '링크는 http(s)://로 시작하고 유효한 도메인(TLD)을 포함해야 합니다. \n [ ex. mocomoco.com/username ]',
       );
       return;
     } else if (phone && !isValidPhone(phone)) {
-      alert(
-        '전화번호 형식이 올바르지 않습니다. \n예: 010-1234-5678 또는 01012345678',
-      );
+      alert('전화번호 형식이 올바르지 않습니다. \n[ ex. 010-1111-2222 ]');
       return;
     }
 
@@ -143,14 +209,21 @@ export default function EditForm() {
             // 이메일은 소셜로그인에 적용된 이메일만 사용 가능. 즉, 변경 불가
             readOnly
           />
-          <CommonInput
-            // label=""
-            placeholder="연락처 [ ex. 010-1234-5678 ]"
-            value={form.phone}
-            onChange={e => updateField('phone', e.target.value)}
-            box="line"
-            className={fontSize}
-          />
+          <div className="flex flex-col gap-[10px]">
+            <CommonInput
+              // label=""
+              placeholder="연락처 [ ex. 010-1234-5678 ]"
+              value={form.phone}
+              onChange={e => updateField('phone', e.target.value)}
+              box="line"
+              className={fontSize}
+            />
+            <p
+              className={`text-sm opacity-70 ${phoneError.includes('올바른') ? 'text-green-500' : 'text-red-500'}`}
+            >
+              {phoneError}
+            </p>
+          </div>
           <div className="w-full max-w-[200px] sm:max-w-[300px] md:max-w-[200px]">
             <Dropdown
               selected={form.position_name}
@@ -168,23 +241,49 @@ export default function EditForm() {
             box="textarea"
             className={fontSize}
           />
-          <div className="flex flex-col gap-[30px]">
-            <CommonInput
-              label="GitHub Link"
-              placeholder="링크 추가"
-              value={form.github_url}
-              onChange={e => updateField('github_url', e.target.value)}
-              box="line"
-              className={fontSize}
-            />
-            <CommonInput
-              label="portfolio Link"
-              placeholder="링크 추가"
-              value={form.portfolio_url}
-              onChange={e => updateField('portfolio_url', e.target.value)}
-              box="line"
-              className={fontSize}
-            />
+          <div className="flex flex-col gap-[10px]">
+            <span className="font-semibold text-gray-600">Link</span>
+            <p
+              className={`text-sm opacity-70 ${linkError.includes('올바른') ? 'text-green-500' : 'text-red-500'}`}
+            >
+              {linkError}
+            </p>
+            <div className="flex flex-col gap-[5px]">
+              <div className="relative w-full">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 select-none text-sm text-gray-500">
+                  https://
+                </span>
+                <CommonInput
+                  placeholder="Github 링크 추가"
+                  value={form.github_url.replace(/^https?:\/\//, '')}
+                  onChange={e => {
+                    const value = e.target.value;
+                    const cleaned = value.replace(/^https?:\/\//, '');
+
+                    updateField('github_url', `https://${cleaned}`);
+                  }}
+                  box="line"
+                  className={`${fontSize} py-2 pl-[60px]`}
+                />
+              </div>
+              <div className="relative w-full">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 select-none text-sm text-gray-500">
+                  https://
+                </span>
+                <CommonInput
+                  placeholder="portfolio 링크 추가"
+                  value={form.portfolio_url.replace(/^https?:\/\//, '')}
+                  onChange={e => {
+                    const value = e.target.value;
+                    const cleaned = value.replace(/^https?:\/\//, '');
+
+                    updateField('portfolio_url', `https://${cleaned}`);
+                  }}
+                  box="line"
+                  className={`${fontSize} py-2 pl-[60px]`}
+                />
+              </div>
+            </div>
           </div>
           <Button
             type="submit"

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
@@ -23,6 +23,7 @@ const TextEditor = ({
   onImageUpload,
   initialImageUrl,
 }: TextEditorProps) => {
+  const hasSetInitialImage = useRef(false);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -36,16 +37,27 @@ const TextEditor = ({
       Underline,
       Image,
     ],
-    content: value,
+    content: '',
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
     immediatelyRender: false,
   });
+  useEffect(() => {
+    if (editor && value && editor.getHTML() !== value) {
+      editor.commands.setContent(value);
+    }
+  }, [editor, value]);
 
   useEffect(() => {
-    if (editor && initialImageUrl) {
+    if (
+      editor &&
+      initialImageUrl &&
+      !hasSetInitialImage.current &&
+      !editor.getHTML().includes(initialImageUrl)
+    ) {
       editor.chain().focus().setImage({ src: initialImageUrl }).run();
+      hasSetInitialImage.current = true;
     }
   }, [editor, initialImageUrl]);
 

@@ -43,7 +43,7 @@ export default function MoimEditForm({ id }: Props) {
   useEffect(() => {
     if (data) {
       setTitle(data.title ?? '');
-      // setContent(data.content ?? '');
+      setContent(data.content ?? '');
       setCategory(data.category ?? '');
       setPlace(data.place_name ?? '');
       setAddress(data.address ?? '');

@@ -13,16 +13,18 @@ import { notFound, useRouter } from 'next/navigation';
 import UserImage from '@images/UserProfile.png';
 import LoadingSpinner from '@/components/common/loadingSpinner/LoadingSpinner';
 import { useState } from 'react';
-import DetailPageModal from '../detailpagemodal';
 import { KakaoMap } from '../kakaomap';
+import { useModalStore } from '@/store/useModalStore';
+import ConfirmModal from '@/components/common/modal/ConfirmModal';
 
 interface Props {
   id: number;
 }
 
 export const MoimDetail = ({ id }: Props) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showApplyModal, setShowApplyModal] = useState(false);
+  const { isOpen: isModalOpen, type, open, close } = useModalStore();
+  const roleStatus = useModalStore(state => state.modalData?.role);
+
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const { data, isLoading, isError, error } = useMoimDetail(id);
   const { mutate: deleteMoim } = useDeleteMoim();
@@ -56,6 +58,7 @@ export const MoimDetail = ({ id }: Props) => {
 
   const handleDelete = () => {
     deleteMoim(id);
+    close();
     router.push('/moims');
   };
 
@@ -63,7 +66,7 @@ export const MoimDetail = ({ id }: Props) => {
     if (selectedRole) {
       const mappedRole = roleMap[selectedRole];
       applyMoim(mappedRole);
-      setShowApplyModal(false);
+      close();
       alert('참여 완료 되었습니다!');
       router.refresh();
     } else {
@@ -129,50 +132,56 @@ export const MoimDetail = ({ id }: Props) => {
                 className="w-[56px]"
                 size="sm"
                 color="red"
-                onClick={() => setShowDeleteModal(true)}
+                onClick={() => open('confirm', { id: data.id })}
               >
                 삭제
               </Button>
             </>
           )}
         </div>
-        {showDeleteModal && (
-          <DetailPageModal
+        {isModalOpen && type === 'confirm' && (
+          <ConfirmModal
             title="정말로 이 모임을 삭제하시겠습니까?"
+            content="삭제한 모임은 복구할 수 없습니다"
+            className="w-[330px]"
             onConfirm={handleDelete}
-            onCancel={() => setShowDeleteModal(false)}
           />
         )}
         {!data.is_closed && (
           <Button
             className="w-24"
             size="md"
-            onClick={() => setShowApplyModal(true)}
+            onClick={() =>
+              open('detail', { id: data.id, role: data.role_status })
+            }
           >
             지원하기
           </Button>
         )}
-        {showApplyModal && (
-          <DetailPageModal
+        {isModalOpen && type === 'detail' && (
+          <ConfirmModal
             title="어떤 역할로 지원하시겠습니까?"
             onConfirm={handleApply}
-            onCancel={() => setShowApplyModal(false)}
           >
-            <div className="flex flex-col gap-2">
-              {['프론트엔드', '백엔드', '디자이너', '풀스택'].map(role => (
-                <label key={role} className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="role"
-                    value={role}
-                    checked={selectedRole === role}
-                    onChange={() => setSelectedRole(role)}
-                  />
-                  {role}
-                </label>
-              ))}
+            <div className="my-2 flex flex-col gap-2">
+              {Object.entries(roleMap).map(([label, key]) => {
+                const isDisabled = roleStatus?.[key] === 0;
+                return (
+                  <label key={key} className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={label}
+                      checked={selectedRole === label}
+                      onChange={() => setSelectedRole(label)}
+                      disabled={isDisabled}
+                    />
+                    {label}
+                  </label>
+                );
+              })}
             </div>
-          </DetailPageModal>
+          </ConfirmModal>
         )}
       </div>
       <div className="flex flex-col items-center gap-6 text-sm md:flex-row">

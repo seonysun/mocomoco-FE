@@ -1,4 +1,12 @@
-import { Calendar, Plus, Search, Star, User, UsersRound } from 'lucide-react';
+import {
+  Calendar,
+  Plus,
+  Search,
+  Star,
+  User,
+  Users,
+  UsersRound,
+} from 'lucide-react';
 
 export const ROLE_LIST = [
   '프론트엔드',
@@ -16,12 +24,13 @@ export const MENU_NOTI_LIST = [
 export const MENU_MOGAK_LIST = [
   { label: '모각코 찾기', icon: Search, href: '/moims' },
   { label: '새로운 모임', icon: Plus, href: '/moims/post' },
-  { label: '참여한 모임', icon: UsersRound, href: '/join' },
+  { label: '참여한 모임', icon: UsersRound, href: '/mypage/joinlist' },
 ] as const;
 
 export const MYPAGE_MENU_LIST = [
   { name: '내 정보', icon: User, href: '/mypage' },
   { name: '관심 모임', icon: Star, href: '/mypage/likelist' },
+  { name: '참여 모임', icon: Users, href: '/mypage/joinlist' },
   { name: '일정 관리', icon: Calendar, href: '/mypage/schedule' },
 ] as const;
 

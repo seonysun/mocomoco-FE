@@ -74,7 +74,9 @@ const MyMoimCard = ({ moim }: MoimProps) => {
         <div className="flex items-center gap-3">
           <span
             className="flex cursor-pointer items-center gap-1 text-gray-500"
-            onClick={() => open('detail', moim.id, moim.participants)}
+            onClick={() =>
+              open('detail', { id: moim.id, participants: moim.participants })
+            }
           >
             <Users size={20} />
             <span className="text-sm">
@@ -89,7 +91,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
               onToggle={handleToggleLike}
             />
           ) : moim.is_writer ? (
-            <span className="w-9">
+            <span className="w-[50px]">
               <Settings
                 size={20}
                 color="gray"
@@ -101,7 +103,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
             <Button
               size="xs"
               color="dark"
-              onClick={() => open('confirm', moim.id)}
+              onClick={() => open('confirm', { id: moim.id })}
             >
               나가기
             </Button>

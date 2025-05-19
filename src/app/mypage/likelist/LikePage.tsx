@@ -8,6 +8,7 @@ import DetailModal from '@/components/common/modal/DetailModal';
 import MyMoimBox from '@/components/mypage/MyMoimBox';
 import MyMoimCard from '@/components/mypage/MyMoimCard';
 import { useModalStore } from '@/store/useModalStore';
+import { User } from '@/types/moim';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -19,7 +20,9 @@ export default function LikePage() {
 
   const isModalOpen = useModalStore(state => state.isOpen);
   const type = useModalStore(state => state.type);
-  const participants = useModalStore(state => state.participants);
+  const modalData = useModalStore(state => state.modalData);
+  const participants =
+    (modalData as { participants: User[] })?.participants ?? [];
 
   return (
     <MyMoimBox title="관심 모임 목록">

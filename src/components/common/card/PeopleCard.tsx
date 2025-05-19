@@ -20,14 +20,16 @@ const PeopleCard = ({ user }: PeopleCardProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <Image
-        src={user.profile_image || UserProfile}
-        alt={user.nickname}
-        width={100}
-        height={100}
-        className="h-[85px] cursor-pointer rounded-full object-cover"
-        onClick={() => router.push(`/moims/members?userId=${user.id}`)}
-      />
+      <div className="overflow-hidden">
+        <Image
+          src={user.profile_image || UserProfile}
+          alt={user.nickname}
+          width={100}
+          height={100}
+          className="cursor-pointer rounded-full object-cover"
+          onClick={() => router.push(`/moims/members?userId=${user.id}`)}
+        />
+      </div>
       <p className="flex w-full items-center justify-center gap-0.5 overflow-hidden">
         <span className="truncate">{user.nickname}</span>
         <MessageCircle

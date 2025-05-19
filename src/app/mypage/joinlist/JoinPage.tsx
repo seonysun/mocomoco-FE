@@ -11,13 +11,16 @@ import { useModalStore } from '@/store/useModalStore';
 import DetailModal from '@/components/common/modal/DetailModal';
 import PeopleCard from '@/components/common/card/PeopleCard';
 import LoadingSpinner from '@/components/common/loadingSpinner/LoadingSpinner';
+import { User } from '@/types/moim';
 
 export default function JoinPage() {
   const router = useRouter();
 
   const isModalOpen = useModalStore(state => state.isOpen);
   const type = useModalStore(state => state.type);
-  const participants = useModalStore(state => state.participants);
+  const modalData = useModalStore(state => state.modalData);
+  const participants =
+    (modalData as { participants: User[] })?.participants ?? [];
 
   const queryClient = useQueryClient();
   const cancelMyMoimMutation = useMutation(

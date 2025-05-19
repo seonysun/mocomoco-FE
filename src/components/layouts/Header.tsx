@@ -3,7 +3,7 @@
 import Modal from '@/components/common/modal/Modal';
 import Menus from '@/components/layouts/Menu';
 import Banner from '@images/Banner.png';
-import { Bell, CircleUserRound, Menu } from 'lucide-react';
+import { Bell, CircleUserRound, Menu, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Notifications from '@/components/notifications/Notifications';
@@ -45,6 +45,14 @@ const Header = () => {
                     >
                       LOGOUT
                     </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/moims">
+                    <Search
+                      color="#a0b092"
+                      className="size-7 cursor-pointer sm:size-10"
+                    />
                   </Link>
                 </li>
                 <li>

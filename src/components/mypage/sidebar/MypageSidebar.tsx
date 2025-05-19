@@ -10,12 +10,12 @@ const MypageSidebar = () => {
 
   return (
     <>
-      <aside className="w-full rounded-xl border border-main-default border-opacity-30 bg-white bg-opacity-40 p-3 px-5 sm:block md:w-[200px] md:p-5">
+      <aside className="max-h-[200px] w-full rounded-xl border border-main-default border-opacity-30 bg-white bg-opacity-40 p-3 px-5 sm:block md:w-[200px] md:p-5">
         <p className="mb-5 hidden text-center font-semibold md:block">
           마이페이지
         </p>
         <nav>
-          <ul className="flex gap-5 md:flex-col">
+          <ul className="flex w-full items-center gap-5 md:flex-col md:items-start md:justify-start">
             <User className="md:hidden" />
             {MYPAGE_MENU_LIST.map((menu, index) => (
               <li key={menu.href}>

@@ -22,7 +22,14 @@ export default function NaverLogin() {
         if (data.access && data.refresh && data.user) {
           setAuth(data.access, data.refresh, data.user);
 
-          router.push(data.isNewUser ? '/mypage/edit?from=new' : '/');
+          if (data.isNewUser) {
+            alert(
+              `${data.user.nickname}님, 환영합니다 💚 \n정보 수정란에 포지션 선택은 필수입니다.`,
+            );
+            router.push('/mypage/edit?from=new');
+          } else {
+            router.push('/');
+          }
         } else {
           throw new Error('로그인 데이터 형식 오류');
         }

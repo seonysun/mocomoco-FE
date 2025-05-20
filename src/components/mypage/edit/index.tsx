@@ -126,7 +126,7 @@ export default function EditForm() {
     } else {
       setPositionError('');
     }
-  }, []);
+  }, [form.position_name]);
 
   // [저장 버튼 핸들러]
   const handleSave = async () => {

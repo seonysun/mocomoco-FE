@@ -19,7 +19,7 @@ const ChatRoomCard = ({ chatRoom }: ChatRoomProps) => {
           alt="채팅방"
           width={50}
           height={50}
-          className="scale-125 object-cover"
+          className="object-cover"
         />
       }
       titleSlot={chatRoom.title || '채팅방'}

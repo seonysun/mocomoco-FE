@@ -1,4 +1,3 @@
-import { User } from '@/types/moim';
 import { create } from 'zustand';
 
 type ModalType = 'confirm' | 'noti' | 'menu' | 'detail' | null;

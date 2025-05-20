@@ -41,22 +41,31 @@ export const useAuthStore = create<UserState>()(
       isLoggedIn: false,
       hydrated: false,
 
-      setAuth: (access, refresh, user) =>
+      setAuth: (access, refresh, user) => {
+        document.cookie = `access_token=${access}; path=/;`;
+
         set({
           access,
           refresh,
           user,
           isLoggedIn: true,
-        }),
+        });
+      },
 
-      setToken: access =>
+      setToken: access => {
+        document.cookie = `access_token=${access}; path=/;`;
+
         set({
           access,
-        }),
+        });
+      },
 
       logout: () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+
+        document.cookie = 'access_token=; path=/; max-age=0';
+
         set({
           access: null,
           refresh: null,
@@ -64,6 +73,7 @@ export const useAuthStore = create<UserState>()(
           isLoggedIn: false,
         });
       },
+
       updateUser: user =>
         set(state => ({
           ...state,

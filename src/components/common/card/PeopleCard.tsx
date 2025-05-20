@@ -27,7 +27,7 @@ const PeopleCard = ({ user }: PeopleCardProps) => {
           width={100}
           height={100}
           className="cursor-pointer rounded-full object-cover"
-          onClick={() => router.push(`/moims/members?userId=${user.id}`)}
+          onClick={() => router.push(`/moims/members/${user.id}`)}
         />
       </div>
       <p className="flex w-full items-center justify-center gap-0.5 overflow-hidden">

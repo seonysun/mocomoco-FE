@@ -62,7 +62,7 @@ const MyMoimCard = ({ moim }: MoimProps) => {
           alt={moim.title}
           width={50}
           height={50}
-          className="scale-125 rounded-full object-cover"
+          className="rounded-full object-cover"
         />
         <div
           className="flex-1 cursor-pointer truncate"

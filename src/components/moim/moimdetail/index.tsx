@@ -112,7 +112,7 @@ export const MoimDetail = ({ id }: Props) => {
           <hr />
 
           <div
-            className="w-full flex-wrap py-40"
+            className=".content-html w-full flex-wrap items-start py-40"
             dangerouslySetInnerHTML={{ __html: data.content }}
           />
         </div>

@@ -6,10 +6,11 @@ import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
 import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
+import useClickOutside from '@/hooks/useClickOutside';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Search, Server } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 
 interface Props {
@@ -39,7 +40,8 @@ export default function MoimEditForm({ id }: Props) {
   const [longitude, setLongitude] = useState<number>(0);
   const [image, setImage] = useState<File | null>(null);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
-
+  const modalRef = useRef<HTMLDivElement>(null);
+  useClickOutside(modalRef, () => setIsPostcodeOpen(false));
   useEffect(() => {
     if (data) {
       setTitle(data.title ?? '');
@@ -160,6 +162,14 @@ export default function MoimEditForm({ id }: Props) {
     const formattedMonth = month.padStart(2, '0');
     const formattedDay = day.padStart(2, '0');
     const formData = new FormData();
+    const selectedDate = new Date(`${year}-${formattedMonth}-${formattedDay}`);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      alert('오늘 이전 날짜로는 모임을 생성할 수 없습니다.');
+      return;
+    }
     formData.append('title', title);
     formData.append('content', content);
     formData.append('category', category);
@@ -260,18 +270,20 @@ export default function MoimEditForm({ id }: Props) {
                   <Search color="#A0B092" />
                 </div>
                 {isPostcodeOpen && (
-                  <div className="fixed z-10 mt-2 h-[440px] w-[350px] border border-gray-300 bg-white">
-                    <DaumPostcodeEmbed
-                      onComplete={handleAddressComplete}
-                      autoClose
-                    />
-                    <Button
-                      onClick={() => setIsPostcodeOpen(false)}
-                      size="xs"
-                      className="ml-3"
-                    >
-                      닫기
-                    </Button>
+                  <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-40">
+                    <div className="w-[426px]" ref={modalRef}>
+                      <DaumPostcodeEmbed
+                        onComplete={handleAddressComplete}
+                        autoClose
+                      />
+                      <Button
+                        onClick={() => setIsPostcodeOpen(false)}
+                        size="xs"
+                        className="ml-3 mt-3"
+                      >
+                        닫기
+                      </Button>
+                    </div>
                   </div>
                 )}
                 <p className="text-[17px]"> 상세 주소</p>

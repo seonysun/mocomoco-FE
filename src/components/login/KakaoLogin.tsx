@@ -16,7 +16,7 @@ export default function KakaoLogin() {
     const handleKakaoLogin = async (code: string) => {
       try {
         const data = await fetchClient('/api/auth/login/kakao/', 'POST', {
-          body: { provider: 'kakao', code },
+          body: { code },
         });
 
         if (data.access && data.refresh && data.user) {

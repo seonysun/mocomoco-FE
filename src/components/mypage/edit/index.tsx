@@ -143,7 +143,7 @@ export default function EditForm() {
         profileImagePath = uploadedImageUrl.startsWith('http')
           ? uploadedImageUrl
           : `https://api.mocomoco.store${encodeURI(uploadedImageUrl)}`;
-      } else if (!previewUrl && !file) {
+      } else if (!profileImagePath && !file) {
         profileImagePath = ''; // 삭제 처리
       }
 

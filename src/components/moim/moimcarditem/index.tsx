@@ -50,8 +50,8 @@ export const MoimCardItem = ({ item }: MoimCardItemProps) => {
         className="flex flex-col gap-4"
         onClick={() => router.push(`/moims/${item.id}`)}
       >
-        <div className="relative h-[200px] w-full overflow-hidden rounded-md">
-          <div className="absolute left-2 right-2 top-2 z-10 flex items-center justify-between px-2">
+        <div className="relative h-[200px] w-full overflow-hidden rounded-md rounded-b-none">
+          <div className="absolute top-2 z-10 flex w-full items-center justify-between px-2">
             <Button
               size="sm"
               className="pointer-events-none w-[87px]"
@@ -77,20 +77,19 @@ export const MoimCardItem = ({ item }: MoimCardItemProps) => {
             sizes="200"
           />
         </div>
-        <div className="flex flex-col gap-4 p-3">
+        <div className="flex flex-col gap-3 p-3">
           <span className="text-sm text-gray-500">
-            {' '}
             {item.category == 'project' ? '프로젝트' : '모임'}
           </span>
           <div>
-            <h1 className="text-md h-12 overflow-hidden text-ellipsis whitespace-nowrap font-medium">
+            <h1 className="text-md h-10 overflow-hidden text-ellipsis whitespace-nowrap font-medium">
               {item.title}
             </h1>
             <hr />
           </div>
           <div>
-            <p className="mb-2 h-6 text-sm text-gray-700">
-              장소: {item.place_name}
+            <p className="mb-2 line-clamp-1 h-6 text-sm text-gray-700">
+              장소 : {item.place_name}
             </p>
             <div className="flex items-end justify-between">
               <span>{formattedDate}</span>

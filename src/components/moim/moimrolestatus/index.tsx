@@ -11,7 +11,7 @@ export const MoimRoleStatus = ({
 
   if (isOverEndline) return null;
   return (
-    <div className="zw-44 absolute right-0 top-[40px] flex flex-col gap-2 rounded-md bg-main-default p-3 text-sm text-white shadow-lg">
+    <div className="zw-44 absolute right-2 top-[34px] flex flex-col gap-2 rounded-md bg-main-default p-3 text-sm text-white shadow-lg">
       <p className="text-center">남은 인원</p>
       <hr />
       {role_status.frontend > 0 && <p>프론트엔드: {role_status.frontend}명</p>}

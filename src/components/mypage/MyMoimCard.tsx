@@ -84,12 +84,14 @@ const MyMoimCard = ({ moim }: MoimProps) => {
             </span>
           </span>
           {isLikelist ? (
-            <FavoriteButton
-              type={'star'}
-              color="#A0B092"
-              isOn={isLiked}
-              onToggle={handleToggleLike}
-            />
+            <span className="flex w-9 items-center justify-center">
+              <FavoriteButton
+                type={'star'}
+                color="#A0B092"
+                isOn={isLiked}
+                onToggle={handleToggleLike}
+              />
+            </span>
           ) : moim.is_writer ? (
             <span className="w-[50px]">
               <Settings

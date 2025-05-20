@@ -76,7 +76,7 @@ export const MoimDetail = ({ id }: Props) => {
 
   return (
     <div className="flex h-full w-full flex-col gap-10 md:p-10">
-      <div className="flex h-full w-full flex-col gap-10 rounded-md bg-white shadow-md">
+      <div className="flex h-full w-full flex-col rounded-md bg-white shadow-md">
         <Button
           size="md"
           className="pointer-events-none absolute z-20 m-3 w-[100px] min-w-20 p-3 md:m-6"
@@ -96,23 +96,22 @@ export const MoimDetail = ({ id }: Props) => {
           </div>
         )}
         <div className="flex flex-col p-10">
-          <h1 className="pb-10 text-center text-3xl">{data.title}</h1>
-
+          <h1 className="my-10 break-words text-center text-3xl">
+            {data.title}
+          </h1>
           <div className="flex items-center gap-3 text-sm">
             <div className="flex w-full justify-between">
-              <p className="pb-6 text-gray-600">
+              <p className="text-gray-600">
                 {data.category == 'project' ? '프로젝트' : '모임'}
               </p>
-
-              <p className="pb-6">
-                {new Date(data.created_at).toLocaleDateString()}
-              </p>
+              <p>{new Date(data.created_at).toLocaleDateString()}</p>
             </div>
           </div>
-          <hr />
+
+          <hr className="mb-10 mt-6" />
 
           <div
-            className="content-html w-full flex-wrap items-start py-40"
+            className="content-html min-h-80 w-full flex-wrap items-start pb-5"
             dangerouslySetInnerHTML={{ __html: data.content }}
           />
         </div>
@@ -184,7 +183,7 @@ export const MoimDetail = ({ id }: Props) => {
           </ConfirmModal>
         )}
       </div>
-      <div className="flex flex-col items-center gap-6 text-sm md:flex-row">
+      <div className="flex flex-col gap-6 text-sm md:flex-row">
         <div className="flex w-full flex-col gap-10 md:w-[420px]">
           <div>
             <p className="pb-2 text-xl">일정</p>
@@ -196,7 +195,7 @@ export const MoimDetail = ({ id }: Props) => {
           <p className="text-xl">주최자</p>
           <Link href={`/moims/members/${data.writer.id}`}>
             <div className="flex flex-col items-center">
-              <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
+              <div className="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full">
                 <Image
                   src={
                     data.writer.profile_image
@@ -235,7 +234,7 @@ export const MoimDetail = ({ id }: Props) => {
           {data.participants && data.participants.length > 0 ? (
             data.participants.map(user => (
               <Link href={`/moims/members/${user.id}`} key={user.id}>
-                <div className="flex flex-col items-center gap-4 text-sm">
+                <div className="flex flex-col items-center gap-3 text-sm">
                   <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
                     <Image
                       src={user.profile_image ? user.profile_image : UserImage}

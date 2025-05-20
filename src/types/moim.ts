@@ -1,7 +1,7 @@
 export interface User {
   id: number;
   nickname: string;
-  profile_image: string;
+  profile_image: string | null;
 }
 
 export interface GetMoimDetail {

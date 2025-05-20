@@ -91,10 +91,10 @@ export default function MoimMemberCard({ userId }: Props) {
               />
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             <p className="mb-2 text-xl">{user?.nickname}</p>
             <MessageCircle
-              size={16}
+              size={24}
               color="gray"
               className="cursor-pointer"
               onClick={() => postJoinMutation.mutate(user.id)}
@@ -117,7 +117,9 @@ export default function MoimMemberCard({ userId }: Props) {
         <div className="flex w-full flex-col justify-between gap-6 lg:flex-row">
           <div className="flex w-full flex-col gap-2 rounded-2xl bg-[#F6FBEF] p-4">
             <div className="font-semibold">자기소개</div>
-            <div className="text-sm text-gray-500">{user?.intro}</div>
+            <div className="text-sm text-gray-500">
+              {user?.intro || '등록된 자기 소개가 없습니다.'}
+            </div>
           </div>
 
           <div className="flex w-full flex-col gap-6 rounded-2xl bg-[#F6FBEF] p-4">

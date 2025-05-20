@@ -211,7 +211,7 @@ export default function MoimEditForm({ id }: Props) {
         return;
       }
 
-      alert('모임이 생성되었습니다.');
+      alert('모임 수정이 완료되었습니다.');
       router.push('/moims');
     } catch (error) {
       console.error('모임 전송 중 오류:', error);
@@ -298,27 +298,27 @@ export default function MoimEditForm({ id }: Props) {
               </div>
               <div className="flex flex-col justify-center gap-[5px]">
                 <p className="text-[17px]"> 모임 정원 </p>
-                <div className="flex flex-col gap-4">
+                <div className="ml-5 flex flex-col gap-4">
                   {ROLE_LIST.map(role => (
                     <div
                       key={role}
-                      className="flex w-[220px] items-center justify-between"
+                      className="flex w-full max-w-[240px] items-center justify-between"
                     >
                       <span className="text-[14px] text-gray-700">{role}</span>
-                      <div className="flex items-center space-x-4 rounded-full border border-main-default bg-main-header px-4 py-1">
+                      <div className="flex w-[90px] items-center rounded-full border border-main-default bg-main-header px-4 py-1 text-sm text-white">
                         <button
                           onClick={() => decreaseRole(role)}
                           disabled={roles[role] <= 0}
-                          className="text-sm font-bold text-white"
+                          className="font-bold"
                         >
                           -
                         </button>
-                        <span className="text-sm text-white">
+                        <span className="flex-1 text-center">
                           {roles[role]}
                         </span>
                         <button
                           onClick={() => increaseRole(role)}
-                          className="text-sm font-bold text-white"
+                          className="font-bold"
                         >
                           +
                         </button>
@@ -361,7 +361,7 @@ export default function MoimEditForm({ id }: Props) {
           className="mb-3 w-[60px] self-center"
           onClick={handleSubmit}
         >
-          작성
+          수정
         </Button>
       </div>
     </>

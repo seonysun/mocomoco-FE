@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { KakaoMap } from '../kakaomap';
 import { useModalStore } from '@/store/useModalStore';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import PeopleCard from '@/components/common/card/PeopleCard';
 
 interface Props {
   id: number;
@@ -194,8 +195,8 @@ export const MoimDetail = ({ id }: Props) => {
           </div>
           <p className="text-xl">주최자</p>
           <Link href={`/moims/members/${data.writer.id}`}>
-            <div className="flex flex-col items-center">
-              <div className="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full">
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex size-[100px] items-center overflow-hidden rounded-full">
                 <Image
                   src={
                     data.writer.profile_image
@@ -203,8 +204,8 @@ export const MoimDetail = ({ id }: Props) => {
                       : UserImage
                   }
                   alt={data.writer.nickname}
-                  width={300}
-                  height={300}
+                  width={100}
+                  height={100}
                 />
               </div>
               <p>{data.writer.nickname}</p>
@@ -233,19 +234,7 @@ export const MoimDetail = ({ id }: Props) => {
         <div className="flex gap-10">
           {data.participants && data.participants.length > 0 ? (
             data.participants.map(user => (
-              <Link href={`/moims/members/${user.id}`} key={user.id}>
-                <div className="flex flex-col items-center gap-3 text-sm">
-                  <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
-                    <Image
-                      src={user.profile_image ? user.profile_image : UserImage}
-                      alt={user.nickname}
-                      width={300}
-                      height={300}
-                    />
-                  </div>
-                  <p>{user.nickname}</p>
-                </div>
-              </Link>
+              <PeopleCard key={user.id} user={user} />
             ))
           ) : (
             <div className="w-full p-10 text-center">

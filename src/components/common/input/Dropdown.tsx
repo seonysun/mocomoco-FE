@@ -49,7 +49,7 @@ export default function Dropdown({
         <span className="text-xl text-main-base">▼</span>
       </div>
       {isOpen && (
-        <ul className="absolute z-50 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-md">
+        <ul className="absolute z-20 mt-2 w-full rounded-md border border-gray-200 bg-white shadow-md">
           {categories.map((category, index) => (
             <li
               key={index}

@@ -83,7 +83,9 @@ export const MoimCardItem = ({ item }: MoimCardItemProps) => {
             {item.category == 'project' ? '프로젝트' : '모임'}
           </span>
           <div>
-            <h1 className="text-md h-12 font-medium">{item.title}</h1>
+            <h1 className="text-md h-12 overflow-hidden text-ellipsis whitespace-nowrap font-medium">
+              {item.title}
+            </h1>
             <hr />
           </div>
           <div>

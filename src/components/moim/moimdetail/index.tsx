@@ -196,7 +196,7 @@ export const MoimDetail = ({ id }: Props) => {
           <p className="text-xl">주최자</p>
           <Link href={`/moims/members/${data.writer.id}`}>
             <div className="flex flex-col items-center">
-              <div className="h-[200px] w-[200px] overflow-auto rounded-full">
+              <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
                 <Image
                   src={
                     data.writer.profile_image
@@ -204,9 +204,8 @@ export const MoimDetail = ({ id }: Props) => {
                       : UserImage
                   }
                   alt={data.writer.nickname}
-                  width={200}
-                  height={200}
-                  className="rounded-full object-cover"
+                  width={300}
+                  height={300}
                 />
               </div>
               <p>{data.writer.nickname}</p>

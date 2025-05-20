@@ -23,9 +23,9 @@ export default function KakaoLogin() {
           setAuth(data.access, data.refresh, data.user);
 
           if (data.isNewUser) {
-            alert(
-              `${data.user.nickname}님, 환영합니다 💚 \n정보 수정란에 포지션 선택은 필수입니다.`,
-            );
+            // alert(
+            //   `${data.user.nickname}님, 환영합니다 💚 \n정보 수정란에 포지션 선택은 필수입니다.`,
+            // );
             router.push('/mypage/edit?from=new');
           } else {
             router.push('/');

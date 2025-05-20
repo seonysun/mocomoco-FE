@@ -21,7 +21,7 @@ const MypageSidebar = () => {
               <li key={menu.href}>
                 <Link
                   href={menu.href}
-                  className={`flex items-center gap-2 text-sm transition-colors ${
+                  className={`flex items-center gap-2 text-sm duration-200 hover:scale-110 ${
                     pathname === menu.href ? 'font-semibold' : 'text-gray-600'
                   }`}
                 >
@@ -29,7 +29,7 @@ const MypageSidebar = () => {
                     <menu.icon size={20} />
                   </span>
                   {menu.name}
-                  <p className="pl-3 text-gray-600 md:hidden">
+                  <p className="pl-3 text-gray-600 transition-transform duration-200 hover:scale-110 md:hidden">
                     {index !== MYPAGE_MENU_LIST.length - 1 && '|'}
                   </p>
                 </Link>

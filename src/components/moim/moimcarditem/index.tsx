@@ -45,7 +45,7 @@ export const MoimCardItem = ({ item }: MoimCardItemProps) => {
   };
 
   return (
-    <div className="max-h-[500px] min-w-[220px] rounded-md border bg-white shadow-md">
+    <div className="max-h-[500px] min-w-[220px] rounded-md border bg-white shadow-md transition-transform duration-200 hover:scale-[1.02] hover:shadow-2xl">
       <div
         className="flex flex-col gap-4"
         onClick={() => router.push(`/moims/${item.id}`)}

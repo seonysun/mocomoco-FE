@@ -18,6 +18,8 @@ const Header = () => {
 
   const { isOpen: isModalOpen, open, close, type } = useModalStore();
 
+  const hoverEvt = 'transition-transform duration-200 hover:scale-110';
+
   const handleLogout = async () => {
     await logoutHandler();
     alert('로그아웃이 완료되었습니다.');
@@ -41,7 +43,7 @@ const Header = () => {
                   <Link href="/">
                     <div
                       onClick={() => handleLogout()}
-                      className="cursor-pointer text-[12px] font-bold hover:underline sm:text-[16px]"
+                      className={`cursor-pointer text-[12px] font-bold hover:underline sm:text-[16px] ${hoverEvt}`}
                     >
                       LOGOUT
                     </div>
@@ -51,7 +53,7 @@ const Header = () => {
                   <Link href="/moims">
                     <Search
                       color="#a0b092"
-                      className="size-7 cursor-pointer sm:size-10"
+                      className={`size-7 cursor-pointer sm:size-10 ${hoverEvt}`}
                     />
                   </Link>
                 </li>
@@ -60,7 +62,7 @@ const Header = () => {
                     <Bell
                       color="#a0b092"
                       onClick={() => open('noti')}
-                      className="size-7 cursor-pointer sm:size-10"
+                      className={`size-7 cursor-pointer sm:size-10 ${hoverEvt}`}
                     />
                   </div>
                 </li>
@@ -68,20 +70,22 @@ const Header = () => {
                   <Link href="/mypage">
                     <CircleUserRound
                       color="#a0b092"
-                      className="size-7 cursor-pointer sm:size-10"
+                      className={`size-7 cursor-pointer sm:size-10 ${hoverEvt}`}
                     />
                   </Link>
                 </li>
                 <li>
                   <Menu
-                    className="ml-1 size-7 cursor-pointer sm:size-10"
+                    className={`ml-1 size-7 cursor-pointer sm:size-10 ${hoverEvt}`}
                     color="#a0b092"
                     onClick={() => open('menu')}
                   />
                 </li>
               </>
             ) : (
-              <li>
+              <li
+                className={`cursor-pointer text-[12px] font-bold hover:underline sm:text-[16px] ${hoverEvt}`}
+              >
                 <Link href="/auth/login">LOGIN</Link>
               </li>
             )}

@@ -22,7 +22,7 @@ export default function NaverLogin() {
         if (data.access && data.refresh && data.user) {
           setAuth(data.access, data.refresh, data.user);
 
-          router.push(data.isNewUser ? '/mypage/edit' : '/');
+          router.push(data.isNewUser ? '/mypage/edit?from=new' : '/');
         } else {
           throw new Error('로그인 데이터 형식 오류');
         }

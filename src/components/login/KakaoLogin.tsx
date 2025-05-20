@@ -22,7 +22,8 @@ export default function KakaoLogin() {
         if (data.access && data.refresh && data.user) {
           setAuth(data.access, data.refresh, data.user);
 
-          router.push(data.isNewUser ? '/mypage/edit' : '/');
+          router.push(data.isNewUser ? '/mypage/edit?from=new' : '/');
+          alert(data.isNewUser ?? '포지션 선택은 필수입니다');
         } else {
           throw new Error('로그인 데이터 형식 오류');
         }

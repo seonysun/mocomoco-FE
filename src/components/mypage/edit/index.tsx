@@ -7,7 +7,7 @@ import Button from '@/components/common/button/Button';
 import { ROLE_LIST } from '@/constants/config';
 import { useAuthStore } from '@/store/useAuthStore';
 import { userAPI } from '@/api/functions/userAPI';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { uploadImage } from '@/api/functions/uploadFileAPI';
 import useEditForm from '@/components/mypage/editForm';
 import ProfileImageUploader from '../imgUpload';
@@ -38,6 +38,8 @@ export default function EditForm() {
   });
   const [linkError, setLinkError] = useState('');
 
+  const [positionError, setPositionError] = useState('');
+
   const debounceGit = debouncedLinks.github_url;
   const debouncepofol = debouncedLinks.portfolio_url;
 
@@ -65,11 +67,39 @@ export default function EditForm() {
   // 유효성 검사 [debounce]
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedPhone(phone);
-      setDebouncedLinks({
-        github_url: form.github_url,
-        portfolio_url: form.portfolio_url,
-      });
+      const phoneValid = isValidPhone(phone);
+      const githubValid = isValidUrl(github_url);
+      const portfolioValid = isValidUrl(portfolio_url);
+
+      // 전화번호 유효성 처리
+      if (phone) {
+        setPhoneError(
+          phoneValid
+            ? '올바른 연락처 형식입니다.'
+            : '연락처 형식이 올바르지 않습니다. [ ex. 010-1234-5678 ]',
+        );
+      } else {
+        setPhoneError('');
+      }
+
+      // 링크 유효성 처리
+      const isGitEmpty = !github_url || github_url === 'https://';
+      const isPofolEmpty = !portfolio_url || portfolio_url === 'https://';
+
+      if (!isGitEmpty && !githubValid && !isPofolEmpty && !portfolioValid) {
+        setLinkError('모든 링크 형식이 올바르지 않습니다.');
+      } else if (!isGitEmpty && !githubValid) {
+        setLinkError('GitHub 링크 형식이 올바르지 않습니다.');
+      } else if (!isPofolEmpty && !portfolioValid) {
+        setLinkError('포트폴리오 링크 형식이 올바르지 않습니다.');
+      } else if (
+        (!isGitEmpty && githubValid) ||
+        (!isPofolEmpty && portfolioValid)
+      ) {
+        setLinkError('올바른 링크 형식입니다');
+      } else {
+        setLinkError('');
+      }
     }, 300);
 
     return () => {
@@ -77,49 +107,36 @@ export default function EditForm() {
     };
   }, [phone, form.github_url, form.portfolio_url]);
 
-  // [연락처 유효성 검사 조건부]
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from');
+
+  const [hasWelcomed, setHasWelcomed] = useState(false);
+
   useEffect(() => {
-    if (debouncedPhone && !isValidPhone(debouncedPhone)) {
-      setPhoneError('연락처 형식이 올바르지 않습니다. [ ex. 010-1234-5678 ]');
-    } else if (debouncedPhone && isValidPhone(debouncedPhone)) {
-      setPhoneError('올바른 연락처 형식입니다.');
-    } else {
-      setPhoneError('');
+    if (from === 'new' && nickname) {
+      alert(
+        `${nickname}님, 환영합니다 💚 \n정보 수정란에 포지션 선택은 필수입니다.`,
+      );
     }
-  }, [debouncedPhone]);
+  }, [from, nickname]);
 
-  // [링크 유효성 검사 조건부]
   useEffect(() => {
-    // https:// 제외 텍스트 없을 경우 빈 문자열로 인식
-    const github = debounceGit.trim();
-    const portfolio = debouncepofol.trim();
-
-    const isGitEmpty = !github || github === 'https://';
-    const isPofolEmpty = !portfolio || portfolio === 'https://';
-
-    const isGitValid = isValidUrl(github);
-    const isPofolValid = isValidUrl(portfolio);
-    if (!isGitEmpty && !isGitValid && !isPofolEmpty && !isPofolValid) {
-      setLinkError(
-        '모든 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
-      );
-    } else if (!isGitEmpty && !isGitValid) {
-      setLinkError(
-        'GitHub 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
-      );
-    } else if (!isPofolEmpty && !isPofolValid) {
-      setLinkError(
-        '포트폴리오 링크 형식이 올바르지 않습니다. [ ex. mocomoco.com/username ]',
-      );
-    } else if ((!isGitEmpty && isGitValid) || (!isPofolEmpty && isPofolValid)) {
-      setLinkError('올바른 링크 형식입니다');
+    if (!form.position_name) {
+      setPositionError('포지션을 선택해주세요.');
     } else {
-      setLinkError('');
+      setPositionError('');
     }
-  }, [debouncedLinks]);
+  }, []);
 
   // [저장 버튼 핸들러]
   const handleSave = async () => {
+    if (!position_name) {
+      alert('포지션을 선택해주세요.');
+      setPositionError('포지션을 선택해주세요.');
+      return;
+    } else {
+      setPositionError('');
+    }
     if (
       github_url &&
       portfolio_url &&
@@ -232,6 +249,11 @@ export default function EditForm() {
               placeholder="분야"
               className="text-sm md:text-lg"
             />
+            {positionError && (
+              <p className="mt-1 text-sm text-red-500 opacity-70">
+                {positionError}
+              </p>
+            )}
           </div>
           <CommonInput
             // label=""
@@ -263,13 +285,13 @@ export default function EditForm() {
                     updateField('github_url', `https://${cleaned}`);
                   }}
                   box="line"
-                  className={`${fontSize} py-2 pl-[60px]`}
+                  className={`${fontSize} py-2 pl-[70px]`}
                 />
               </div>
               <div className="relative w-full">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 select-none text-sm text-gray-500">
+                <p className="absolute left-3 top-1/2 -translate-y-1/2 select-none text-sm text-gray-500">
                   https://
-                </span>
+                </p>
                 <CommonInput
                   placeholder="portfolio 링크 추가"
                   value={form.portfolio_url.replace(/^https?:\/\//, '')}
@@ -280,7 +302,7 @@ export default function EditForm() {
                     updateField('portfolio_url', `https://${cleaned}`);
                   }}
                   box="line"
-                  className={`${fontSize} py-2 pl-[60px]`}
+                  className={`${fontSize} py-2 pl-[70px]`}
                 />
               </div>
             </div>

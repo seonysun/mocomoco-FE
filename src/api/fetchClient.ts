@@ -45,10 +45,12 @@ export const fetchClient = async (
       ...(headers || {}),
     };
 
+    const bodyData = body !== undefined ? JSON.stringify(body) : undefined;
+
     const data = await fetch(`${BASE_URL}${endpoint}${queryString}`, {
       method,
       headers: safeHeaders,
-      body: body ? JSON.stringify(body) : undefined,
+      body: bodyData,
       ...rest,
     });
     return data;

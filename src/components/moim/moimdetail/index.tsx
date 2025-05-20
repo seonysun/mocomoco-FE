@@ -147,7 +147,7 @@ export const MoimDetail = ({ id }: Props) => {
             onConfirm={handleDelete}
           />
         )}
-        {!data.is_closed && (
+        {!data.is_closed && !isWriter && (
           <Button
             className="w-24"
             size="md"

@@ -13,7 +13,7 @@ export const MoimCard = ({ data }: ListProps) => {
   const router = useRouter();
 
   return (
-    <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid cursor-pointer grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4">
       {data.map(item => (
         <MoimCardItem key={item.id} item={item} />
       ))}

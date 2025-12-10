@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/button/Button';
 import CommonInput from '@/components/common/input/Input';
-import useClickOutside from '@/hooks/useClickOutside';
+import { useClickOutside } from '@seonysun/click-outside';
 import { useModalStore } from '@/store/useModalStore';
 import { useRef } from 'react';
 
@@ -31,7 +31,7 @@ const ConfirmModal = ({
   const close = useModalStore(state => state.close);
 
   const modalRef = useRef<HTMLDivElement>(null);
-  useClickOutside(modalRef, close);
+  useClickOutside({ ref: modalRef, onClickOutside: close });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">

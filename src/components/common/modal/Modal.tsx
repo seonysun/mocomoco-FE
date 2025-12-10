@@ -1,6 +1,6 @@
 'use client';
 
-import useClickOutside from '@/hooks/useClickOutside';
+import { useClickOutside } from '@seonysun/click-outside';
 import { modalStyleMap } from '@/components/common/modal/constants';
 import { CircleX } from 'lucide-react';
 import { useRef } from 'react';
@@ -13,7 +13,7 @@ type ModalProps = {
 
 const Modal = ({ children, variation = 'chat', onClose }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  useClickOutside(modalRef, onClose);
+  useClickOutside({ ref: modalRef, onClickOutside: onClose });
 
   const modalSize = modalStyleMap[variation].size;
   const modalPosition = modalStyleMap[variation].position;

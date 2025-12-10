@@ -6,7 +6,7 @@ import Dropdown from '@/components/common/input/Dropdown';
 import CommonInput from '@/components/common/input/Input';
 import TextEditor from '@/components/moim/texteditor';
 import { MOIM_CATEGORY, ROLE_LIST, YEAR_LIST } from '@/constants/config';
-import useClickOutside from '@/hooks/useClickOutside';
+import { useClickOutside } from '@seonysun/click-outside';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Search, Server } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -41,7 +41,10 @@ export default function MoimEditForm({ id }: Props) {
   const [image, setImage] = useState<File | null>(null);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-  useClickOutside(modalRef, () => setIsPostcodeOpen(false));
+  useClickOutside({
+    ref: modalRef,
+    onClickOutside: () => setIsPostcodeOpen(false),
+  });
   useEffect(() => {
     if (data) {
       setTitle(data.title ?? '');

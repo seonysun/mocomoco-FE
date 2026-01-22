@@ -4,6 +4,11 @@ export const userAPI = {
   getUser: async () => {
     return fetchClient('/api/auth/user/', 'GET', { isAuth: true });
   },
+  getProfile: async (userId: number | undefined) => {
+    return fetchClient(`/api/auth/users/${userId}/profile/`, 'GET', {
+      isAuth: true,
+    });
+  },
   editUser: async (body: {
     nickname: string;
     phone?: string;

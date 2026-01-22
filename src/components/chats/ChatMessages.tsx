@@ -1,7 +1,7 @@
 'use client';
 
 import ChatMessage from '@/components/chats/ChatMessage';
-import { ChevronLeft, Send, UserCheck } from 'lucide-react';
+import { ChevronLeft, Send } from 'lucide-react';
 import { useChatStore } from '@/store/useChatStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -17,28 +17,12 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
   const access = useAuthStore(state => state.access);
   const SOCKET_URL = `wss://api.mocomoco.store/ws/chat/${room_id}/?token=${access}`;
   const socketRef = useRef<WebSocket | null>(null);
-  const [message, setMessage] = useState<Chats[]>([]);
+
+  const [newMessage, setNewMessage] = useState<Chats[]>([]);
   const [inputValue, setInputValue] = useState('');
 
   const currentUserId = useAuthStore(state => state.user?.id!);
   const { selectedRoomTitle, exitRoom } = useChatStore();
-
-  const { data } = useQuery(chatOption.chatMessages(room_id));
-  const oldMessages = data ?? [];
-  const userCache = useRef<
-    Record<number, { nickname: string; profile_image: string }>
-  >({});
-
-  useEffect(() => {
-    oldMessages.forEach(msg => {
-      if (!userCache.current[msg.chat_user_id]) {
-        userCache.current[msg.chat_user_id] = {
-          nickname: msg.nickname,
-          profile_image: msg.profile_image,
-        };
-      }
-    });
-  }, [oldMessages]);
 
   useEffect(() => {
     const socket = new WebSocket(SOCKET_URL);
@@ -47,15 +31,7 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
     socket.onmessage = event => {
       try {
         const parsed = JSON.parse(event.data);
-        const userInfo = userCache.current[parsed.chat_user_id] ?? {};
-
-        const merged = {
-          ...parsed,
-          nickname: userInfo.nickname,
-          profile_image: userInfo.profile_image,
-        };
-
-        setMessage(prev => [...prev, merged]);
+        setNewMessage(prev => [...prev, parsed]);
       } catch (e) {
         console.error('메시지 파싱 실패:', e);
       }
@@ -94,7 +70,21 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
     deleteMessageMutation.mutate(msgId);
   };
 
-  const allMessages = [...oldMessages, ...message];
+  const { data: oldMessages = [] } = useQuery(chatOption.chatMessages(room_id));
+  const allMessages = [...oldMessages, ...newMessage];
+
+  const { otherId, otherImage } = useMemo(() => {
+    const otherMsg = allMessages.find(
+      msg => msg.chat_user_id !== currentUserId,
+    );
+
+    return {
+      otherId: otherMsg?.chat_user_id,
+      otherImage: otherMsg?.profile_image,
+    };
+  }, [allMessages, currentUserId]);
+  const { data: otherProfile } = useQuery(chatOption.chatUser(otherId));
+  const userProfileImage = otherProfile?.profile_image || otherImage || null;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   useEffect(() => {
@@ -126,6 +116,7 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
             <ChatMessage
               message={msg}
               currentUserId={currentUserId}
+              profileImage={userProfileImage}
               handleDelete={() => handleDelete(msg.ChatMessage_id)}
             />
           </div>

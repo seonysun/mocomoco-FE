@@ -8,17 +8,23 @@ import { Trash } from 'lucide-react';
 type MsgProps = {
   message: Chats;
   currentUserId: number;
+  profileImage: string | null;
   handleDelete: (id: number) => void;
 };
 
-const ChatMessage = ({ message, currentUserId, handleDelete }: MsgProps) => {
+const ChatMessage = ({
+  message,
+  currentUserId,
+  profileImage,
+  handleDelete,
+}: MsgProps) => {
   const isMine = message.chat_user_id === currentUserId;
 
   return (
     <div className={`group flex ${isMine ? 'justify-end' : 'justify-start'}`}>
       {!isMine && (
         <Image
-          src={message.profile_image || UserProfile}
+          src={profileImage || UserProfile}
           alt={message.nickname || '유저'}
           width={40}
           height={40}

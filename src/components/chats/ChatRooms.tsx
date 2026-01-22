@@ -14,8 +14,9 @@ const ChatRooms = () => {
   const tabClass =
     'rounded-t-xl border border-b-0 border-main-base px-3 py-1 mb-2';
 
-  const { data, isLoading } = useQuery(chatOption.chatRoomList());
-  const chatRooms = data ?? [];
+  const { data: chatRooms = [], isLoading } = useQuery(
+    chatOption.chatRoomList(),
+  );
 
   const privateChats = chatRooms.filter(chats => chats.participants.length < 3);
   const groupChats = chatRooms.filter(chats => chats.participants.length > 2);

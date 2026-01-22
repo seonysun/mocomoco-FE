@@ -1,4 +1,5 @@
 import { chatAPI } from '@/api/functions/chatAPI';
+import { userAPI } from '@/api/functions/userAPI';
 import { useChatStore } from '@/store/useChatStore';
 import { useModalStore } from '@/store/useModalStore';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
@@ -13,6 +14,12 @@ export const chatOption = {
     queryOptions({
       queryKey: ['chat', 'messages', room_id],
       queryFn: () => chatAPI.getChatMessages(room_id),
+    }),
+  chatUser: (other_user_id: number | undefined) =>
+    queryOptions({
+      queryKey: ['chat', 'user', other_user_id],
+      queryFn: () => userAPI.getProfile(other_user_id),
+      enabled: !!other_user_id,
     }),
   joinChat: () => ({
     mutationFn: (other_user_id: number) =>

@@ -4,6 +4,7 @@ import { Chats } from '@/types/chat';
 import Image from 'next/image';
 import UserProfile from '@images/UserProfile.png';
 import { Trash } from 'lucide-react';
+import React from 'react';
 
 type MsgProps = {
   message: Chats;
@@ -71,4 +72,4 @@ const ChatMessage = ({
   );
 };
 
-export default ChatMessage;
+export default React.memo(ChatMessage);

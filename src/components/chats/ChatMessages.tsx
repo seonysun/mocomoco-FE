@@ -6,7 +6,7 @@ import { useChatStore } from '@/store/useChatStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { chatOption } from '@/api/options/chatOption';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSocket } from '@/hooks/useSocket';
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 
@@ -19,26 +19,32 @@ const ChatMessages = ({ room_id }: MsgsProps) => {
   const currentUserId = useAuthStore(state => state.user?.id!);
 
   const { selectedRoomTitle, exitRoom } = useChatStore();
-  const inputRef = useRef<HTMLInputElement>(null);
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const virtuosoRef = useRef<VirtuosoHandle>(null);
 
-  const { newMessage, sendMessage } = useSocket(room_id, access);
-  const { data: oldMessages = [] } = useQuery(chatOption.chatMessages(room_id));
-  const allMessages = [...oldMessages, ...newMessage];
+  const { data: allMessages = [] } = useQuery(chatOption.chatMessages(room_id));
+  const { sendMessage } = useSocket(room_id, access);
 
-  const { otherId, otherImage } = useMemo(() => {
+  const [otherUserId, setOtherUserId] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    setOtherUserId(undefined);
+  }, [room_id]);
+
+  useEffect(() => {
+    if (otherUserId) return;
+
     const otherMsg = allMessages.find(
       msg => msg.chat_user_id !== currentUserId,
     );
+    if (otherMsg) {
+      setOtherUserId(otherMsg.chat_user_id);
+    }
+  }, [allMessages, currentUserId, otherUserId]);
 
-    return {
-      otherId: otherMsg?.chat_user_id,
-      otherImage: otherMsg?.profile_image,
-    };
-  }, [allMessages, currentUserId]);
-  const { data: otherProfile } = useQuery(chatOption.chatUser(otherId));
-  const userProfileImage = otherProfile?.profile_image || otherImage || null;
+  const { data: otherProfile } = useQuery(chatOption.chatUser(otherUserId));
+  const userProfileImage = otherProfile?.profile_image || null;
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();

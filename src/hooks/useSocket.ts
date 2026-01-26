@@ -1,14 +1,12 @@
+import { chatOption } from '@/api/options/chatOption';
 import { Chats } from '@/types/chat';
-import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 
 export const useSocket = (room_id: string, access: string | null) => {
   const socketRef = useRef<WebSocket | null>(null);
 
-  const [newMessage, setNewMessage] = useState<Chats[]>([]);
-
-  useEffect(() => {
-    setNewMessage([]);
-  }, [room_id]);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!room_id || !access) return;
@@ -20,7 +18,14 @@ export const useSocket = (room_id: string, access: string | null) => {
     socket.onmessage = event => {
       try {
         const parsed = JSON.parse(event.data);
-        setNewMessage(prev => [...prev, parsed]);
+
+        queryClient.setQueryData<Chats[]>(
+          chatOption.chatMessages(room_id).queryKey,
+          old => {
+            if (!old) return [parsed];
+            return [...old, parsed];
+          },
+        );
       } catch (e) {
         console.error('메시지 파싱 실패:', e);
       }
@@ -29,7 +34,7 @@ export const useSocket = (room_id: string, access: string | null) => {
     return () => {
       socket.close();
     };
-  }, [room_id, access]);
+  }, [room_id, access, queryClient]);
 
   const sendMessage = (message: string) => {
     if (socketRef.current?.readyState === WebSocket.OPEN && message.trim()) {
@@ -43,7 +48,6 @@ export const useSocket = (room_id: string, access: string | null) => {
   };
 
   return {
-    newMessage,
     sendMessage,
   };
 };
